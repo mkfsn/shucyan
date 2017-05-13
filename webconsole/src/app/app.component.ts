@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 declare var require: any;
 
@@ -6,4 +6,5 @@ declare var require: any;
     selector: 'my-app',
     template: require('./app.html')
 })
+
 export class AppComponent {}

@@ -1,1 +1,22 @@
-<h1>Latest</h1>
+<h3>The latest 10 channels</h3>
+<div class="top-10">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Channel</th>
+                <th>#</th>
+                <th>Channel</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of [0, 1, 2, 3, 4]">
+                <td>{{ i + 1  }}</td>
+                <td><a routerLink="{{ '/channel/' + channels[i].id }}">{{ channels[i].name }}</a></td>
+                <td>{{ i + 6 }}</td>
+                <td><a routerLink="{{ '/channel/' + channels[i + 5].id }}">{{ channels[i + 5].name }}</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

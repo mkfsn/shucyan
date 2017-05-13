@@ -11,6 +11,7 @@ import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LatestComponent } from './latest/latest.component';
+import { ChannelComponent } from './channel/channel.component';
 
 @NgModule({
     bootstrap: [
@@ -22,6 +23,7 @@ import { LatestComponent } from './latest/latest.component';
         SidebarComponent,
         AboutComponent,
         LoginComponent,
+        ChannelComponent,
         RegisterComponent,
         LatestComponent
     ],
@@ -34,6 +36,10 @@ import { LatestComponent } from './latest/latest.component';
             {path: 'latest', component: LatestComponent},
             {path: 'login', component: LoginComponent},
             {path: 'register', component: RegisterComponent},
+            {
+                path: 'channel/:id',
+                component: ChannelComponent
+            },
             { path: '**', redirectTo: '/home', pathMatch: 'full' },
         ])
     ]
