@@ -1,5 +1,27 @@
 <div class="channel">
-    <div class="channel-row channel-head">
+
+    <div class="channel-head">
+        <div class="col-xs-1 control-panel text-center">
+            <h1><a href="/"><span class="glyphicon glyphicon-home"></span></a></h1>
+            <p class="control-panel-edit">
+                <a href="#">
+                    <span class="label label-primary">
+                        <span class="glyphicon glyphicon-cog"></span> Edit
+                    </span>
+                </a>
+            </p>
+        </div>
+        <div class="col-xs-9">
+            <h1>{{ channel.name }}<small><span class="channel-owner"><a href="#">{{ '@' + channel.owner }}</a></span></small></h1>
+            <p class="lead">
+                <span class="channel-description">{{ channel.description }}</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="channel-row week-title">
         <div class="day-title text-center"
              *ngFor="let name of namesOfDays; let i = index"
              [ngClass]="{today: isToday(i)}">

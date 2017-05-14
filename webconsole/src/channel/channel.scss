@@ -4,11 +4,33 @@
   $lightBlue: #D9EDF7;
   $UnitedNationsBlue: #4B92DB;
 
+
+  .channel-head {
+
+    .control-panel-edit {
+      height: 24px;
+      line-height: 24px;
+      vertical-align: middle;
+      span.label {
+        padding: .3em .6em;
+      }
+    }
+
+    .channel-owner {
+      &:before {
+        content: ' by ';
+      }
+      & > a:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
   .channel-row {
     display: flex;
   }
 
-  .channel-head > .day-title {
+  .week-title > .day-title {
     background-color: $lightBlue;
     font-weight: bold;
   }

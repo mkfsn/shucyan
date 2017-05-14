@@ -2,6 +2,7 @@ import './channel.scss';
 import * as chroma from 'chroma-js';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Channel } from '../shared/channel';
 import { Program, getPrograms } from '../shared/program';
 
 declare var require: any;
@@ -13,7 +14,7 @@ declare var require: any;
 
 export class ChannelComponent {
 
-    private id: string;
+    private channel: Channel;
     private programTable: Array<Array<Program>>;
     private day: number;
     private namesOfDays: Array<string>;
@@ -23,7 +24,8 @@ export class ChannelComponent {
         this.colors = new Map<string, string>();
         this.namesOfDays = ['日', '月', '火', '水', '木', '金', '土'];
         this.day = (new Date()).getDay();
-        let programs = this.getPrograms();
+        this.channel = this.getChannel();
+        let programs = this.getPrograms(this.channel.id);
         this.programTable = this.buildProgramTable(programs);
     }
 
@@ -55,11 +57,16 @@ export class ChannelComponent {
         return day === this.day;
     }
 
-    private getPrograms(): Array<Program> {
+    private getChannel(): Channel {
+        let channelId: string;
         this.route.params.forEach((param: Params) => {
-            this.id = param.id;
+            channelId = param.id;
         });
-        return getPrograms(this.id);
+        return Channel.getDefault().find(v => v.id === channelId);
+    }
+
+    private getPrograms(channelId: string): Array<Program> {
+        return getPrograms(channelId);
     }
 
     private buildProgramTable(programs: Array<Program>) {

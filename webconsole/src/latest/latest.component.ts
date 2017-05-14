@@ -12,19 +12,17 @@ export class LatestComponent {
 
     // state
     private channels: Array<Channel>;
+    static readonly N: number = 10;
 
     constructor() {
-        this.channels = [
-            new Channel('mkfsn', 'mkfsn'),
-            new Channel('akb48group', 'AKB48Group番組'),
-            new Channel('seiyuu_radio', '声優ラジオ'),
-            new Channel('acchan', 'あっちゃん'),
-            new Channel('anime', 'アニメ'),
-            new Channel('mizukinana', '水樹奈々'),
-            new Channel('JapanTVprogram', '日本テレビ番組'),
-            new Channel('', ''),
-            new Channel('', ''),
-            new Channel('', '')
-        ];
+        this.channels = Channel.getDefault();
+
+        // At least N
+        for (let i = this.channels.length; i < LatestComponent.N; i++) {
+            this.channels.push(new Channel('', '', ''));
+        }
+
+        // At most N
+        this.channels = this.channels.slice(0, LatestComponent.N);
     }
 }
