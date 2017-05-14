@@ -1,1 +1,23 @@
-<h1>Channel: {{ id }}</h1>
+<div class="channel">
+    <div class="channel-row channel-head">
+        <div class="day-title text-center"
+             *ngFor="let name of namesOfDays; let i = index"
+             [ngClass]="{today: isToday(i)}">
+            {{ name }}
+        </div>
+    </div>
+    <div *ngFor="let row of programTable" class="channel-row">
+        <div *ngFor="let program of row; let i = index" class="program text-center"
+             [ngClass]="{today: isToday(i), active: program !== undefined}">
+            <a *ngIf="program && program.link" href="{{program.link}}">{{ program.title }}</a>
+            <p *ngIf="program && !program.link">{{ program.title }}</p>
+            <div *ngIf="program && program.tags" class="tags">
+                <span *ngFor="let tag of program.tags" class="label"
+                      [ngStyle]="{'background-color': getColor(tag)}">
+                    {{ tag }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

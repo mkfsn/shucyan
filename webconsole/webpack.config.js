@@ -33,6 +33,10 @@ const config = {
         rules: [
             {test: /\.html$/, loader: "html-loader"},
             {
+                test: /\.scss$/,
+                loaders: ["style-loader", "css-loader", "sass-loader"]
+            },
+            {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
                 loader: 'file-loader'
             },
