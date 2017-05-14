@@ -9,15 +9,6 @@ export class Channel {
     modifiedAt: Date;
     programs: Array<Program>;
 
-    constructor(id: string, name: string, owner: string, description?: string, programs?: Array<Program>, createdAt?: Date) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-        this.description = description || '';
-        this.programs = programs || [];
-        this.createdAt = createdAt || new Date();
-    }
-
     static fromJSON(data: Array<any>): Array<Channel> {
         let channels: Array<Channel>;
         return data.map((ch) => {
@@ -26,5 +17,14 @@ export class Channel {
             });
             return new Channel(ch.id, ch.title, ch.owner, ch.description, programs);
         })
+    }
+
+    constructor(id: string, name: string, owner: string, description?: string, programs?: Array<Program>, createdAt?: Date) {
+        this.id = id;
+        this.name = name;
+        this.owner = owner;
+        this.description = description || '';
+        this.programs = programs || [];
+        this.createdAt = createdAt || new Date();
     }
 }

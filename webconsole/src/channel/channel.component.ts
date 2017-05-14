@@ -40,8 +40,8 @@ export class ChannelComponent {
             let date = new Date();
             date.setDate(date.getDate() + i);
             dates[(i + this.day) % this.namesOfDays.length] = (
-                date.getFullYear() + "/" + 
-                (date.getMonth() + 1) + "/" +
+                date.getFullYear() + '/' +
+                (date.getMonth() + 1) + '/' +
                 date.getDate()
             ) ;
         });
@@ -49,8 +49,10 @@ export class ChannelComponent {
     }
 
     private calculateColor(tag: string) {
-        let hash: number = 0;
-        if (tag.length == 0) return hash;
+        let hash = 0;
+        if (tag.length === 0) {
+            return hash;
+        }
         for (let i = 0; i < tag.length; i++) {
             let ch = tag.charCodeAt(i);
             hash = ((hash << 5) - hash) + ch;
