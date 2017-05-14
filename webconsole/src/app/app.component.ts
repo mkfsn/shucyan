@@ -1,3 +1,4 @@
+import './app.scss';
 import { Component } from '@angular/core';
 
 declare var require: any;
