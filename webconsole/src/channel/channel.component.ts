@@ -3,7 +3,9 @@ import * as chroma from 'chroma-js';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Channel } from '../shared/channel';
-import { Program, getPrograms } from '../shared/program';
+import { Program } from '../shared/program';
+// Service
+import { ChannelService } from '../service/channel.service';
 
 declare var require: any;
 
@@ -16,17 +18,18 @@ export class ChannelComponent {
 
     private channel: Channel;
     private programTable: Array<Array<Program>>;
+    // today's day of week
     private day: number;
     private namesOfDays: Array<string>;
+    // color cache
     private colors: Map<string, string>;
 
-    constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute, private channelService: ChannelService) {
         this.colors = new Map<string, string>();
-        this.namesOfDays = ['日', '月', '火', '水', '木', '金', '土'];
+        this.namesOfDays = ChannelService.namesOfDays;
         this.day = (new Date()).getDay();
         this.channel = this.getChannel();
-        let programs = this.getPrograms(this.channel.id);
-        this.programTable = this.buildProgramTable(programs);
+        this.programTable = this.buildProgramTable(this.channel.programs);
     }
 
     private calculateColor(tag: string) {
@@ -37,7 +40,7 @@ export class ChannelComponent {
             hash = ((hash << 5) - hash) + ch;
             hash = hash & hash; // Convert to 32bit integer
         }
-        hash %= (1 << 24) // 256 x 256 x 256
+        hash = Math.abs(hash) % (1 << 24) // 256 x 256 x 256
         let hex = ((hash) >>> 0).toString(16).slice(-6);
         let b = ('00' + Math.floor(hash / 256 / 256).toString(16)).substr(-2),
             g = ('00' + Math.floor((hash % (256 * 256)) / 256).toString(16)).substr(-2),
@@ -62,11 +65,7 @@ export class ChannelComponent {
         this.route.params.forEach((param: Params) => {
             channelId = param.id;
         });
-        return Channel.getDefault().find(v => v.id === channelId);
-    }
-
-    private getPrograms(channelId: string): Array<Program> {
-        return getPrograms(channelId);
+        return this.channelService.find(channelId);
     }
 
     private buildProgramTable(programs: Array<Program>) {

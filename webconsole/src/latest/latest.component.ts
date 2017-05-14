@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Channel } from '../shared/channel';
+import { ChannelService } from '../service/channel.service';
 
 declare var require: any;
 
@@ -14,8 +15,8 @@ export class LatestComponent {
     private channels: Array<Channel>;
     static readonly N: number = 10;
 
-    constructor() {
-        this.channels = Channel.getDefault();
+    constructor(private channelService: ChannelService) {
+        this.channels = channelService.channels;
 
         // At least N
         for (let i = this.channels.length; i < LatestComponent.N; i++) {

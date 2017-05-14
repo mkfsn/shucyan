@@ -13,6 +13,8 @@ import { RegisterComponent } from './register/register.component';
 import { LatestComponent } from './latest/latest.component';
 import { ChannelComponent } from './channel/channel.component';
 
+import { ChannelService } from './service/channel.service';
+
 @NgModule({
     bootstrap: [
         AppComponent
@@ -42,7 +44,8 @@ import { ChannelComponent } from './channel/channel.component';
             },
             { path: '**', redirectTo: '/home', pathMatch: 'full' },
         ])
-    ]
+    ],
+    providers: [ ChannelService ]
 })
 
 export class AppModule {}
