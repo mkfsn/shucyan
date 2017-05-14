@@ -24,6 +24,7 @@
     <div class="channel-row week-title">
         <div class="day-title text-center"
              *ngFor="let name of namesOfDays; let i = index"
+             title="{{ datesOfWeek[i] }}"
              [ngClass]="{today: isToday(i)}">
             {{ name }}
         </div>

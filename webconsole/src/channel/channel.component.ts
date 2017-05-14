@@ -21,6 +21,7 @@ export class ChannelComponent {
     // today's day of week
     private day: number;
     private namesOfDays: Array<string>;
+    private datesOfWeek: Array<string>;
     // color cache
     private colors: Map<string, string>;
 
@@ -28,8 +29,23 @@ export class ChannelComponent {
         this.colors = new Map<string, string>();
         this.namesOfDays = ChannelService.namesOfDays;
         this.day = (new Date()).getDay();
+        this.datesOfWeek = this.getDatesOfWeek();
         this.channel = this.getChannel();
         this.programTable = this.buildProgramTable(this.channel.programs);
+    }
+
+    private getDatesOfWeek(): Array<string> {
+        let dates: Array<string> = Array(7).fill('');
+        this.namesOfDays.map((_, i) => {
+            let date = new Date();
+            date.setDate(date.getDate() + i);
+            dates[(i + this.day) % this.namesOfDays.length] = (
+                date.getFullYear() + "/" + 
+                (date.getMonth() + 1) + "/" +
+                date.getDate()
+            ) ;
+        });
+        return dates;
     }
 
     private calculateColor(tag: string) {
