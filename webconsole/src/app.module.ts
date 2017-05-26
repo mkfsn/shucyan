@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule  } from '@angular/router';
 
 import { AppComponent } from './app/app.component';
+import { OverviewComponent } from './overview/overview.component';
 import { HomeComponent } from './home/home.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AboutComponent } from './about/about.component';
@@ -21,6 +22,7 @@ import { ChannelService } from './service/channel.service';
     ],
     declarations: [
         AppComponent,
+        OverviewComponent,
         HomeComponent,
         SidebarComponent,
         AboutComponent,
@@ -33,16 +35,60 @@ import { ChannelService } from './service/channel.service';
         BrowserModule,
         CommonModule,
         RouterModule.forRoot([
-            {path: 'home', component: HomeComponent},
-            {path: 'about', component: AboutComponent},
-            {path: 'latest', component: LatestComponent},
-            {path: 'login', component: LoginComponent},
-            {path: 'register', component: RegisterComponent},
+            {
+                path: 'home',
+                component: OverviewComponent
+                children: [{
+                    path: '',
+                    outlet: 'content',
+                    component: HomeComponent,
+                }]
+            },
+            {
+                path: 'about',
+                component: OverviewComponent
+                children: [{
+                    path: '',
+                    outlet: 'content',
+                    component: AboutComponent
+                }]
+            },
+            {
+                path: 'latest',
+                component: OverviewComponent
+                children: [{
+                    path: '',
+                    outlet: 'content',
+                    component: LatestComponent
+                }]
+            },
+            {
+                path: 'login',
+                component: OverviewComponent
+                children: [{
+                    path: '',
+                    outlet: 'content',
+                    component: LoginComponent
+                }]
+            },
+            {
+                path: 'register',
+                component: OverviewComponent
+                children: [{
+                    path: '',
+                    outlet: 'content',
+                    component: RegisterComponent
+                }]
+            },
             {
                 path: 'channel/:id',
                 component: ChannelComponent
             },
-            { path: '**', redirectTo: '/home', pathMatch: 'full' },
+            {
+                path: '**',
+                redirectTo: '/home',
+                pathMatch: 'full'
+            },
         ])
     ],
     providers: [ ChannelService ]
