@@ -37,7 +37,7 @@ import { ChannelService } from './service/channel.service';
         RouterModule.forRoot([
             {
                 path: 'home',
-                component: OverviewComponent
+                component: OverviewComponent,
                 children: [{
                     path: '',
                     outlet: 'content',
@@ -46,7 +46,7 @@ import { ChannelService } from './service/channel.service';
             },
             {
                 path: 'about',
-                component: OverviewComponent
+                component: OverviewComponent,
                 children: [{
                     path: '',
                     outlet: 'content',
@@ -55,7 +55,7 @@ import { ChannelService } from './service/channel.service';
             },
             {
                 path: 'latest',
-                component: OverviewComponent
+                component: OverviewComponent,
                 children: [{
                     path: '',
                     outlet: 'content',
@@ -64,7 +64,7 @@ import { ChannelService } from './service/channel.service';
             },
             {
                 path: 'login',
-                component: OverviewComponent
+                component: OverviewComponent,
                 children: [{
                     path: '',
                     outlet: 'content',
@@ -73,7 +73,7 @@ import { ChannelService } from './service/channel.service';
             },
             {
                 path: 'register',
-                component: OverviewComponent
+                component: OverviewComponent,
                 children: [{
                     path: '',
                     outlet: 'content',
