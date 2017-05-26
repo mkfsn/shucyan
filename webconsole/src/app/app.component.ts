@@ -7,5 +7,8 @@ declare var require: any;
     selector: 'my-app',
     template: require('./app.html')
 })
-
-export class AppComponent {}
+export class AppComponent {
+    get year() {
+        return (new Date()).getFullYear();
+    }
+}
