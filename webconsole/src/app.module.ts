@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule  } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -97,7 +97,10 @@ import { ChannelService } from './service/channel.service';
             },
         ])
     ],
-    providers: [ ChannelService ]
+    providers: [
+        Title,
+        ChannelService
+    ]
 })
 
 export class AppModule {}

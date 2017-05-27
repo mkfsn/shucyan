@@ -2,6 +2,8 @@ import './channel.scss';
 import * as chroma from 'chroma-js';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+// Model
 import { Channel } from '../shared/channel';
 import { Program } from '../shared/program';
 // Service
@@ -32,12 +34,13 @@ export class ChannelComponent {
     private colors: Map<string, string>;
     private mode: Mode;
 
-    constructor(private route: ActivatedRoute, private channelService: ChannelService) {
+    constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title) {
         this.colors = new Map<string, string>();
         this.namesOfDays = ChannelService.namesOfDays;
         this.day = (new Date()).getDay();
         this.datesOfWeek = this.getDatesOfWeek();
         this.channel = this.getChannel();
+        this.titleService.setTitle(this.channel.name);
         this.programTable = this.buildProgramTable(this.channel.programs);
         if (this.route.snapshot.url.length > 2 && this.route.snapshot.url[2].path === 'edit') {
             this.mode = Mode.edit;
