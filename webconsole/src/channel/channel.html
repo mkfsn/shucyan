@@ -2,20 +2,53 @@
 
     <div class="channel-head">
         <div class="col-xs-1 control-panel text-center">
-            <h1><a routerLink="/home"><span class="glyphicon glyphicon-home"></span></a></h1>
-            <p class="control-panel-edit">
-                <a href="#">
-                    <span class="label label-primary">
-                        <span class="glyphicon glyphicon-cog"></span> Edit
-                    </span>
-                </a>
-            </p>
+            <ng-container *ngIf="isEditMode; then EditPanel; else DisplayPanel"></ng-container>
+            <ng-template #DisplayPanel>
+                <h1><a routerLink="/home"><span class="glyphicon glyphicon-home"></span></a></h1>
+                <p class="control-panel-edit">
+                    <a routerLink="edit">
+                        <span class="label label-primary">
+                            <span class="glyphicon glyphicon-cog"></span> Edit
+                        </span>
+                    </a>
+                </p>
+            </ng-template>
+            <ng-template #EditPanel>
+                <h1><a routerLink="../" class="editing"><span class="glyphicon glyphicon-chevron-left"></span></a></h1>
+                <p class="control-panel-save">
+                    <button class="btn btn-link" style="padding: 0">
+                        <span class="label label-success">
+                            <span class="glyphicon glyphicon-floppy-disk"></span> Save
+                        </span>
+                    </button>
+                </p>
+            </ng-template>
         </div>
-        <div class="col-xs-9">
-            <h1>{{ channel.name }}<small><span class="channel-owner"><a href="#">{{ '@' + channel.owner }}</a></span></small></h1>
-            <p class="lead">
-                <span class="channel-description">{{ channel.description }}</span>
-            </p>
+        <div class="col-xs-11">
+            <ng-container *ngIf="isEditMode; then EditInfo; else DisplayInfo"></ng-container>
+            <ng-template #EditInfo>
+                <h1>
+                    <input class="form-control input-lg"
+                           [ngStyle]="{width: titleInputLength(channel.owner)}"
+                           [(ngModel)]="channel.name"
+                           name="name" type="text" value="{{ channel.name }}" />
+                    <small>
+                        <span class="channel-owner"><a href="#">{{ '@' + channel.owner }}</a></span>
+                    </small>
+                </h1>
+                <p class="lead">
+                    <textarea class="form-control" rows="{{ channel.description.split('\n').length  }}"
+                              [(ngModel)]="channel.description"
+                              name="description" value="{{ channel.description }}">
+                    </textarea>
+                </p>
+            </ng-template>
+            <ng-template #DisplayInfo>
+                <h1><span>{{ channel.name }}</span><small><span class="channel-owner"><a href="#">{{ '@' + channel.owner }}</a></span></small></h1>
+                <p class="lead">
+                    <span class="channel-description">{{ channel.description }}</span>
+                </p>
+            </ng-template>
         </div>
     </div>
 
@@ -29,10 +62,24 @@
             {{ name }}
         </div>
     </div>
+    <div class="channel-row week-title">
+        <ng-container *ngIf="isEditMode">
+            <div class="add-program text-center"
+                 *ngFor="let name of namesOfDays; let i = index"
+                 (click)="addProgram(i)"
+                 [ngClass]="{today: isToday(i)}">
+                <span class="glyphicon glyphicon-plus"></span>
+            </div>
+        </ng-container>
+    </div>
     <div *ngFor="let row of programTable" class="channel-row">
         <div *ngFor="let program of row; let i = index" class="program text-center"
              [ngClass]="{today: isToday(i), active: program !== undefined}">
-            <a *ngIf="program && program.link" href="{{program.link}}">{{ program.title }}</a>
+            <ng-container *ngIf="isEditMode && program">
+                <span class="glyphicon glyphicon-remove-sign remove-program"
+                      (click)="removeProgram(program)"></span>
+            </ng-container>
+            <a *ngIf="program && program.link" href="{{ program.link }}">{{ program.title }}</a>
             <p *ngIf="program && !program.link">{{ program.title }}</p>
             <div *ngIf="program && program.tags" class="tags">
                 <span *ngFor="let tag of program.tags" class="label"

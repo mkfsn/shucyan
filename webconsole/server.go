@@ -18,6 +18,7 @@ func setBasicPath(e *gin.Engine) {
 	e.GET("/about", index)
 	e.GET("/channel", index)
 	e.GET("/channel/:id", index)
+	e.GET("/channel/:id/edit", index)
 }
 
 func main() {

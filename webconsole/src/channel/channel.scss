@@ -3,16 +3,26 @@
   $lightGray: rgb(245, 245, 245);
   $lightBlue: #D9EDF7;
   $UnitedNationsBlue: #4B92DB;
+  $EditLabelColor: #5CB85C;
 
+  .editing {
+    color: $EditLabelColor;
+  }
 
   .channel-head {
 
+    .control-panel-save,
     .control-panel-edit {
       height: 24px;
       line-height: 24px;
       vertical-align: middle;
       span.label {
         padding: .3em .6em;
+      }
+
+      *:focus,
+      *:hover {
+        text-decoration: none;
       }
     }
 
@@ -23,6 +33,19 @@
       & > a:hover {
         text-decoration: none;
       }
+    }
+
+    input[name=name] {
+      display: inline-block;
+      height: 39px;
+      vertical-align: bottom;
+    }
+
+    textarea[name=description] {
+    }
+
+    .channel-description {
+      white-space: pre-wrap;
     }
   }
 
@@ -35,6 +58,7 @@
     font-weight: bold;
   }
 
+  .add-program,
   .day-title,
   .program {
     display: flex;
@@ -42,6 +66,7 @@
     padding: 2rem .5rem;
     margin-left: .5rem;
     margin-bottom: .5rem;
+    position: relative;
     opacity: .7;
 
     &:first-child {
@@ -70,6 +95,21 @@
     background-color: $lightGray;
     justify-content: center;
     flex-direction: column;
+
+    .remove-program {
+      color: red;
+      position: absolute;
+      height: 1rem;
+      line-height: 1rem;
+      top: .5rem;
+      right: .5rem;
+    }
+  }
+
+  .add-program {
+    cursor: pointer;
+    background-color: #fcf8e3;
+    padding: 1rem .5rem;
   }
 
   .program.active {

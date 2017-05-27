@@ -9,6 +9,12 @@ import { ChannelService } from '../service/channel.service';
 
 declare var require: any;
 
+enum Mode {
+    normal,
+    edit
+};
+
+
 @Component({
     selector: 'channel',
     template: require('./channel.html')
@@ -24,6 +30,7 @@ export class ChannelComponent {
     private datesOfWeek: Array<string>;
     // color cache
     private colors: Map<string, string>;
+    private mode: Mode;
 
     constructor(private route: ActivatedRoute, private channelService: ChannelService) {
         this.colors = new Map<string, string>();
@@ -32,6 +39,11 @@ export class ChannelComponent {
         this.datesOfWeek = this.getDatesOfWeek();
         this.channel = this.getChannel();
         this.programTable = this.buildProgramTable(this.channel.programs);
+        if (this.route.snapshot.url.length > 2 && this.route.snapshot.url[2].path === 'edit') {
+            this.mode = Mode.edit;
+        } else {
+            this.mode = Mode.normal;
+        }
     }
 
     private getDatesOfWeek(): Array<string> {
@@ -43,7 +55,7 @@ export class ChannelComponent {
                 date.getFullYear() + '/' +
                 (date.getMonth() + 1) + '/' +
                 date.getDate()
-            ) ;
+            );
         });
         return dates;
     }
@@ -101,5 +113,25 @@ export class ChannelComponent {
         }
 
         return table;
+    }
+
+    get isEditMode(): boolean {
+        return this.mode === Mode.edit;
+    }
+
+    get isNormalMode(): boolean {
+        return this.mode === Mode.normal;
+    }
+
+    private titleInputLength(owner): string {
+        return `calc(100% - ${owner.length + 1}ch - 66px)`;
+    }
+
+    private addProgram(day: number) {
+        alert('Add program in day: ' + day);
+    }
+
+    private removeProgram(program) {
+        confirm('Remove program: ' + program.title + ' ?');
     }
 }

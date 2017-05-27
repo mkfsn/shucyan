@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule  } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { RouterModule  } from '@angular/router';
@@ -34,6 +35,7 @@ import { ChannelService } from './service/channel.service';
     imports: [
         BrowserModule,
         CommonModule,
+        FormsModule,
         RouterModule.forRoot([
             {
                 path: 'home',
@@ -82,6 +84,10 @@ import { ChannelService } from './service/channel.service';
             },
             {
                 path: 'channel/:id',
+                component: ChannelComponent
+            },
+            {
+                path: 'channel/:id/edit',
                 component: ChannelComponent
             },
             {
