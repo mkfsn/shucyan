@@ -1,0 +1,7 @@
+# govendor
+!vendor
+vendor/*
+!vendor/vendor.json
+
+# binary
+webserver
