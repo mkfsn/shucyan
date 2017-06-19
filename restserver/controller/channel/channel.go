@@ -3,10 +3,12 @@ package channel
 import (
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"github.com/mkfsn/shyuukan-program/webserver/model"
+	"github.com/mkfsn/shyuukan-program/restserver/model"
 )
 
 type controller struct {
@@ -35,9 +37,13 @@ func (ctrl *controller) list(c *gin.Context) {
 }
 
 func (ctrl *controller) create(c *gin.Context) {
+	now := time.Now()
 	channel := model.Channel{
 		Name:        c.PostForm("name"),
 		Destription: c.PostForm("description"),
+		Owner:       "",
+		CreatedAt:   now,
+		ModifiedAt:  now,
 	}
 	log.Printf("[Channel][Create] %v\n", channel)
 
@@ -46,13 +52,18 @@ func (ctrl *controller) create(c *gin.Context) {
 		return
 	}
 
-	if ok := ctrl.db.NewRecord(channel); ok {
-		ctrl.db.Create(&channel)
-		c.JSON(http.StatusOK, gin.H{"message": "Channel create successfully"})
+	if ok := ctrl.db.NewRecord(channel); !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Oops"})
 		return
 	}
 
-	c.JSON(http.StatusInternalServerError, gin.H{"message": "Oops"})
+	res := ctrl.db.Create(&channel)
+	if res.RowsAffected == 0 {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Oops"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Channel has been created successfully"})
 }
 
 /*
@@ -60,20 +71,26 @@ func (ctrl *controller) update(c *gin.Context) {
 }
 */
 
-/*
 func (ctrl *controller) delete(c *gin.Context) {
-	id := c.Param("id")
+	var id int
+	var err error
+	var channel model.Channel
 
-	if channels, _ := ctrl.findID(id); len(channels) != 0 {
-		// channel := model.Channel{ID: id}
-		// ctrl.db.Delete(&channel)
-		c.JSON(http.StatusOK, gin.H{"message": "Channel delete successfully"})
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid channel id"})
 		return
 	}
 
-	c.JSON(http.StatusInternalServerError, gin.H{"message": "Oops"})
+	res := ctrl.db.First(&channel, id)
+	if res.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Channel id not found"})
+		return
+	}
+
+	ctrl.db.Delete(&channel)
+	c.JSON(http.StatusOK, gin.H{"message": "Channel has been deleted successfully"})
 }
-*/
 
 func Routes(relativePath string, route *gin.Engine, db *gorm.DB) {
 	controller := newController(db)
@@ -82,6 +99,6 @@ func Routes(relativePath string, route *gin.Engine, db *gorm.DB) {
 		channels.GET("/", controller.list)
 		channels.POST("/", controller.create)
 		// channels.PUT("/:id", controller.update)
-		// channels.DELETE("/:id", controller.delete)
+		channels.DELETE("/:id", controller.delete)
 	}
 }
