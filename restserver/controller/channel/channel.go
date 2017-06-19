@@ -40,7 +40,7 @@ func (ctrl *controller) create(c *gin.Context) {
 	now := time.Now()
 	channel := model.Channel{
 		Name:        c.PostForm("name"),
-		Destription: c.PostForm("description"),
+		Description: c.PostForm("description"),
 		Owner:       "",
 		CreatedAt:   now,
 		ModifiedAt:  now,
@@ -66,10 +66,33 @@ func (ctrl *controller) create(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Channel has been created successfully"})
 }
 
-/*
 func (ctrl *controller) update(c *gin.Context) {
+	var id int
+	var err error
+	var channel model.Channel
+
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil || id < 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid channel id"})
+		return
+	}
+
+	if res := ctrl.db.First(&channel, id); res.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Channel id not found"})
+		return
+	}
+
+	channel.Name = c.PostForm("name")
+	channel.Description = c.PostForm("description")
+	channel.ModifiedAt = time.Now()
+
+	if res := ctrl.db.Save(&channel); res.RowsAffected == 0 {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Oops"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Channel has been updated successfully"})
 }
-*/
 
 func (ctrl *controller) delete(c *gin.Context) {
 	var id int
@@ -77,7 +100,7 @@ func (ctrl *controller) delete(c *gin.Context) {
 	var channel model.Channel
 
 	id, err = strconv.Atoi(c.Param("id"))
-	if err != nil {
+	if err != nil || id < 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid channel id"})
 		return
 	}
@@ -98,7 +121,7 @@ func Routes(relativePath string, route *gin.Engine, db *gorm.DB) {
 	{
 		channels.GET("/", controller.list)
 		channels.POST("/", controller.create)
-		// channels.PUT("/:id", controller.update)
+		channels.PUT("/:id", controller.update)
 		channels.DELETE("/:id", controller.delete)
 	}
 }
