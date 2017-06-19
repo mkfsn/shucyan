@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	ChannelController "github.com/mkfsn/shyuukan-program/webserver/controller/channel"
-	"github.com/mkfsn/shyuukan-program/webserver/model"
+	ChannelController "github.com/mkfsn/shyuukan-program/restserver/controller/channel"
+	"github.com/mkfsn/shyuukan-program/restserver/model"
 )
 
 func main() {
