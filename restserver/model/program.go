@@ -10,6 +10,7 @@ type Program struct {
 	Title      string    `gorm:"not null"`
 	Content    string    `gorm:"not null"`
 	Link       string    `gorm:"not null"`
+	Tags       string    `gorm:"not null"`
 	StartedAt  time.Time `gorm:"not null"`
 	EndedAt    time.Time `gorm:"not null"`
 	CreatedAt  time.Time `gorm:"not null"`
