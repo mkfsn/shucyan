@@ -28,13 +28,13 @@ func InitDb(dbfile string) *gorm.DB {
 	// Creating the Program table
 	if !db.HasTable(&Program{}) {
 		db.CreateTable(&Program{})
-		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Program{})
+		// db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Program{})
 	}
 
 	// Creating the Channel table
 	if !db.HasTable(&Channel{}) {
 		db.CreateTable(&Channel{})
-		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Program{})
+		// db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Program{})
 	}
 
 	return db
