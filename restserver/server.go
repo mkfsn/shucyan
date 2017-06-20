@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	ChannelController "github.com/mkfsn/shyuukan-program/restserver/controller/channel"
+	ProgramController "github.com/mkfsn/shyuukan-program/restserver/controller/program"
 	"github.com/mkfsn/shyuukan-program/restserver/model"
 )
 
@@ -34,6 +35,7 @@ func main() {
 	router.Use(middleware())
 
 	ChannelController.Routes("/api/channels", router, db)
+	ProgramController.Routes("/api/programs", router, db)
 
 	router.Run(":7070")
 }
