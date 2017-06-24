@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 var path = __dirname;
-var port = 7000;
+var port = 7070;
 
 function requestHandler(req, res) {
     res.sendFile(path + '/index.html');
