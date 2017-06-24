@@ -10,3 +10,6 @@ clean:
 	go clean
 	rm -rf node_modules
 	rm -rf dist
+
+docker:
+	docker build . -t webconsole
