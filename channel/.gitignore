@@ -4,4 +4,4 @@ vendor/*
 !vendor/vendor.json
 
 # binary
-restserver
+channel

@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"github.com/mkfsn/shyuukan-program/restserver/model"
+	"github.com/mkfsn/shyuukan-program/channel/model"
 )
 
 type controller struct {
@@ -78,7 +78,7 @@ func (ctrl *controller) update(c *gin.Context) {
 	}
 
 	if res := ctrl.db.First(&channel, id); res.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Channel id not found"})
+		c.JSON(http.StatusNotFound, gin.H{"message": "Channel id not found"})
 		return
 	}
 
@@ -107,7 +107,7 @@ func (ctrl *controller) delete(c *gin.Context) {
 
 	res := ctrl.db.First(&channel, id)
 	if res.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Channel id not found"})
+		c.JSON(http.StatusNotFound, gin.H{"message": "Channel id not found"})
 		return
 	}
 

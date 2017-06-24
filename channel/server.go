@@ -1,10 +1,11 @@
 package main
 
 import (
+	ChannelController "github.com/mkfsn/shyuukan-program/channel/controller/channel"
+	ProgramController "github.com/mkfsn/shyuukan-program/channel/controller/program"
+
 	"github.com/gin-gonic/gin"
-	ChannelController "github.com/mkfsn/shyuukan-program/restserver/controller/channel"
-	ProgramController "github.com/mkfsn/shyuukan-program/restserver/controller/program"
-	"github.com/mkfsn/shyuukan-program/restserver/model"
+	"github.com/mkfsn/shyuukan-program/channel/model"
 )
 
 var secret = ""
