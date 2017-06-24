@@ -1,7 +1,7 @@
 import { Program } from './program';
 
 export class Channel {
-    id: string;
+    id: number;
     name: string;
     owner: string;
     description: string;
@@ -19,7 +19,7 @@ export class Channel {
         })
     }
 
-    constructor(id: string, name: string, owner: string, description?: string, programs?: Array<Program>, createdAt?: Date) {
+    constructor(id: number, name: string, owner: string, description?: string, programs?: Array<Program>, createdAt?: Date) {
         this.id = id;
         this.name = name;
         this.owner = owner;
