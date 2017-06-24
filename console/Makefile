@@ -1,6 +1,6 @@
-all: node_modules webconsole
+all: node_modules console
 
-webconsole:
+console:
 	go build
 
 node_modules:
@@ -12,4 +12,4 @@ clean:
 	rm -rf dist
 
 docker:
-	docker build . -t webconsole
+	docker build . -t console
