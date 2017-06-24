@@ -12,7 +12,7 @@ function requestForbidden(req, res) {
     res.send(403);
 }
 
-app.use(express.static(path + '/dist'));
+app.use('/dist', express.static(path + '/dist'));
 
 app.get('/', requestHandler);
 app.get('/home', requestHandler);
