@@ -1,15 +1,9 @@
-all: node_modules console
-
-console:
-	go build
-
-node_modules:
-	npm install
-
-clean:
-	go clean
-	rm -rf node_modules
-	rm -rf dist
+.PHONY: docker clean
 
 docker:
-	docker build . -t console
+	docker build . -t wochentlich/console
+	docker rmi -f `docker images -qf "dangling=true"`
+
+clean:
+	rm -rf node_modules
+	rm -rf dist
