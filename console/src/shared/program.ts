@@ -5,6 +5,8 @@ class Time {
 }
 
 export class Program {
+    id: number;
+    channelId: number;
     day: number;
     title: string;
     content: string;
