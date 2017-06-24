@@ -1,4 +1,4 @@
-package channel
+package controller
 
 import (
 	"log"
@@ -11,17 +11,17 @@ import (
 	"github.com/mkfsn/shyuukan-program/channel/model"
 )
 
-type controller struct {
+type ChannelController struct {
 	db *gorm.DB
 }
 
-func newController(db *gorm.DB) *controller {
-	return &controller{
+func NewChannelController(db *gorm.DB) Controller {
+	return &ChannelController{
 		db: db,
 	}
 }
 
-func (ctrl *controller) findID(id string) ([]model.Channel, error) {
+func (ctrl *ChannelController) findID(id string) ([]model.Channel, error) {
 	var channels []model.Channel
 
 	// Get all matched records
@@ -30,13 +30,13 @@ func (ctrl *controller) findID(id string) ([]model.Channel, error) {
 	return channels, nil
 }
 
-func (ctrl *controller) list(c *gin.Context) {
+func (ctrl *ChannelController) list(c *gin.Context) {
 	var channels []model.Channel
 	ctrl.db.Find(&channels)
 	c.JSON(http.StatusOK, channels)
 }
 
-func (ctrl *controller) create(c *gin.Context) {
+func (ctrl *ChannelController) create(c *gin.Context) {
 	now := time.Now()
 	channel := model.Channel{
 		Name:        c.PostForm("name"),
@@ -66,7 +66,7 @@ func (ctrl *controller) create(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Channel has been created successfully"})
 }
 
-func (ctrl *controller) update(c *gin.Context) {
+func (ctrl *ChannelController) update(c *gin.Context) {
 	var id int
 	var err error
 	var channel model.Channel
@@ -94,7 +94,7 @@ func (ctrl *controller) update(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Channel has been updated successfully"})
 }
 
-func (ctrl *controller) delete(c *gin.Context) {
+func (ctrl *ChannelController) delete(c *gin.Context) {
 	var id int
 	var err error
 	var channel model.Channel
@@ -115,13 +115,12 @@ func (ctrl *controller) delete(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Channel has been deleted successfully"})
 }
 
-func Routes(relativePath string, route *gin.Engine, db *gorm.DB) {
-	controller := newController(db)
+func (ctrl *ChannelController) AddRoutes(relativePath string, route *gin.Engine) {
 	channels := route.Group(relativePath)
 	{
-		channels.GET("/", controller.list)
-		channels.POST("/", controller.create)
-		channels.PUT("/:id", controller.update)
-		channels.DELETE("/:id", controller.delete)
+		channels.GET("/", ctrl.list)
+		channels.POST("/", ctrl.create)
+		channels.PUT("/:id", ctrl.update)
+		channels.DELETE("/:id", ctrl.delete)
 	}
 }

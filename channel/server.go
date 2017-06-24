@@ -1,8 +1,7 @@
 package main
 
 import (
-	ChannelController "github.com/mkfsn/shyuukan-program/channel/controller/channel"
-	ProgramController "github.com/mkfsn/shyuukan-program/channel/controller/program"
+	"github.com/mkfsn/shyuukan-program/channel/controller"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mkfsn/shyuukan-program/channel/model"
@@ -30,13 +29,18 @@ func middleware() gin.HandlerFunc {
 }
 
 func main() {
+	var rest controller.Controller
+
 	db := model.InitDb("./model/database.sqlite3")
 	router := gin.New()
 
 	router.Use(middleware())
 
-	ChannelController.Routes("/api/channels", router, db)
-	ProgramController.Routes("/api/programs", router, db)
+	rest = controller.NewChannelController(db)
+	rest.AddRoutes("/api/channels", router)
 
-	router.Run(":7070")
+	rest = controller.NewProgramController(db)
+	rest.AddRoutes("/api/programs", router)
+
+	router.Run(":7071")
 }

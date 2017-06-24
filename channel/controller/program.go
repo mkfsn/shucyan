@@ -1,4 +1,4 @@
-package program
+package controller
 
 import (
 	"fmt"
@@ -10,17 +10,17 @@ import (
 	"github.com/mkfsn/shyuukan-program/channel/model"
 )
 
-type controller struct {
+type ProgramController struct {
 	db *gorm.DB
 }
 
-func newController(db *gorm.DB) *controller {
-	return &controller{
+func NewProgramController(db *gorm.DB) Controller {
+	return &ProgramController{
 		db: db,
 	}
 }
 
-func (ctrl *controller) getChannel(c *gin.Context) (model.Channel, error) {
+func (ctrl *ProgramController) getChannel(c *gin.Context) (model.Channel, error) {
 	var channel model.Channel
 
 	// FIXME: Is this ChannelID?
@@ -38,7 +38,7 @@ func (ctrl *controller) getChannel(c *gin.Context) (model.Channel, error) {
 	return channel, nil
 }
 
-func (ctrl *controller) list(c *gin.Context) {
+func (ctrl *ProgramController) getProgramsByChannelID(c *gin.Context) {
 	var programs []model.Program
 
 	channel, err := ctrl.getChannel(c)
@@ -50,7 +50,25 @@ func (ctrl *controller) list(c *gin.Context) {
 	c.JSON(http.StatusOK, programs)
 }
 
-func (ctrl *controller) delete(c *gin.Context) {
+func (ctrl *ProgramController) getProgramByID(c *gin.Context) {
+	var program model.Program
+
+	channel, err := ctrl.getChannel(c)
+	if err != nil {
+		return
+	}
+
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil || id < 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid program id"})
+		return
+	}
+
+	ctrl.db.Where(&model.Program{ID: id, ChannelID: channel.ID}).First(&program)
+	c.JSON(http.StatusOK, program)
+}
+
+func (ctrl *ProgramController) delete(c *gin.Context) {
 	var program model.Program
 
 	cid, err := strconv.ParseUint(c.PostForm("channelId"), 10, 64)
@@ -70,11 +88,11 @@ func (ctrl *controller) delete(c *gin.Context) {
 	c.JSON(http.StatusOK, program)
 }
 
-func Routes(relativePath string, route *gin.Engine, db *gorm.DB) {
-	controller := newController(db)
+func (ctrl *ProgramController) AddRoutes(relativePath string, route *gin.Engine) {
 	programs := route.Group(relativePath)
 	{
-		programs.GET("/", controller.list)
-		programs.DELETE("/:id", controller.delete)
+		programs.GET("/", ctrl.getProgramsByChannelID)
+		programs.GET("/:id", ctrl.getProgramByID)
+		programs.DELETE("/:id", ctrl.delete)
 	}
 }
