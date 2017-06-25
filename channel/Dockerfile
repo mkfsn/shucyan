@@ -1,5 +1,5 @@
 FROM golang:1.8
-MAINTAINER p408865@gmail.com
+MAINTAINER mkfsn<p408865@gmail.com>
 
 RUN go get -u github.com/kardianos/govendor
 
@@ -10,6 +10,9 @@ COPY vendor/vendor.json /go/src/app/vendor/
 RUN govendor sync
 
 COPY . /go/src/app
+
+RUN mkdir -p /go/src/github.com/mkfsn/shyuukan-program && \
+    ln -sfv /go/src/app /go/src/github.com/mkfsn/shyuukan-program/channel
 
 ARG build_env=production
 RUN go-wrapper install -tags $build_env
