@@ -1,8 +1,9 @@
 import './channel.scss';
 import * as chroma from 'chroma-js';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 // Model
 import { Channel } from '../shared/channel';
 import { Program } from '../shared/program';
@@ -33,6 +34,11 @@ export class ChannelComponent {
     // color cache
     private colors: Map<string, string>;
     private mode: Mode;
+    // For adding/editing program
+    private program: Program;
+
+    @ViewChild('programModal') public programModal: ModalDirective;
+    private optionOpen: boolean;
 
     constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title) {
         this.colors = new Map<string, string>();
@@ -47,6 +53,8 @@ export class ChannelComponent {
         } else {
             this.mode = Mode.normal;
         }
+        this.program = new Program(-1, '', '', []);
+        this.optionOpen = false;
     }
 
     private getDatesOfWeek(): Array<string> {
@@ -130,8 +138,20 @@ export class ChannelComponent {
         return `calc(100% - ${owner.length + 1}ch - 66px)`;
     }
 
-    private addProgram(day: number) {
-        alert('Add program in day: ' + day);
+    private newProgram(day: number) {
+        this.optionOpen = false;
+        this.program = new Program(day, '', '', []);
+        this.programModal.show();
+    }
+
+    private saveProgram(update: boolean = false) {
+        console.log(update, this.program);
+    }
+
+    private editProgram(program: Program) {
+        this.optionOpen = false;
+        this.program = program;
+        this.programModal.show();
     }
 
     private removeProgram(program) {

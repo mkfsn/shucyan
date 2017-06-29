@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { FormsModule  } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-import { RouterModule  } from '@angular/router';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AppComponent } from './app/app.component';
 import { OverviewComponent } from './overview/overview.component';
@@ -36,6 +37,7 @@ import { ChannelService } from './service/channel.service';
         BrowserModule,
         CommonModule,
         FormsModule,
+        ModalModule.forRoot(),
         RouterModule.forRoot([
             {
                 path: 'home',
