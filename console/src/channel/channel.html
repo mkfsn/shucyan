@@ -74,7 +74,7 @@
     </div>
     <div *ngFor="let row of programTable" class="channel-row">
         <div *ngFor="let program of row; let i = index" class="program text-center"
-             (click)="editProgram(program)"
+             (click)="clickProgram(program)"
              [ngClass]="{today: isToday(i), active: program !== undefined}">
             <ng-container *ngIf="isEditMode && program">
                 <span class="glyphicon glyphicon-remove-sign remove-program"
@@ -117,10 +117,6 @@
                         <input type="text" class="form-control" id="program-title" [(ngModel)]="program.title">
                     </div>
                     <div class="form-group">
-                        <label for="program-tags">Tags</label>
-                        <input type="text" class="form-control" id="program-tags">
-                    </div>
-                    <div class="form-group">
                         <label for="program-content">Content</label>
                         <textarea class="form-control" id="program-content" [(ngModel)]="program.content"></textarea>
                     </div>
@@ -130,6 +126,16 @@
                         </span>
                     </p>
                     <div id="program-option" [hidden]="!optionOpen">
+                        <div class="form-group">
+                            <label for="program-tags">Tags</label>
+                            <input type="text" class="form-control" id="program-tags"
+                                   placeholder="Add tag seperated with comma(,)"
+                                   [ngModel]="inputTags"
+                                   (ngModelChange)="tryAddTags($event)">
+                            <span *ngFor="let tag of program.tags" class="label label-default tag">
+                                <span>{{ tag }}</span>
+                                <span class="glyphicon glyphicon-remove-sign"></span></span>
+                        </div>
                         <div class="form-group">
                             <label for="program-link">Link</label>
                             <input class="form-control" id="program-link" type="url" [(ngModel)]="program.link">
@@ -150,4 +156,19 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" bsModal #infoModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left">{{ program.title }}</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="infoModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

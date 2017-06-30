@@ -38,7 +38,9 @@ export class ChannelComponent {
     private program: Program;
 
     @ViewChild('programModal') public programModal: ModalDirective;
+    @ViewChild('infoModal') public infoModal: ModalDirective;
     private optionOpen: boolean;
+    private inputTags: string;
 
     constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title) {
         this.colors = new Map<string, string>();
@@ -146,6 +148,29 @@ export class ChannelComponent {
 
     private saveProgram(update: boolean = false) {
         console.log(update, this.program);
+    }
+
+    private clickProgram(program: Program) {
+        if (program === undefined) {
+            return;
+        } else if (this.isEditMode) {
+            this.editProgram(program);
+        } else {
+            this.showProgram(program);
+        }
+    }
+
+    private showProgram(program: Program) {
+        this.program = program;
+        this.infoModal.show();
+    }
+
+    private tryAddTags(inputTags: string) {
+        if (inputTags && inputTags.indexOf(',') !== -1) {
+            let tags = inputTags.split(',');
+            this.inputTags = tags.pop();
+            this.program.tags = this.program.tags.concat(tags);
+        }
     }
 
     private editProgram(program: Program) {

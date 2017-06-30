@@ -124,6 +124,20 @@
     }
   }
 
+  .modal {
+    .modal-body {
+      span.tag {
+        margin-right: .5rem;
+        display: inline-block;
+        span {
+          vertical-align: middle;
+        }
+        span.glyphicon {
+          top: 0;
+        }
+      }
+    }
+  }
 
 }
 

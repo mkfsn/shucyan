@@ -12,16 +12,17 @@ export class Program {
     content: string;
     tags: Array<string>;
     link?: string;
+    time?: Array<Time>;
     startedAt?: Date;
     endedAt?: Date;
-    time?: Array<Time>;
 
-    constructor(day, title, content, tags, link?, startedAt?, endedAt?) {
+    constructor(day, title, content, tags?, link?, time?, startedAt?, endedAt?) {
         this.day = day;
         this.title = title;
         this.content = content;
-        this.tags = tags;
-        this.link = link;
+        this.tags = tags || [];
+        this.link = link || '';
+        this.time = time || [];
         this.startedAt = startedAt;
         this.endedAt = endedAt;
     }
