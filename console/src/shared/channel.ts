@@ -2,7 +2,7 @@ import { Program } from './program';
 
 export class Channel {
     id: string;
-    name: string;
+    title: string;
     owner: string;
     description: string;
     createdAt: Date;
@@ -19,9 +19,9 @@ export class Channel {
         })
     }
 
-    constructor(id: string, name: string, owner: string, description?: string, programs?: Array<Program>, createdAt?: Date) {
+    constructor(id: string, title: string, owner: string, description?: string, programs?: Array<Program>, createdAt?: Date) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.owner = owner;
         this.description = description || '';
         this.programs = programs || [];
