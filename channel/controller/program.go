@@ -102,11 +102,42 @@ func (ctrl *ProgramController) create(context *gin.Context) {
 	context.JSON(http.StatusOK, nil)
 }
 
+func (ctrl *ProgramController) remove(context *gin.Context) {
+	var clientProgram model.Program
+	var program model.Program
+
+	err := context.BindJSON(&clientProgram)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid data for getting program"})
+		log.Println(err)
+		return
+	}
+
+	channel, code, obj := ctrl.getChannelByChannelID(clientProgram.ChannelID)
+	if code != http.StatusOK {
+		context.JSON(code, obj)
+		return
+	}
+
+	if !programBelongsToChannel(clientProgram, channel) {
+		context.JSON(http.StatusNotAcceptable, nil)
+		return
+	}
+
+	ctrl.db.First(&program, clientProgram.ID)
+
+	ctrl.db.Model(&program).Association("Tags").Clear()
+	ctrl.db.Model(&channel).Association("Programs").Delete(program)
+	ctrl.db.Delete(&program)
+
+	context.JSON(http.StatusOK, nil)
+}
+
 func (ctrl *ProgramController) AddRoutes(relativePath string, route *gin.Engine) {
 	programs := route.Group(relativePath)
 	{
 		programs.GET("/:id", ctrl.info)
 		programs.POST("/", ctrl.create)
-		programs.DELETE("/:id", methodNotAllowed)
+		programs.DELETE("/", ctrl.remove)
 	}
 }
