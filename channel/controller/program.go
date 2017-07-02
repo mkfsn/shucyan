@@ -136,7 +136,7 @@ func (ctrl *ProgramController) remove(context *gin.Context) {
 func (ctrl *ProgramController) AddRoutes(relativePath string, route *gin.Engine) {
 	programs := route.Group(relativePath)
 	{
-		programs.GET("/:id", ctrl.info)
+		programs.GET("/", ctrl.info)
 		programs.POST("/", ctrl.create)
 		programs.DELETE("/", ctrl.remove)
 	}
