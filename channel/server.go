@@ -31,7 +31,7 @@ func middleware() gin.HandlerFunc {
 func main() {
 	var rest controller.Controller
 
-	db := model.InitDb("./model/database.sqlite3")
+	db := model.InitDB("./model/database.sqlite3", "./default.json")
 	router := gin.New()
 
 	router.Use(middleware())
