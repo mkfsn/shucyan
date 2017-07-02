@@ -9,7 +9,6 @@ import { Channel } from '../shared/channel';
 import { Program } from '../shared/program';
 // Service
 import { ChannelService } from '../service/channel.service';
-import { ProgramService } from '../service/program.service';
 
 declare var require: any;
 
@@ -43,7 +42,7 @@ export class ChannelComponent {
     private optionOpen: boolean;
     private inputTags: string;
 
-    constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title, private programService: ProgramService) {
+    constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title) {
         this.colors = new Map<string, string>();
         this.namesOfDays = ChannelService.namesOfDays;
         this.day = (new Date()).getDay();

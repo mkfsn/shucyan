@@ -18,7 +18,6 @@ import { LatestComponent } from './latest/latest.component';
 import { ChannelComponent } from './channel/channel.component';
 
 import { ChannelService } from './service/channel.service';
-import { ProgramService } from './service/program.service';
 
 @NgModule({
     bootstrap: [
@@ -104,8 +103,7 @@ import { ProgramService } from './service/program.service';
     ],
     providers: [
         Title,
-        ChannelService,
-        ProgramService
+        ChannelService
     ]
 })
 
