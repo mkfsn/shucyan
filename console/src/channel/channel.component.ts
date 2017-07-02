@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 // Model
 import { Channel } from '../shared/channel';
-import { Program } from '../shared/program';
+import { Program, Tag } from '../shared/program';
 // Service
 import { ChannelService } from '../service/channel.service';
 
@@ -172,8 +172,8 @@ export class ChannelComponent {
 
     private tryAddTags(inputTags: string) {
         if (inputTags && inputTags.indexOf(',') !== -1) {
-            let tags = inputTags.split(',');
-            this.inputTags = tags.pop();
+            let tags = inputTags.split(',').map(v => new Tag(v));
+            this.inputTags = tags.pop().name;
             this.program.tags = this.program.tags.concat(tags);
         }
     }

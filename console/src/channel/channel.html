@@ -86,8 +86,8 @@
             <p *ngIf="program && !program.link">{{ program.title }}</p>
             <div *ngIf="program && program.tags" class="tags">
                 <span *ngFor="let tag of program.tags" class="label"
-                      [ngStyle]="{'background-color': getColor(tag)}">
-                    {{ tag }}
+                      [ngStyle]="{'background-color': getColor(tag.name)}">
+                    {{ tag.name }}
                 </span>
             </div>
         </div>
@@ -135,7 +135,7 @@
                                    [ngModel]="inputTags"
                                    (ngModelChange)="tryAddTags($event)">
                             <span *ngFor="let tag of program.tags" class="label label-default tag">
-                                <span>{{ tag }}</span>
+                                <span>{{ tag.name }}</span>
                                 <span class="glyphicon glyphicon-remove-sign"></span></span>
                         </div>
                         <div class="form-group">

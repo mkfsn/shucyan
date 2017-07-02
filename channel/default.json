@@ -11,8 +11,8 @@
                 "link": "http://www.toei-anim.co.jp/tv/dragon_s/",
                 "startedAt": "2015-08-04T16:00:00.000Z",
                 "tags": [
-                    "長番",
-                    "2015"
+                    {"name": "長番"},
+                    {"name": "2015"}
                 ],
                 "title": "ドラゴンボール超(スーパー)"
             },
@@ -22,8 +22,8 @@
                 "link": "http://www.alicetozouroku.com/",
                 "startedAt": "2017-05-01T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "アリスと蔵六"
             },
@@ -33,8 +33,8 @@
                 "link": "http://zeronosyo.com/",
                 "startedAt": "2017-05-09T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "ゼロから始める魔法の書"
             },
@@ -44,8 +44,8 @@
                 "link": "http://rokuaka.jp/",
                 "startedAt": "2017-05-03T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "ロクでなし魔術講師と禁忌教典"
             },
@@ -55,8 +55,8 @@
                 "link": "http://cingeki-anime.com/",
                 "startedAt": "2017-05-03T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "アイドルマスター シンデレラガールズ劇場"
             },
@@ -66,8 +66,8 @@
                 "link": "http://machiavellism-anime.jp/",
                 "startedAt": "2017-05-04T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "武装少女マキャヴェリズム"
             },
@@ -77,8 +77,8 @@
                 "link": "http://sagrada-anime.com/",
                 "startedAt": "2017-05-04T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "サクラダリセット"
             },
@@ -88,8 +88,8 @@
                 "link": "http://sakura-quest.com/",
                 "startedAt": "2017-05-04T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "サクラクエスト"
             },
@@ -99,8 +99,8 @@
                 "link": "http://tsukigakirei.jp/",
                 "startedAt": "2017-05-05T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "月がきれい"
             },
@@ -110,8 +110,8 @@
                 "link": "http://www.tbs.co.jp/anime/cp/",
                 "startedAt": "2017-05-05T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "クロックワーク・プラネット"
             },
@@ -121,8 +121,8 @@
                 "link": "http://seikaisuru-kado.com/",
                 "startedAt": "2017-05-06T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "正解するカド"
             },
@@ -132,8 +132,8 @@
                 "link": "http://hinakonote.jp/",
                 "startedAt": "2017-05-08T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "ひなこのーと"
             },
@@ -143,7 +143,8 @@
                 "link": "http://danmachi.com/sword_oratoria/",
                 "startedAt": "2017-05-13T16:00:00.000Z",
                 "tags": [
-                    "春番"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "ソード・オラトリア"
             },
@@ -153,8 +154,8 @@
                 "link": "http://anime.granbluefantasy.jp/",
                 "startedAt": "2017-04-30T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "グランプルーファンタジー　ジ・アニメーション"
             },
@@ -164,8 +165,8 @@
                 "link": "",
                 "startedAt": "2017-05-01T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "BANG DREAM"
             },
@@ -175,8 +176,8 @@
                 "link": "http://recreators.tv/",
                 "startedAt": "2017-05-07T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "Re:CREATORS"
             },
@@ -186,8 +187,8 @@
                 "link": "http://eromanga-sensei.com/",
                 "startedAt": "2017-05-07T16:00:00.000Z",
                 "tags": [
-                    "春番",
-                    "2017"
+                    {"name": "春番"},
+                    {"name": "2017"}
                 ],
                 "title": "エロマンガ先生"
             }
@@ -376,7 +377,11 @@
                 "day": 1,
                 "link": "http://www.ntv.co.jp/yofukashi/",
                 "startedAt": "2012-04-09T16:00:00.000Z",
-                "tags": ["バラエティ", "日本テレビ", "読売テレビ"],
+                "tags": [
+                    {"name": "バラエティ"},
+                    {"name": "日本テレビ"},
+                    {"name": "読売テレビ"}
+                ],
                 "title": "月曜から夜ふかし"
             },
             {
@@ -384,7 +389,10 @@
                 "day": 4,
                 "link": "http://www.tbs.co.jp/monitoring-golden/",
                 "startedAt": "2013-04-30T16:00:00.000Z",
-                "tags": ["TBSテレビ", "バラエティ"],
+                "tags": [
+                    {"name": "TBSテレビ"},
+                    {"name": "バラエティ"}
+                ],
                 "title": "ニンゲン観察バラエティ モニタリング"
             },
             {
@@ -392,7 +400,11 @@
                 "day": 0,
                 "link": "http://www.mbs.jp/mimi/",
                 "startedAt": "2015-04-12T16:00:00.000Z",
-                "tags": ["毎日放送", "MBS", "バラエティ"],
+                "tags": [
+                    {"name": "毎日放送"},
+                    {"name": "MBS"},
+                    {"name": "バラエティ"}
+                ],
                 "title": "林先生が驚く 初耳学"
             },
             {
@@ -400,7 +412,10 @@
                 "day": 6,
                 "link": "http://www.ntv.co.jp/matsukokaigi/",
                 "startedAt": "2015-10-17T16:00:00.000Z",
-                "tags": ["日本テレビ", "バラエティ"],
+                "tags": [
+                    {"name": "日本テレビ"},
+                    {"name": "バラエティ"}
+                ],
                 "title": "マツコ会議"
             },
             {
@@ -408,7 +423,10 @@
                 "day": 2,
                 "link": "http://www.tbs.co.jp/matsuko-sekai/",
                 "startedAt": "2011-10-12T16:00:00.000Z",
-                "tags": ["TBSテレビ", "バラエティ"],
+                "tags": [
+                    {"name": "TBSテレビ"},
+                    {"name": "バラエティ"}
+                ],
                 "title": "マツコの知らない世界"
             },
             {
@@ -416,7 +434,12 @@
                 "day": 6,
                 "link": "http://king-cr.jp/artist/uesakasumire/yabaimarumaru/",
                 "startedAt": "2017-04-08T16:00:00.000Z",
-                "tags": ["ヤバいフィットネス", "上坂すみれ", "TOKYO MX", "BS11"],
+                "tags": [
+                    {"name": "ヤバいフィットネス"},
+                    {"name": "上坂すみれ"},
+                    {"name": "TOKYO MX"},
+                    {"name": "BS11"}
+                ],
                 "title": "上坂すみれのヤバい○○"
             }
         ]

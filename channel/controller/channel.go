@@ -19,15 +19,6 @@ func NewChannelController(db *gorm.DB) Controller {
 	}
 }
 
-func (ctrl *ChannelController) findID(id string) ([]model.Channel, error) {
-	var channels []model.Channel
-
-	// Get all matched records
-	ctrl.db.Where("id = ?", id).Find(&channels)
-
-	return channels, nil
-}
-
 func (ctrl *ChannelController) list(c *gin.Context) {
 	var channels []model.Channel
 	ctrl.db.Find(&channels)
@@ -51,6 +42,11 @@ func (ctrl *ChannelController) info(c *gin.Context) {
 		return
 	}
 	ctrl.db.Model(&channel).Related(&programs, "Programs")
+	for i, _ := range programs {
+		var tags []model.Tag
+		ctrl.db.Model(&programs[i]).Related(&tags, "Tags")
+		programs[i].Tags = tags
+	}
 	channel.Programs = programs
 
 	c.JSON(http.StatusOK, channel)
