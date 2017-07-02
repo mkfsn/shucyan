@@ -79,10 +79,34 @@ func (ctrl *ProgramController) info(context *gin.Context) {
 	context.JSON(http.StatusOK, program)
 }
 
+func (ctrl *ProgramController) create(context *gin.Context) {
+	var clientProgram model.Program
+
+	err := context.BindJSON(&clientProgram)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid data for getting program"})
+		log.Println(err)
+		return
+	}
+
+	channel, code, obj := ctrl.getChannelByChannelID(clientProgram.ChannelID)
+	if code != http.StatusOK {
+		context.JSON(code, obj)
+		return
+	}
+
+	ctrl.db.Set("gorm:save_associations", false).Create(&clientProgram)
+	ctrl.db.Model(&clientProgram).Association("Tags").Append(clientProgram.Tags)
+	ctrl.db.Model(&channel).Association("Programs").Append(clientProgram)
+
+	context.JSON(http.StatusOK, nil)
+}
+
 func (ctrl *ProgramController) AddRoutes(relativePath string, route *gin.Engine) {
 	programs := route.Group(relativePath)
 	{
 		programs.GET("/:id", ctrl.info)
+		programs.POST("/", ctrl.create)
 		programs.DELETE("/:id", methodNotAllowed)
 	}
 }
