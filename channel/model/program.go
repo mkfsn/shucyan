@@ -7,20 +7,12 @@ import (
 )
 
 type Program struct {
-	ID         uint      `gorm:"primary_key;not null;AUTO_INCREMENT"`
-	ChannelID  uint      `gorm:"uniq_key;not null"`
-	Day        uint      `gorm:"not null"`
-	Title      string    `gorm:"not null"`
-	Content    string    `gorm:"not null"`
-	Link       string    `gorm:"not null"`
-	Tags       []Tag     `gorm:"many2many:program_tags;"`
-	StartedAt  time.Time `gorm:"not null"`
-	EndedAt    time.Time `gorm:"not null"`
-	CreatedAt  time.Time `gorm:"not null"`
-	ModifiedAt time.Time `gorm:"not null"`
-}
-
-type Tag struct {
 	gorm.Model
-	Name string
+
+	Day       uint32    `gorm:"not null" json:"day"`
+	Title     string    `gorm:"not null" json:"title"`
+	Content   string    `gorm:"not null" json:"content"`
+	Link      string    `gorm:"not null" json:"link"`
+	StartedAt time.Time `gorm:"not null" json:"startedAt"`
+	EndedAt   time.Time `gorm:"not null"`
 }
