@@ -30,22 +30,24 @@
                 <h1>
                     <input class="form-control input-lg"
                            [ngStyle]="{width: titleInputLength(channel.owner)}"
-                           [(ngModel)]="channel.name"
-                           name="name" type="text" value="{{ channel.name }}" />
-                    <small>
+                           [ngModel]="channel?.title"
+                           name="title" type="text"/>
+                    <small *ngIf="channel">
                         <span class="channel-owner"><a href="#">{{ '@' + channel.owner }}</a></span>
                     </small>
                 </h1>
                 <p class="lead">
-                    <textarea class="form-control" rows="{{ channel.description.split('\n').length  }}"
-                              [(ngModel)]="channel.description"
-                              name="description" value="{{ channel.description }}">
+                    <textarea class="form-control" rows="{{ channel ? 0 : channel.description.split('\n').length }}"
+                              [ngModel]="channel?.description"
+                              name="description">
                     </textarea>
                 </p>
             </ng-template>
             <ng-template #DisplayInfo>
-                <h1><span>{{ channel.name }}</span><small><span class="channel-owner"><a href="#">{{ '@' + channel.owner }}</a></span></small></h1>
-                <p class="lead">
+                <h1 *ngIf="channel">
+                    <span>{{ channel.title }}</span><small><span class="channel-owner"><a href="#">{{ '@' + channel.owner }}</a></span></small>
+                </h1>
+                <p class="lead" *ngIf="channel">
                     <span class="channel-description">{{ channel.description }}</span>
                 </p>
             </ng-template>
@@ -90,7 +92,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" bsModal #programModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal" bsModal #programModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -102,7 +104,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="program-day">Day of week</label>
-                        <select class="form-control" id="program-day" [(ngModel)]="program.day">
+                        <select class="form-control" id="program-day" [ngModel]="program?.day">
                             <option value="0">日</option>
                             <option value="1">月</option>
                             <option value="2">火</option>
@@ -114,11 +116,11 @@
                     </div>
                     <div class="form-group">
                         <label for="program-title">Title(*)</label>
-                        <input type="text" class="form-control" id="program-title" [(ngModel)]="program.title">
+                        <input type="text" class="form-control" id="program-title" [ngModel]="program?.title">
                     </div>
                     <div class="form-group">
                         <label for="program-content">Content</label>
-                        <textarea class="form-control" id="program-content" [(ngModel)]="program.content"></textarea>
+                        <textarea class="form-control" id="program-content" [ngModel]="program?.content"></textarea>
                     </div>
                     <p>
                         <span class="btn-option" for="program-option">
@@ -138,15 +140,15 @@
                         </div>
                         <div class="form-group">
                             <label for="program-link">Link</label>
-                            <input class="form-control" id="program-link" type="url" [(ngModel)]="program.link">
+                            <input class="form-control" id="program-link" type="url" [ngModel]="program?.link">
                         </div>
                         <div class="form-group">
                             <label for="program-start">Start date</label>
-                            <input class="form-control" id="program-start" type="date" [(ngModel)]="program.startedAt">
+                            <input class="form-control" id="program-start" type="date" [ngModel]="program?.startedAt">
                         </div>
                         <div class="form-group">
                             <label for="program-end">End date</label>
-                            <input class="form-control" id="program-end" type="date" [(ngModel)]="program.endedAt">
+                            <input class="form-control" id="program-end" type="date" [ngModel]="program?.endedAt">
                         </div>
                     </div>
                 </div>
@@ -156,16 +158,17 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" bsModal #infoModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal" bsModal #infoModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title pull-left">{{ program.title }}</h4>
+                    <h4 class="modal-title pull-left">{{ program?.title }}</h4>
                     <button type="button" class="close pull-right" aria-label="Close" (click)="infoModal.hide()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
+                    {{ program?.content }}
                 </div>
             </div>
         </div>

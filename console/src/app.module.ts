@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ResourceModule } from 'ngx-resource';
 
 import { AppComponent } from './app/app.component';
 import { OverviewComponent } from './overview/overview.component';
@@ -17,6 +18,7 @@ import { LatestComponent } from './latest/latest.component';
 import { ChannelComponent } from './channel/channel.component';
 
 import { ChannelService } from './service/channel.service';
+import { ProgramService } from './service/program.service';
 
 @NgModule({
     bootstrap: [
@@ -38,6 +40,7 @@ import { ChannelService } from './service/channel.service';
         CommonModule,
         FormsModule,
         ModalModule.forRoot(),
+        ResourceModule.forRoot(),
         RouterModule.forRoot([
             {
                 path: 'home',
@@ -101,7 +104,8 @@ import { ChannelService } from './service/channel.service';
     ],
     providers: [
         Title,
-        ChannelService
+        ChannelService,
+        ProgramService
     ]
 })
 

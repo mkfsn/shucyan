@@ -9,6 +9,7 @@ import { Channel } from '../shared/channel';
 import { Program } from '../shared/program';
 // Service
 import { ChannelService } from '../service/channel.service';
+import { ProgramService } from '../service/program.service';
 
 declare var require: any;
 
@@ -42,21 +43,24 @@ export class ChannelComponent {
     private optionOpen: boolean;
     private inputTags: string;
 
-    constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title) {
+    constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title, private programService: ProgramService) {
         this.colors = new Map<string, string>();
         this.namesOfDays = ChannelService.namesOfDays;
         this.day = (new Date()).getDay();
         this.datesOfWeek = this.getDatesOfWeek();
-        this.channel = this.getChannel();
-        this.titleService.setTitle(this.channel.name);
-        this.programTable = this.buildProgramTable(this.channel.programs);
+        this.optionOpen = false;
         if (this.route.snapshot.url.length > 2 && this.route.snapshot.url[2].path === 'edit') {
             this.mode = Mode.edit;
         } else {
             this.mode = Mode.normal;
         }
         this.program = new Program(-1, '', '', []);
-        this.optionOpen = false;
+
+        this.loadChannel((channel: Channel) => {
+            this.channel = channel;
+            this.titleService.setTitle(this.channel.title);
+            this.programTable = this.buildProgramTable(this.channel.programs);
+        });
     }
 
     private getDatesOfWeek(): Array<string> {
@@ -103,15 +107,17 @@ export class ChannelComponent {
         return day === this.day;
     }
 
-    private getChannel(): Channel {
+    private loadChannel(callback?: (res: Channel) => any) {
         let channelId: string;
         this.route.params.forEach((param: Params) => {
             channelId = param.id;
         });
-        return this.channelService.find(channelId);
+        this.channelService.find({id: channelId}, callback);
     }
 
     private buildProgramTable(programs: Array<Program>) {
+        if (!programs) return;
+
         let columns = [[], [], [], [], [], [], []],
             table = [],
             maxSize = 0;

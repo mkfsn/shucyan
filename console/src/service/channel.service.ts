@@ -1,25 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Channel } from '../shared/channel';
-import { Program } from '../shared/program';
+
+import { Resource, ResourceParams, ResourceAction, ResourceMethod } from 'ngx-resource';
+
+import { RequestMethod } from '@angular/http';
 
 declare var require: any;
 
 @Injectable()
-export class ChannelService {
+@ResourceParams({
+    removeTrailingSlash: false,
+    url: 'http://localhost:7071/api/channels/'
+})
+export class ChannelService extends Resource {
 
-    private _channels: Array<Channel>;
     static readonly namesOfDays = ['日', '月', '火', '水', '木', '金', '土'];
 
-    constructor() {
-        let json = require('../shared/data/default.json');
-        this._channels = Channel.fromJSON(json);
-    }
+    @ResourceAction({
+        method: RequestMethod.Get,
+        path: '/{!id}'
+    })
+    public find: ResourceMethod<{id: any}, Channel>;
 
-    get channels() {
-        return this._channels;
-    }
+    @ResourceAction({
+        method: RequestMethod.Get,
+        isArray: true,
+        path: '/'
+    })
+    public list: ResourceMethod<any, Channel[]>;
 
-    public find(channelId: string): Channel {
-        return this.channels.find(ch => ch.id === channelId);
-    }
 }
