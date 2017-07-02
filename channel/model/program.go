@@ -16,10 +16,14 @@ type Program struct {
 	StartedAt time.Time `gorm:"not null"                json:"startedAt"`
 	EndedAt   time.Time `gorm:"not null"                json:"endedAt"`
 	Tags      []Tag     `gorm:"many2many:program_tags;" json:"tags"`
+
+	// ChannelID is used for getting channel UUID in HTTP request body, and
+	// we don't want it to be stored into database
+	ChannelID string `gorm:"-"  sql:"-"  json:"channelId"`
 }
 
 type Tag struct {
 	gorm.Model
 
-	Name string `gorm:"not null;unique" json:"name"`
+	Name string `gorm:"not null" json:"name"`
 }

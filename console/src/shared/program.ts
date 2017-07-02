@@ -14,7 +14,7 @@ export class Tag {
 
 export class Program {
     id: number;
-    channelId: number;
+    channelId: string;
     day: number;
     title: string;
     content: string;
