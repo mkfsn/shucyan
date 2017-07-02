@@ -19,6 +19,22 @@ func NewChannelController(db *gorm.DB) Controller {
 	}
 }
 
+func (ctrl *ChannelController) getChannelByID(id string) (model.Channel, int, interface{}) {
+	var channel model.Channel
+
+	if id == "" {
+		log.Println("Invalid channel id")
+		return channel, http.StatusBadRequest, gin.H{"message": "Invalid channel id"}
+	}
+
+	res := ctrl.db.Where("UUID = ?", id).First(&channel)
+	if res.RecordNotFound() {
+		return channel, http.StatusNotFound, gin.H{"message": "Channel id not found"}
+	}
+
+	return channel, http.StatusOK, nil
+}
+
 func (ctrl *ChannelController) list(c *gin.Context) {
 	var channels []model.Channel
 	ctrl.db.Find(&channels)
@@ -26,21 +42,14 @@ func (ctrl *ChannelController) list(c *gin.Context) {
 }
 
 func (ctrl *ChannelController) info(c *gin.Context) {
-	var channel model.Channel
 	var programs []model.Program
 
-	id := c.Param("id")
-	if id == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid channel id"})
-		log.Println("Invalid channel id")
+	channel, code, obj := ctrl.getChannelByID(c.Param("id"))
+	if code != http.StatusOK {
+		c.JSON(code, obj)
 		return
 	}
 
-	res := ctrl.db.Where("UUID = ?", id).First(&channel)
-	if res.RecordNotFound() {
-		c.JSON(http.StatusNotFound, nil)
-		return
-	}
 	ctrl.db.Model(&channel).Related(&programs, "Programs")
 	for i, _ := range programs {
 		var tags []model.Tag
@@ -84,16 +93,9 @@ func (ctrl *ChannelController) create(c *gin.Context) {
 }
 
 func (ctrl *ChannelController) update(c *gin.Context) {
-	var channel model.Channel
-
-	id := c.Param("id")
-	if id == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid channel id"})
-		return
-	}
-
-	if res := ctrl.db.Where("UUID = ?", id).First(&channel); res.RowsAffected == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Channel id not found"})
+	channel, code, obj := ctrl.getChannelByID(c.Param("id"))
+	if code != http.StatusOK {
+		c.JSON(code, obj)
 		return
 	}
 
@@ -102,6 +104,7 @@ func (ctrl *ChannelController) update(c *gin.Context) {
 
 	if res := ctrl.db.Save(&channel); res.RowsAffected == 0 {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Oops"})
+		log.Println(res)
 		return
 	}
 
@@ -109,16 +112,9 @@ func (ctrl *ChannelController) update(c *gin.Context) {
 }
 
 func (ctrl *ChannelController) delete(c *gin.Context) {
-	var channel model.Channel
-
-	id := c.Param("id")
-	if id == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid channel id"})
-		return
-	}
-
-	if res := ctrl.db.Where("UUID = ?", id).First(&channel); res.RowsAffected == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Channel id not found"})
+	channel, code, obj := ctrl.getChannelByID(c.Param("id"))
+	if code != http.StatusOK {
+		c.JSON(code, obj)
 		return
 	}
 
