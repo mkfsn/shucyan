@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+
 	"github.com/mkfsn/shyuukan-program/channel/model"
 )
 
@@ -117,6 +118,8 @@ func (ctrl *ChannelController) delete(c *gin.Context) {
 		c.JSON(code, obj)
 		return
 	}
+
+	// TODO: Clean up all programs, and maybe tags? (or maybe not)
 
 	ctrl.db.Delete(&channel)
 	c.JSON(http.StatusOK, gin.H{"message": "Channel has been deleted successfully"})
