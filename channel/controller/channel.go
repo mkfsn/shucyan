@@ -3,8 +3,6 @@ package controller
 import (
 	"log"
 	"net/http"
-	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -36,18 +34,38 @@ func (ctrl *ChannelController) list(c *gin.Context) {
 	c.JSON(http.StatusOK, channels)
 }
 
-func (ctrl *ChannelController) create(c *gin.Context) {
-	now := time.Now()
-	channel := model.Channel{
-		Name:        c.PostForm("name"),
-		Description: c.PostForm("description"),
-		Owner:       "",
-		CreatedAt:   now,
-		ModifiedAt:  now,
-	}
-	log.Printf("[Channel][Create] %v\n", channel)
+func (ctrl *ChannelController) info(c *gin.Context) {
+	var channel model.Channel
+	var programs []model.Program
 
-	if channel.Name == "" {
+	id := c.Param("id")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid channel id"})
+		log.Println("Invalid channel id")
+		return
+	}
+
+	res := ctrl.db.Where("UUID = ?", id).First(&channel)
+	if res.RecordNotFound() {
+		c.JSON(http.StatusNotFound, nil)
+		return
+	}
+	ctrl.db.Model(&channel).Related(&programs, "Programs")
+	channel.Programs = programs
+
+	c.JSON(http.StatusOK, channel)
+}
+
+func (ctrl *ChannelController) create(c *gin.Context) {
+	var channel model.Channel
+	err := c.BindJSON(&channel)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid data for creating channel"})
+		log.Println(err)
+		return
+	}
+
+	if channel.Title == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid data for creating channel"})
 		return
 	}
@@ -58,8 +76,11 @@ func (ctrl *ChannelController) create(c *gin.Context) {
 	}
 
 	res := ctrl.db.Create(&channel)
+	log.Printf("[Channel][Create] %v\n", channel)
+
 	if res.RowsAffected == 0 {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Oops"})
+		log.Println(res)
 		return
 	}
 
@@ -67,24 +88,21 @@ func (ctrl *ChannelController) create(c *gin.Context) {
 }
 
 func (ctrl *ChannelController) update(c *gin.Context) {
-	var id int
-	var err error
 	var channel model.Channel
 
-	id, err = strconv.Atoi(c.Param("id"))
-	if err != nil || id < 0 {
+	id := c.Param("id")
+	if id == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid channel id"})
 		return
 	}
 
-	if res := ctrl.db.First(&channel, id); res.RowsAffected == 0 {
+	if res := ctrl.db.Where("UUID = ?", id).First(&channel); res.RowsAffected == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "Channel id not found"})
 		return
 	}
 
-	channel.Name = c.PostForm("name")
+	channel.Title = c.PostForm("title")
 	channel.Description = c.PostForm("description")
-	channel.ModifiedAt = time.Now()
 
 	if res := ctrl.db.Save(&channel); res.RowsAffected == 0 {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Oops"})
@@ -95,18 +113,15 @@ func (ctrl *ChannelController) update(c *gin.Context) {
 }
 
 func (ctrl *ChannelController) delete(c *gin.Context) {
-	var id int
-	var err error
 	var channel model.Channel
 
-	id, err = strconv.Atoi(c.Param("id"))
-	if err != nil || id < 0 {
+	id := c.Param("id")
+	if id == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid channel id"})
 		return
 	}
 
-	res := ctrl.db.First(&channel, id)
-	if res.RowsAffected == 0 {
+	if res := ctrl.db.Where("UUID = ?", id).First(&channel); res.RowsAffected == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "Channel id not found"})
 		return
 	}
@@ -119,6 +134,7 @@ func (ctrl *ChannelController) AddRoutes(relativePath string, route *gin.Engine)
 	channels := route.Group(relativePath)
 	{
 		channels.GET("/", ctrl.list)
+		channels.GET("/:id", ctrl.info)
 		channels.POST("/", ctrl.create)
 		channels.PUT("/:id", ctrl.update)
 		channels.DELETE("/:id", ctrl.delete)
