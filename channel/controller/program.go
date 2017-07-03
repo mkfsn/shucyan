@@ -102,6 +102,44 @@ func (ctrl *ProgramController) create(context *gin.Context) {
 	context.JSON(http.StatusOK, nil)
 }
 
+func (ctrl *ProgramController) update(context *gin.Context) {
+	var clientProgram model.Program
+	var program model.Program
+
+	err := context.BindJSON(&clientProgram)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Invalid data for getting program"})
+		log.Println(err)
+		return
+	}
+
+	channel, code, obj := ctrl.getChannelByChannelID(clientProgram.ChannelID)
+	if code != http.StatusOK {
+		context.JSON(code, obj)
+		return
+	}
+
+	if !programBelongsToChannel(clientProgram, channel) {
+		context.JSON(http.StatusNotAcceptable, nil)
+		return
+	}
+
+	ctrl.db.First(&program, clientProgram.ID)
+
+	program.Day = clientProgram.Day
+	program.Title = clientProgram.Title
+	program.Content = clientProgram.Content
+	program.Link = clientProgram.Link
+	program.StartedAt = clientProgram.StartedAt
+	program.EndedAt = clientProgram.EndedAt
+
+	// Update fields and tags
+	ctrl.db.Set("gorm:save_associations", false).Save(&program)
+	ctrl.db.Model(&program).Association("Tags").Replace(clientProgram.Tags)
+
+	context.JSON(http.StatusOK, nil)
+}
+
 func (ctrl *ProgramController) remove(context *gin.Context) {
 	var clientProgram model.Program
 	var program model.Program
@@ -138,6 +176,7 @@ func (ctrl *ProgramController) AddRoutes(relativePath string, route *gin.Engine)
 	{
 		programs.GET("/", ctrl.info)
 		programs.POST("/", ctrl.create)
+		programs.PUT("/", ctrl.update)
 		programs.DELETE("/", ctrl.remove)
 	}
 }
