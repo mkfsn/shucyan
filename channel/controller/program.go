@@ -171,6 +171,10 @@ func (ctrl *ProgramController) remove(context *gin.Context) {
 	context.JSON(http.StatusOK, nil)
 }
 
+func options(context *gin.Context) {
+	context.JSON(http.StatusOK, nil)
+}
+
 func (ctrl *ProgramController) AddRoutes(relativePath string, route *gin.Engine) {
 	programs := route.Group(relativePath)
 	{
@@ -178,5 +182,6 @@ func (ctrl *ProgramController) AddRoutes(relativePath string, route *gin.Engine)
 		programs.POST("/", ctrl.create)
 		programs.PUT("/", ctrl.update)
 		programs.DELETE("/", ctrl.remove)
+		programs.OPTIONS("/", options)
 	}
 }
