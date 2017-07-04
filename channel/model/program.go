@@ -7,7 +7,10 @@ import (
 )
 
 type Program struct {
-	gorm.Model
+	ID        uint       `gorm:"primary_key"  json:"id"`
+	CreatedAt time.Time  `                    json:"-"`
+	UpdatedAt time.Time  `                    json:"-"`
+	DeletedAt *time.Time `                    json:"-"`
 
 	Day       uint32    `gorm:"not null"                json:"day"`
 	Title     string    `gorm:"not null"                json:"title"`
