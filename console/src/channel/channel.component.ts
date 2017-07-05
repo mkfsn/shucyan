@@ -9,6 +9,7 @@ import { Channel } from '../shared/channel';
 import { Program, Tag } from '../shared/program';
 // Service
 import { ChannelService } from '../service/channel.service';
+import { ProgramService } from '../service/program.service';
 
 declare var require: any;
 
@@ -42,7 +43,12 @@ export class ChannelComponent {
     private optionOpen: boolean;
     private inputTags: string;
 
-    constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title) {
+    constructor(
+        private route: ActivatedRoute,
+        private channelService: ChannelService,
+        private programService: ProgramService,
+        private titleService: Title
+    ) {
         this.colors = new Map<string, string>();
         this.namesOfDays = ChannelService.namesOfDays;
         this.day = (new Date()).getDay();
@@ -148,11 +154,44 @@ export class ChannelComponent {
     private newProgram(day: number) {
         this.optionOpen = false;
         this.program = new Program(day, '', '', []);
+        console.log(this.program);
         this.programModal.show();
     }
 
-    private saveProgram(update: boolean = false) {
-        console.log(update, this.program);
+    private createProgram(program: Program) {
+        let success = (success) => {
+            this.channel.programs.push(program);
+            this.programTable = this.buildProgramTable(this.channel.programs);
+            this.programModal.hide();
+        }
+        let error = (error) => {
+            console.error(error);
+            this.programModal.hide();
+        }
+
+        // TODO: Check program fields
+        this.programService.create(program, success, error);
+    }
+
+    private updateProgram(program: Program) {
+        let success = (success) => {
+            this.programModal.hide();
+        }
+        let error = (error) => {
+            console.error(error);
+            this.programModal.hide();
+        }
+        this.programService.update(program, success, error);
+    }
+
+    private saveProgram() {
+        let update = this.program.id !== undefined;
+        this.program.channelId = this.channel.id;
+        if (update) {
+            this.updateProgram(this.program);
+        } else {
+            this.createProgram(this.program);
+        }
     }
 
     private clickProgram(program: Program) {
@@ -171,8 +210,12 @@ export class ChannelComponent {
     }
 
     private tryAddTags(inputTags: string) {
+        this.inputTags = inputTags;
         if (inputTags && inputTags.indexOf(',') !== -1) {
-            let tags = inputTags.split(',').map(v => new Tag(v));
+            let tags = inputTags.split(',').map(v => {
+                console.log("v", v);
+                return new Tag(v);
+            });
             this.inputTags = tags.pop().name;
             this.program.tags = this.program.tags.concat(tags);
         }
@@ -184,7 +227,29 @@ export class ChannelComponent {
         this.programModal.show();
     }
 
-    private removeProgram(program) {
-        confirm('Remove program: ' + program.title + ' ?');
+    private removeProgram(event, program) {
+        event.stopPropagation();
+        let removeIt = confirm('Remove program: ' + program.title + ' ?');
+        if (removeIt !== true) {
+            return;
+        }
+
+        program.channelId = this.channel.id;
+        this.programService.remove(program,
+            (success) => {
+                let index = this.channel.programs.findIndex((p) => p.id === program.id);
+                this.channel.programs.splice(index, 1);
+                this.programTable = this.buildProgramTable(this.channel.programs);
+                this.programModal.hide();
+            },
+            (error) => {
+                console.error(error);
+                this.programModal.hide();
+            }
+        )
+    }
+
+    private removeTag(index: number) {
+        this.program.tags.splice(index, 1);
     }
 }

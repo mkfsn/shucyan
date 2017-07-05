@@ -1,4 +1,4 @@
-<div class="channel">
+<div class="channel" *ngIf="channel">
 
     <div class="channel-head">
         <div class="col-xs-1 control-panel text-center">
@@ -32,7 +32,7 @@
                            [ngStyle]="{width: titleInputLength(channel.owner)}"
                            [ngModel]="channel?.title"
                            name="title" type="text"/>
-                    <small *ngIf="channel">
+                    <small>
                         <span class="channel-owner"><a href="#">{{ '@' + channel.owner }}</a></span>
                     </small>
                 </h1>
@@ -44,10 +44,10 @@
                 </p>
             </ng-template>
             <ng-template #DisplayInfo>
-                <h1 *ngIf="channel">
+                <h1>
                     <span>{{ channel.title }}</span><small><span class="channel-owner"><a href="#">{{ '@' + channel.owner }}</a></span></small>
                 </h1>
-                <p class="lead" *ngIf="channel">
+                <p class="lead">
                     <span class="channel-description">{{ channel.description }}</span>
                 </p>
             </ng-template>
@@ -80,7 +80,7 @@
              [ngClass]="{today: isToday(i), active: program !== undefined}">
             <ng-container *ngIf="isEditMode && program">
                 <span class="glyphicon glyphicon-remove-sign remove-program"
-                      (click)="removeProgram(program)"></span>
+                      (click)="removeProgram($event, program)"></span>
             </ng-container>
             <a *ngIf="program && program.link" href="{{ program.link }}">{{ program.title }}</a>
             <p *ngIf="program && !program.link">{{ program.title }}</p>
@@ -104,7 +104,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="program-day">Day of week</label>
-                        <select class="form-control" id="program-day" [ngModel]="program?.day">
+                        <select class="form-control" id="program-day" [(ngModel)]="program.day">
                             <option value="0">日</option>
                             <option value="1">月</option>
                             <option value="2">火</option>
@@ -116,11 +116,12 @@
                     </div>
                     <div class="form-group">
                         <label for="program-title">Title(*)</label>
-                        <input type="text" class="form-control" id="program-title" [ngModel]="program?.title">
+                        <input type="text" class="form-control":w
+                        id="program-title" [(ngModel)]="program.title">
                     </div>
                     <div class="form-group">
                         <label for="program-content">Content</label>
-                        <textarea class="form-control" id="program-content" [ngModel]="program?.content"></textarea>
+                        <textarea class="form-control" id="program-content" [(ngModel)]="program.content"></textarea>
                     </div>
                     <p>
                         <span class="btn-option" for="program-option">
@@ -134,26 +135,26 @@
                                    placeholder="Add tag seperated with comma(,)"
                                    [ngModel]="inputTags"
                                    (ngModelChange)="tryAddTags($event)">
-                            <span *ngFor="let tag of program.tags" class="label label-default tag">
+                            <span *ngFor="let tag of program.tags; let i = index" class="label label-default tag">
                                 <span>{{ tag.name }}</span>
-                                <span class="glyphicon glyphicon-remove-sign"></span></span>
+                                <span class="glyphicon glyphicon-remove-sign" (click)="removeTag(i)"></span></span>
                         </div>
                         <div class="form-group">
                             <label for="program-link">Link</label>
-                            <input class="form-control" id="program-link" type="url" [ngModel]="program?.link">
+                            <input class="form-control" id="program-link" type="url" [(ngModel)]="program.link">
                         </div>
                         <div class="form-group">
                             <label for="program-start">Start date</label>
-                            <input class="form-control" id="program-start" type="date" [ngModel]="program?.startedAt">
+                            <input class="form-control" id="program-start" type="date" [(ngModel)]="program.startedAt">
                         </div>
                         <div class="form-group">
                             <label for="program-end">End date</label>
-                            <input class="form-control" id="program-end" type="date" [ngModel]="program?.endedAt">
+                            <input class="form-control" id="program-end" type="date" [(ngModel)]="program.endedAt">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary" (click)="saveProgram(false)">Submit</button>
+                      <button type="submit" class="btn btn-primary" (click)="saveProgram()">Save</button>
                 </div>
             </div>
         </div>
