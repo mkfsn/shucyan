@@ -6,7 +6,7 @@ export class Channel {
     owner: string;
     description: string;
     createdAt: Date;
-    modifiedAt: Date;
+    updatedAt: Date;
     programs: Array<Program>;
 
     static fromJSON(data: Array<any>): Array<Channel> {
