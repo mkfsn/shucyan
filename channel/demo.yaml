@@ -1,0 +1,359 @@
+server:
+    # If set to true, database will be reset by channels.
+    # And if no channels is given, then database will be cleaned up
+    debug: true
+
+    # Secrets protect all method of request except for GET request
+    secrets: 
+        # Supported type: cookie
+        # - type: cookie
+        #   value: "abc123"
+
+    # Path of sqlite database
+    database: ./model/database.sqlite3
+
+# Default channels which will be inserted into database (if debug is set to true)
+channels:
+    ## Example:
+    #
+    # - id: anime
+    #  title: アニメ
+    #  owner: mkfsn
+    #  description: アニメ番組表
+    #  programs:
+    #  - content: 龍珠超
+    #    day: 0
+    #    link: http://www.toei-anim.co.jp/tv/dragon_s/
+    #    startedAt: '2015-08-04T16:00:00.000Z'
+    #    tags:
+    #    - name: 長番
+    #    - name: '2015'
+    #    title: ドラゴンボール超(スーパー)
+    - id: anime
+      title: アニメ
+      owner: mkfsn
+      description: アニメ番組表
+      programs:
+      - content: 龍珠超
+        day: 0
+        link: http://www.toei-anim.co.jp/tv/dragon_s/
+        startedAt: '2015-08-04T16:00:00.000Z'
+        tags:
+        - name: 長番
+        - name: '2015'
+        title: ドラゴンボール超(スーパー)
+      - content: 愛麗絲與藏六 22:30 tokyoMX
+        day: 0
+        link: http://www.alicetozouroku.com/
+        startedAt: '2017-05-01T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: アリスと蔵六
+      - content: 從零開始的魔法書 24:30 TokyoMX
+        day: 1
+        link: http://zeronosyo.com/
+        startedAt: '2017-05-09T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: ゼロから始める魔法の書
+      - content: 不正經的魔術講師與禁忌教典 24:30 tokyoMX (水) 24:00 BS11
+        day: 2
+        link: http://rokuaka.jp/
+        startedAt: '2017-05-03T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: ロクでなし魔術講師と禁忌教典
+      - content: 灰姑娘女孩劇場 21:55 TOKYO MX
+        day: 2
+        link: http://cingeki-anime.com/
+        startedAt: '2017-05-03T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: アイドルマスター シンデレラガールズ劇場
+      - content: 武裝少女Machiavellianism 25:35 tokyoMX
+        day: 3
+        link: http://machiavellism-anime.jp/
+        startedAt: '2017-05-04T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: 武装少女マキャヴェリズム
+      - content: 重啟咲良田 23:30 tokyoMX
+        day: 3
+        link: http://sagrada-anime.com/
+        startedAt: '2017-05-04T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: サクラダリセット
+      - content: SAKURA QUEST 24:00 tokyoMX
+        day: 3
+        link: http://sakura-quest.com/
+        startedAt: '2017-05-04T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: サクラクエスト
+      - content: 月色真美 24:00 TokyoMX
+        day: 4
+        link: http://tsukigakirei.jp/
+        startedAt: '2017-05-05T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: 月がきれい
+      - content: 時鐘機關之星 25:58 TBS
+        day: 4
+        link: http://www.tbs.co.jp/anime/cp/
+        startedAt: '2017-05-05T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: クロックワーク・プラネット
+      - content: 正確的卡多 22:30 TokyoMX (火) 24:00 BSフジ
+        day: 5
+        link: http://seikaisuru-kado.com/
+        startedAt: '2017-05-06T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: 正解するカド
+      - content: '25:40'
+        day: 5
+        link: http://hinakonote.jp/
+        startedAt: '2017-05-08T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: ひなこのーと
+      - content: 劍姬神聖譚 24:30 TokyoMX
+        day: 5
+        link: http://danmachi.com/sword_oratoria/
+        startedAt: '2017-05-13T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: ソード・オラトリア
+      - content: 碧藍幻想 The Animation 24:00 TokyoMX
+        day: 6
+        link: http://anime.granbluefantasy.jp/
+        startedAt: '2017-04-30T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: グランプルーファンタジー　ジ・アニメーション
+      - content: ''
+        day: 6
+        link: ''
+        startedAt: '2017-05-01T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: BANG DREAM
+      - content: Re:CREATORS 23:30 TokyoMX
+        day: 6
+        link: http://recreators.tv/
+        startedAt: '2017-05-07T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: Re:CREATORS
+      - content: 情色漫畫老師 24:30 TokyoMX
+        day: 6
+        link: http://eromanga-sensei.com/
+        startedAt: '2017-05-07T16:00:00.000Z'
+        tags:
+        - name: 春番
+        - name: '2017'
+        title: エロマンガ先生
+    - id: mkfsn
+      title: mkfsn
+      owner: mkfsn
+      description: About mkfsn
+      programs: []
+    - id: akb48group
+      title: AKB48Group番組
+      owner: mkfsn
+      description: AKB、SKE、NMB、HKTのTV番組、ラジオ．．．など。
+      programs: []
+    - id: seiyuu_radio
+      title: 声優ラジオ
+      owner: mkfsn
+      description: 声優さんのラジオ
+      programs:
+      - content: ラジオ情報：悠木碧＆竹達彩奈のユニット「プチミレディ」の新番組 | A&G ニュース ｜ 超！A&G 文化放送 パーソナリティー：悠木碧、竹達彩奈
+          http://goo.gl/Z1Ose4
+        day: 0
+        link: http://www.agqr.jp/agnews/2013/04/post-193.php
+        startedAt: '2013-04-07T16:00:00.000Z'
+        tags: []
+        title: 碧と彩奈のラ・プチミレディオ
+      - content: http://goo.gl/9SXUUz
+        day: 0
+        link: http://www.starchild.co.jp/artist/horie/radio/
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: 堀江由衣の天使のたまご
+      - content: "「丹下桜のRadio・A・La・Mode」とは、地上デジタルラジオ「超！A&G＋」にて毎週日曜日夜9時30分より絶賛放送中の癒し系ラジオ番組。
+          http://goo.gl/mVi4kk"
+        day: 0
+        link: http://d.hatena.ne.jp/sakura-alamode/
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: 丹下桜のRadio・A・La・Mode
+      - content: http://goo.gl/djB3ww
+        day: 1
+        link: http://www.planet-sphere.jp/
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: Pl@net Sphere
+      - content: http://goo.gl/oxhxOV
+        day: 1
+        link: http://cnt.kingrecords.co.jp/yuikaori/radio/index.html
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: ゆいかおりの実♪デジタル
+      - content: http://goo.gl/1F356
+        day: 1
+        link: ''
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: 井口裕香のむ～～～ん ⊂（　＾ω＾）⊃
+      - content: http://goo.gl/nR6lw2
+        day: 1
+        link: ''
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: 阿澄佳奈 星空ひなたぼっこ
+      - content: この番組は、竹達彩奈の家で寛いでいるような雰囲気でお送りしていく”見 え る ラ ジ オ”です。 飲み物を飲んだりお菓子を食べたりしながら、興味のあることについて、ときに熱く、ときにまったりとお話ししていきます。http://goo.gl/k7vLQE
+        day: 3
+        link: http://www.marine-e.net/sp/my_sweets_home/
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: 竹達彩奈 My Sweets Home
+      - content: http://goo.gl/PItBm
+        day: 3
+        link: http://www.joqr.co.jp/blog/hanazawa/
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: 花澤香菜のひとりでできるかな？
+      - content: http://goo.gl/dzJRXL
+        day: 4
+        link: https://twitter.com/anigera_staff
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: 杉田智和のアニゲラ！ディドゥーーン
+      - content: http://goo.gl/OS1V6M
+        day: 4
+        link: ''
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: 豊崎愛生のおかえりらじお
+      - content: http://goo.gl/4awMC2
+        day: 4
+        link: http://archive.e-animedia.net/cd/radio/
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: 三澤紗千香のさちからじお。
+      - content: http://goo.gl/WhCI6d
+        day: 5
+        link: http://www.allnightnippon.com/akb/
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: AKB48のオールナイトニッポン
+      - content: ''
+        day: 5
+        link: http://www.nicovideo.jp/mylist/42431181
+        startedAt: '2014-06-03T16:00:00.000Z'
+        tags: []
+        title: 雨宮天の群青ガラパゴス
+      - content: みなさんと一緒に喜多村英梨の『キタエリあっ！』を広げていこう、というラジオ番組です！アーティスト・キタエリのあふれる魅力をオンエアするリラックスタイムをお楽しみください。http://goo.gl/LEaqM4
+        day: 6
+        link: http://anitama.com/kitaeri/
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: Radio キタエリあっ！
+      - content: http://goo.gl/qDLgb6
+        day: 6
+        link: http://www.joqr.co.jp/blog/mayn/
+        startedAt: '2014-01-05T16:00:00.000Z'
+        tags: []
+        title: May'nの らじ☆たま
+      - content: 声優そしてミュージシャンとして大活躍の水樹奈々がお届けする「Ｍの世界」。気になる最新情報や近況を、自らがセレクトするイチオシの楽曲などとともに、
+          お送りしています。http://goo.gl/GnEx1S
+        day: 6
+        link: http://www.tfm.co.jp/7/index.html
+        startedAt: '2013-04-07T16:00:00.000Z'
+        tags: []
+        title: 水樹奈々のMの世界
+    - id: acchan
+      title: あっちゃん
+      owner: mkfsn
+      description: 前田敦子、あっちゃん
+      programs: []
+    - id: mizukinana
+      title: 水樹奈々
+      owner: mkfsn
+      description: 水樹奈々様、ヘッド
+      programs: []
+    - id: JapanTVprogram
+      title: 日本テレビ番組
+      owner: mkfsn
+      description: 日本のテレビ番組
+      programs:
+      - content: 毎週月曜夜23時59分～放送
+        day: 1
+        link: http://www.ntv.co.jp/yofukashi/
+        startedAt: '2012-04-09T16:00:00.000Z'
+        tags:
+        - name: バラエティ
+        - name: 日本テレビ
+        - name: 読売テレビ
+        title: 月曜から夜ふかし
+      - content: 毎週木曜日よる8時から放送
+        day: 4
+        link: http://www.tbs.co.jp/monitoring-golden/
+        startedAt: '2013-04-30T16:00:00.000Z'
+        tags:
+        - name: TBSテレビ
+        - name: バラエティ
+        title: ニンゲン観察バラエティ モニタリング
+      - content: 毎週日曜日の22:00 - 22:54（JST）に放送されている毎日放送（MBS）制作の教養バラエティ番組。
+        day: 0
+        link: http://www.mbs.jp/mimi/
+        startedAt: '2015-04-12T16:00:00.000Z'
+        tags:
+        - name: 毎日放送
+        - name: MBS
+        - name: バラエティ
+        title: 林先生が驚く 初耳学
+      - content: 毎週土曜日 23:00～23:30放送
+        day: 6
+        link: http://www.ntv.co.jp/matsukokaigi/
+        startedAt: '2015-10-17T16:00:00.000Z'
+        tags:
+        - name: 日本テレビ
+        - name: バラエティ
+        title: マツコ会議
+      - content: 毎週火曜よる8時57分
+        day: 2
+        link: http://www.tbs.co.jp/matsuko-sekai/
+        startedAt: '2011-10-12T16:00:00.000Z'
+        tags:
+        - name: TBSテレビ
+        - name: バラエティ
+        title: マツコの知らない世界
+      - content: TOKYO MX：2017/4/8(土)　深夜1時～1時30分 BS11：2017/4/8(土)　深夜1時～1時30分
+        day: 6
+        link: http://king-cr.jp/artist/uesakasumire/yabaimarumaru/
+        startedAt: '2017-04-08T16:00:00.000Z'
+        tags:
+        - name: ヤバいフィットネス
+        - name: 上坂すみれ
+        - name: TOKYO MX
+        - name: BS11
+        title: 上坂すみれのヤバい○○

@@ -1,0 +1,31 @@
+server:
+    # If set to true, database will be reset by channels.
+    # And if no channels is given, then database will be cleaned up
+    debug: false
+
+    # Secrets protect all method of request except for GET request
+    secrets:
+        # Supported type: cookie
+        - type: cookie
+          value: 7pxIztKhECM8K2cp0GhbESRXRt1ikU1a6lyaGsnfNPk76TfmOG5VUQg0yw2wIXYm
+
+    # Path of sqlite database
+    database: ./model/database.sqlite3
+
+# Default channels which will be inserted into database (if debug is set to true)
+channels:
+    ## Example:
+    #
+    # - id: anime
+    #  title: アニメ
+    #  owner: mkfsn
+    #  description: アニメ番組表
+    #  programs:
+    #  - content: 龍珠超
+    #    day: 0
+    #    link: http://www.toei-anim.co.jp/tv/dragon_s/
+    #    startedAt: '2015-08-04T16:00:00.000Z'
+    #    tags:
+    #    - name: 長番
+    #    - name: '2015'
+    #    title: ドラゴンボール超(スーパー)

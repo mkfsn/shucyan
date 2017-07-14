@@ -75,11 +75,11 @@
 			"revisionTime": "2016-07-18T13:41:25Z"
 		},
 		{
-			"checksumSHA1": "fALlQNY1fM99NesfLJ50KguWsio=",
+			"checksumSHA1": "KHOUE9QA14iPCFNIVs5X72MYdkA=",
 			"path": "gopkg.in/yaml.v2",
-			"revision": "cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b",
-			"revisionTime": "2017-04-07T17:21:22Z"
+			"revision": "3b4ad1db5b2a649883ff3782f5f9f6fb52be71af",
+			"revisionTime": "2017-07-13T20:15:20Z"
 		}
 	],
-	"rootPath": "github.com/mkfsn/shyuukan-program/database"
+	"rootPath": "github.com/mkfsn/shyuukan-program/channel"
 }
