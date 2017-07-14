@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	allowHeaders := "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"
-	allowMethods := "GET, POST, PUT, DELETE, OPTIONS"
+	allowHeaders = "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"
+	allowMethods = "GET, POST, PUT, DELETE, OPTIONS"
 )
 
 func Middleware(config *config.Config) gin.HandlerFunc {
