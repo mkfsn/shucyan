@@ -20,10 +20,10 @@ func main() {
 
 	config, err := channelConfig.ReadConfig(*configFile)
 	if err != nil {
-		log.Println("Cannot read config:", err)
 		config = channelConfig.DefaultConfig
+		log.Println("Cannot read config:", err)
+		log.Println("Use default config:", config)
 	}
-	log.Println("Config", config)
 
 	db := model.OpenDB(config.Server.Database, config.Server.Debug, config.Channels)
 	router := gin.New()
