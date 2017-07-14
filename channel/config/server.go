@@ -7,6 +7,6 @@ type Secret struct {
 
 type Server struct {
 	Debug    bool     `yaml:"debug"`
-	Secrets  []Secret `yaml:"secret"`
+	Secrets  []Secret `yaml:"secrets"`
 	Database string   `yaml:"database"`
 }
