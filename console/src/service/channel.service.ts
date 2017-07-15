@@ -10,7 +10,7 @@ declare var require: any;
 @Injectable()
 @ResourceParams({
     removeTrailingSlash: false,
-    url: 'http://localhost:7071/api/channels/'
+    url: '/api/channels'
 })
 export class ChannelService extends Resource {
 

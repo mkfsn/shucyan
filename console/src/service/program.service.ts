@@ -10,7 +10,7 @@ declare var require: any;
 @Injectable()
 @ResourceParams({
     removeTrailingSlash: false,
-    url: 'http://localhost:7071/api/programs'
+    url: '/api/programs'
 })
 export class ProgramService extends Resource {
 
