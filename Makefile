@@ -1,14 +1,12 @@
 help:
-	@echo "make all"
-	@echo "make channel"
-	@echo "make console"
+	@echo "Usages:"
+	@echo "    make build - build all image"
+	@echo "    make clean - "
 
-.PHONY: help all channel console
+.PHONY: help build
 
-all: console channel
+build:
+	docker-compose build
 
-channel:
-	@make -C channel
-
-console:
-	@make -C console
+clean:
+	docker-compose down
