@@ -17,6 +17,9 @@ before_install:
 script:
   - make build
 
+notifications:
+    slack: mkfsn:YEmUQn2zG3wS4btZZ8KgMy4V
+
 branches:
   only:
   - master
