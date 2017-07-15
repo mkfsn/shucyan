@@ -9,7 +9,7 @@ WORKDIR /go/src/app
 COPY vendor/vendor.json /go/src/app/vendor/
 RUN govendor sync
 
-COPY . /go/src/app
+COPY . .
 
 RUN mkdir -p /go/src/github.com/mkfsn/shyuukan-program && \
     ln -sfv /go/src/app /go/src/github.com/mkfsn/shyuukan-program/channel
@@ -17,6 +17,6 @@ RUN mkdir -p /go/src/github.com/mkfsn/shyuukan-program && \
 ARG build_env=production
 RUN go-wrapper install -tags $build_env
 
-CMD ["go-wrapper", "run", "-port", "7071", "-ip", "0.0.0.0"]
+CMD ["go-wrapper", "run", "runserver", "--host", "localhost", "--port", "7071", "--config", "production.yaml"]
 
 EXPOSE 7071

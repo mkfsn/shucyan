@@ -1,40 +1,42 @@
 package main
 
 import (
-	"flag"
-	"log"
+	"github.com/mkfsn/shyuukan-program/channel/command/server"
 
-	channelConfig "github.com/mkfsn/shyuukan-program/channel/config"
-	"github.com/mkfsn/shyuukan-program/channel/controller"
-	"github.com/mkfsn/shyuukan-program/channel/security"
-
-	"github.com/gin-gonic/gin"
-	"github.com/mkfsn/shyuukan-program/channel/model"
+	"github.com/urfave/cli"
 )
 
-func main() {
-	var rest controller.Controller
+var (
+	serverCommand cli.Command
+)
 
-	configFile := flag.String("config", "./config.yaml", "Config yaml file path")
-	flag.Parse()
+func init() {
+	serverCommand = cli.Command{
+		Name:  "runserver",
+		Usage: "run the channel restful server",
+		Flags: []cli.Flag{
+			cli.IntFlag{
+				Name:  "port",
+				Value: 7071,
+			},
+			cli.StringFlag{
+				Name:  "host",
+				Value: "localhost",
+			},
+			cli.StringFlag{
+				Name:  "config, c",
+				Usage: "Load yaml configuration from `FILE`",
+				Value: "./config.yaml",
+			},
+		},
+		Action: func(c *cli.Context) error {
+			config := c.String("config")
+			host := c.String("host")
+			port := c.Int("port")
 
-	config, err := channelConfig.ReadConfig(*configFile)
-	if err != nil {
-		config = channelConfig.DefaultConfig
-		log.Println("Cannot read config:", err)
-		log.Println("Use default config:", config)
+			server.Run(host, port, config)
+
+			return nil
+		},
 	}
-
-	db := model.OpenDB(config.Server.Database, config.Server.Debug, config.Channels)
-	router := gin.New()
-
-	router.Use(security.Middleware(config))
-
-	rest = controller.NewChannelController(db)
-	rest.AddRoutes("/api/channels", router)
-
-	rest = controller.NewProgramController(db)
-	rest.AddRoutes("/api/programs", router)
-
-	router.Run(":7071")
 }

@@ -51,10 +51,16 @@
 			"revisionTime": "2017-03-22T23:44:13Z"
 		},
 		{
-			"checksumSHA1": "aXzeWoRG3sU38RYQnG7MpJUsGLY=",
+			"checksumSHA1": "CmknXrMVBRJrx4LsIA9jEOmsLQQ=",
 			"path": "github.com/mattn/go-sqlite3",
-			"revision": "83c59d8440943c680f94ebbe51118df4244414d6",
-			"revisionTime": "2017-06-15T01:15:43Z"
+			"revision": "47fc4e5e9153645da45af6a86a5bce95e63a0f9e",
+			"revisionTime": "2017-07-10T14:00:56Z"
+		},
+		{
+			"checksumSHA1": "9LeR7BH4PSu8LRDZ8bY7QY1HXJE=",
+			"path": "github.com/urfave/cli",
+			"revision": "4b90d79a682b4bf685762c7452db20f2a676ecb2",
+			"revisionTime": "2017-07-06T19:46:25Z"
 		},
 		{
 			"checksumSHA1": "Y+HGqEkYM15ir+J93MEaHdyFy0c=",
