@@ -1,0 +1,14 @@
+console:
+    build: ./console
+    restart: always
+    ports: 
+        - 7070:7070
+    links:
+        - channel
+    environment:
+        CHANNEL_HOST: channel
+        CHANNEL_PORT: 7071
+
+channel:
+    build: ./channel
+    restart: always
