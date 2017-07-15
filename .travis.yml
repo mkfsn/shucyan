@@ -1,0 +1,22 @@
+sudo: required
+
+language: go
+
+services:
+  - docker
+
+os:
+  - linux
+
+go:
+  - 1.8
+
+before_install:
+  - go get -u github.com/kardianos/govendor
+
+script:
+  - make build
+
+branches:
+  only:
+  - master
