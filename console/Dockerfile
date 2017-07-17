@@ -2,7 +2,7 @@ FROM node:8.1
 MAINTAINER mkfsn<p408865@gmail.com>
 
 WORKDIR /home/app
-ADD . /home/app
+COPY . .
 
 RUN npm install --silent --depth 0
 RUN npm run build
