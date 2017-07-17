@@ -144,12 +144,20 @@
                             <input class="form-control" id="program-link" type="url" [(ngModel)]="program.link">
                         </div>
                         <div class="form-group">
+                            <label for="program-start">Start time</label>
+                            <input class="form-control" id="program-start" type="time" [(ngModel)]="program.startTime">
+                        </div>
+                        <div class="form-group">
+                            <label for="program-end">End time</label>
+                            <input class="form-control" id="program-end" type="time" [(ngModel)]="program.endTime">
+                        </div>
+                        <div class="form-group">
                             <label for="program-start">Start date</label>
-                            <input class="form-control" id="program-start" type="date" [(ngModel)]="program.startedAt">
+                            <input class="form-control" id="program-startedAt" type="date" [(ngModel)]="program.startedAt">
                         </div>
                         <div class="form-group">
                             <label for="program-end">End date</label>
-                            <input class="form-control" id="program-end" type="date" [(ngModel)]="program.endedAt">
+                            <input class="form-control" id="program-endedAt" type="date" [(ngModel)]="program.endedAt">
                         </div>
                     </div>
                 </div>

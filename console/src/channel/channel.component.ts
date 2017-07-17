@@ -59,7 +59,7 @@ export class ChannelComponent {
         } else {
             this.mode = Mode.normal;
         }
-        this.program = new Program(-1, '', '', []);
+        this.program = new Program(-1, '', '');
 
         this.loadChannel((channel: Channel) => {
             this.channel = channel;
@@ -153,7 +153,7 @@ export class ChannelComponent {
 
     private newProgram(day: number) {
         this.optionOpen = false;
-        this.program = new Program(day, '', '', []);
+        this.program = new Program(day, '', '');
         console.log(this.program);
         this.programModal.show();
     }

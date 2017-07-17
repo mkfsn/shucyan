@@ -18,20 +18,18 @@ export class Program {
     day: number;
     title: string;
     content: string;
-    tags: Array<Tag>;
+
+    tags?: Array<Tag>;
     link?: string;
     time?: Array<Time>;
     startedAt?: Date;
     endedAt?: Date;
+    startTime?: string;
+    endTime?: string;
 
-    constructor(day: number, title: string, content: string, tags?: Array<Tag>, link?: string, time?, startedAt?, endedAt?) {
+    constructor(day: number, title: string, content: string) {
         this.day = day;
         this.title = title;
         this.content = content;
-        this.tags = tags || [];
-        this.link = link || '';
-        this.time = time || [];
-        this.startedAt = startedAt;
-        this.endedAt = endedAt;
     }
 }
