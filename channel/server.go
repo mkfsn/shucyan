@@ -7,13 +7,14 @@ import (
 )
 
 var (
-	serverCommand cli.Command
+	commandRunServer cli.Command
 )
 
 func init() {
-	serverCommand = cli.Command{
-		Name:  "runserver",
-		Usage: "run the channel restful server",
+	commandRunServer = cli.Command{
+		Name:     "run",
+		Usage:    "Run the channel restful web server",
+		Category: "web server",
 		Flags: []cli.Flag{
 			cli.IntFlag{
 				Name:  "port",
@@ -22,11 +23,6 @@ func init() {
 			cli.StringFlag{
 				Name:  "host",
 				Value: "localhost",
-			},
-			cli.StringFlag{
-				Name:  "config, c",
-				Usage: "Load yaml configuration from `FILE`",
-				Value: "./config.yaml",
 			},
 		},
 		Action: func(c *cli.Context) error {

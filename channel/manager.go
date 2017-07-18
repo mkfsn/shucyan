@@ -10,8 +10,8 @@ import (
 func main() {
 	app := cli.NewApp()
 
-	app.Name = "shyuukan-program"
-	app.Usage = "channel manager"
+	app.Name = "channel"
+	app.Usage = "A simple manager for webserver and database"
 	app.Version = "1.0.0"
 	app.Compiled = time.Now()
 	app.Authors = []cli.Author{
@@ -22,9 +22,19 @@ func main() {
 	}
 	app.Copyright = "(c) mkx.tw"
 
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:  "config, c",
+			Usage: "Load yaml configuration from `FILE`",
+			Value: "./config.yaml",
+		},
+	}
+
 	app.Commands = []cli.Command{
-		serverCommand,
-		databaseCommand,
+		commandRunServer,
+		commandDatabaseInit,
+		commandDatabaseMigrate,
+		commandDatabaseClean,
 	}
 
 	app.Run(os.Args)

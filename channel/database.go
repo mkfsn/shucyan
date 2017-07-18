@@ -7,39 +7,43 @@ import (
 )
 
 var (
-	databaseCommand cli.Command
+	commandDatabaseInit    cli.Command
+	commandDatabaseMigrate cli.Command
+	commandDatabaseClean   cli.Command
 )
 
 func init() {
-	databaseCommand = cli.Command{
-		Name:  "database",
-		Usage: "migrate, clean",
-		Flags: []cli.Flag{
-			cli.StringFlag{
-				Name:  "config, c",
-				Usage: "Load configuration from `FILE`",
-				Value: "./config.yaml",
-			},
-		},
-		Subcommands: cli.Commands{
-			cli.Command{
-				Name:   "migrate",
-				Action: migrate,
-			},
-			cli.Command{
-				Name:   "clean",
-				Action: clean,
-			},
+
+	commandDatabaseInit = cli.Command{
+		Name:     "init",
+		Usage:    "Initialize database with channels",
+		Category: "database",
+		Action: func(c *cli.Context) error {
+			config := c.String("config")
+			fmt.Fprintln(c.App.Writer, "config:", config)
+			return nil
 		},
 	}
-}
 
-func migrate(c *cli.Context) error {
-	fmt.Fprintf(c.App.Writer, "[migrate] :wave: over here, eh\n")
-	return nil
-}
+	commandDatabaseMigrate = cli.Command{
+		Name:     "migrate",
+		Usage:    "Migrate Database",
+		Category: "database",
+		Action: func(c *cli.Context) error {
+			config := c.String("config")
+			fmt.Fprintln(c.App.Writer, "config:", config)
+			return nil
+		},
+	}
 
-func clean(c *cli.Context) error {
-	fmt.Fprintf(c.App.Writer, "[clean] :wave: over here, eh\n")
-	return nil
+	commandDatabaseClean = cli.Command{
+		Name:     "clean",
+		Usage:    "Clean up Database",
+		Category: "database",
+		Action: func(c *cli.Context) error {
+			config := c.String("config")
+			fmt.Fprintln(c.App.Writer, "config:", config)
+			return nil
+		},
+	}
 }
