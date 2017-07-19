@@ -1,6 +1,5 @@
 server:
-    # If set to true, database will be reset by channels.
-    # And if no channels is given, then database will be cleaned up
+    # Show debug messages if set to true
     debug: true
 
     # Secrets protect all method of request except for GET request
@@ -12,7 +11,7 @@ server:
     # Path of sqlite database
     database: ./model/database.sqlite3
 
-# Default channels which will be inserted into database (if debug is set to true)
+# Default channels which will be inserted into database
 channels:
     ## Example:
     #
