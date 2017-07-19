@@ -169,6 +169,87 @@ channels:
         - name: 春番
         - name: '2017'
         title: エロマンガ先生
+      - content: 23:00
+        day: 2
+        link: http://ahogirl.jp/
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: アホガール
+      - content: 23:15
+        day: 2
+        link: http://tsuredure-project.jp/
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: 徒然チルドレン
+      - content: 24:30
+        day: 2
+        link: http://newgame-anime.com/
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: NEW GAME!!
+      - content: 25:35
+        day: 3
+        link: http://hajimete-no-gal.jp/
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: はじめてのギャル
+      - content: 25:05
+        day: 3
+        link: http://you-zitsu.com/
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: ようこそ実力至上主義の教室へ
+      - content: 25:05
+        day: 5
+        link: http://rwby.jp/thebeginning/
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: RWBY VOLUME 1-3 The Beginning
+      - content: 25:40
+        day: 5
+        link: http://miabyss.com/
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: メイドインアビス
+      - content: 22:00
+        day: 6
+        link: http://kakegurui-anime.com/
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: 賭ケグルイ
+      - content: Fate/Apocrypha
+          24:00
+        day: 6
+        link: http://fate-apocrypha.com/?from=lower
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: Fate/Apocrypha
+      - content: 25:00
+        day: 6
+        link: http://www.symphogear-axz.com/
+        startedAt: '2017-07-02T16:00:00.000Z'
+        tags:
+        - name: 夏番
+        - name: '2017'
+        title: 戦姫絶唱シンフォギアAXZ
     - id: mkfsn
       title: mkfsn
       owner: mkfsn
@@ -337,6 +418,7 @@ channels:
         tags:
         - name: 日本テレビ
         - name: バラエティ
+        - name: 読売テレビ
         title: マツコ会議
       - content: 毎週火曜よる8時57分
         day: 2
@@ -356,3 +438,14 @@ channels:
         - name: TOKYO MX
         - name: BS11
         title: 上坂すみれのヤバい○○
+      - content: 水曜日 21:00 - 21:54（54分）
+        day: 3
+        link: http://www.ntv.co.jp/konkurabe/backnumber.html
+        startedAt: '2012-07-24T16:00:00.000Z'
+        tags:
+        - name: 指原莉乃
+        - name: 後藤輝基
+        - name: 日本テレビ
+        - name: バラエティ
+        - name: 読売テレビ
+        title: 今夜くらべてみました
