@@ -17,6 +17,6 @@ RUN mkdir -p /go/src/github.com/mkfsn/shyuukan-program && \
 ARG build_env=production
 RUN go-wrapper install -tags $build_env
 
-CMD ["go-wrapper", "run", "--config", "demo.yaml", "run", "--host", "0.0.0.0", "--port", "7071"]
+CMD ["go-wrapper", "run", "--config", "production.yaml", "run", "--host", "0.0.0.0", "--port", "7071"]
 
 EXPOSE 7071
