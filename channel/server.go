@@ -26,7 +26,7 @@ func init() {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			config := c.String("config")
+			config := c.GlobalString("config")
 			host := c.String("host")
 			port := c.Int("port")
 

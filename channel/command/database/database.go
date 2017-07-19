@@ -1,5 +1,9 @@
 package database
 
+import (
+	"github.com/jinzhu/gorm"
+)
+
 type Database struct {
 	db *gorm.DB
 }
