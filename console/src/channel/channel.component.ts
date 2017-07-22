@@ -4,15 +4,11 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 // Model
 import { Channel, NullChannel } from '../shared/channel';
+import { PageMode } from '../shared/page';
 // Service
 import { ChannelService } from '../service/channel.service';
 
 declare var require: any;
-
-enum Mode {
-    normal,
-    edit
-};
 
 @Component({
     selector: 'channel',
@@ -22,10 +18,10 @@ enum Mode {
 export class ChannelComponent {
 
     private channel: Channel;
-    private mode: Mode;
+    private mode: PageMode;
 
     constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title) {
-        this.mode = this.getMode();
+        this.setModeByURL();
         this.loadChannel();
     }
 
@@ -56,19 +52,19 @@ export class ChannelComponent {
         this.channelService.find({id: channelId}).$observable.subscribe(successFunc, errorFunc);
     }
 
-    private getMode(): Mode {
+    private setModeByURL(): void {
         if (this.route.snapshot.url.length > 2 && this.route.snapshot.url[2].path === 'edit') {
-            return Mode.edit;
+            this.mode.setEdit();
         }
-        return Mode.normal;
+        this.mode.setNormal();
     }
 
     get isEditMode(): boolean {
-        return this.mode === Mode.edit && this.channel !== undefined && this.channel !== NullChannel;
+        return this.mode.isEdit && this.channel !== undefined && this.channel !== NullChannel;
     }
 
     get isNormalMode(): boolean {
-        return this.mode === Mode.normal;
+        return this.mode.isNormal;
     }
 
     private titleInputLength(owner): string {
