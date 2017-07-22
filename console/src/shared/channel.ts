@@ -18,3 +18,5 @@ export class Channel {
         this.createdAt = createdAt || new Date();
     }
 }
+
+export let NullChannel = new Channel(undefined, undefined, undefined);

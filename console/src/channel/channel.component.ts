@@ -1,15 +1,11 @@
 import './channel.scss';
-import * as chroma from 'chroma-js';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { ModalDirective } from 'ngx-bootstrap/modal';
 // Model
-import { Channel } from '../shared/channel';
-import { Program, Tag } from '../shared/program';
+import { Channel, NullChannel } from '../shared/channel';
 // Service
 import { ChannelService } from '../service/channel.service';
-import { ProgramService } from '../service/program.service';
 
 declare var require: any;
 
@@ -17,7 +13,6 @@ enum Mode {
     normal,
     edit
 };
-
 
 @Component({
     selector: 'channel',
@@ -27,120 +22,49 @@ enum Mode {
 export class ChannelComponent {
 
     private channel: Channel;
-    private programTable: Array<Array<Program>>;
-    // today's day of week
-    private day: number;
-    private namesOfDays: Array<string>;
-    private datesOfWeek: Array<string>;
-    // color cache
-    private colors: Map<string, string>;
     private mode: Mode;
-    // For adding/editing program
-    private program: Program;
 
-    @ViewChild('programModal') public programModal: ModalDirective;
-    @ViewChild('infoModal') public infoModal: ModalDirective;
-    private optionOpen: boolean;
-    private inputTags: string;
+    constructor(private route: ActivatedRoute, private channelService: ChannelService, private titleService: Title) {
+        this.mode = this.getMode();
+        this.loadChannel();
+    }
 
-    constructor(
-        private route: ActivatedRoute,
-        private channelService: ChannelService,
-        private programService: ProgramService,
-        private titleService: Title
-    ) {
-        this.colors = new Map<string, string>();
-        this.namesOfDays = ChannelService.namesOfDays;
-        this.day = (new Date()).getDay();
-        this.datesOfWeek = this.getDatesOfWeek();
-        this.optionOpen = false;
+    // Get channelId from URL
+    private getChannelId(): string {
+        return this.route.snapshot.params['id'];
+    }
+
+    private setChannel(channel: Channel): void {
+        this.channel = channel;
+        if (channel === NullChannel) {
+            return
+        }
+        this.titleService.setTitle(this.channel.title);
+    }
+
+    private loadChannel(): void {
+        let channelId: string = this.getChannelId();
+
+        let successFunc = (channel) => {
+            this.setChannel(channel);
+        }
+
+        let errorFunc = (response) => {
+            this.setChannel(NullChannel);
+        }
+
+        this.channelService.find({id: channelId}).$observable.subscribe(successFunc, errorFunc);
+    }
+
+    private getMode(): Mode {
         if (this.route.snapshot.url.length > 2 && this.route.snapshot.url[2].path === 'edit') {
-            this.mode = Mode.edit;
-        } else {
-            this.mode = Mode.normal;
+            return Mode.edit;
         }
-        this.program = new Program(-1, '', '');
-
-        this.loadChannel((channel: Channel) => {
-            this.channel = channel;
-            this.titleService.setTitle(this.channel.title);
-            this.programTable = this.buildProgramTable(this.channel.programs);
-        });
-    }
-
-    private getDatesOfWeek(): Array<string> {
-        let dates: Array<string> = Array(7).fill('');
-        this.namesOfDays.map((_, i) => {
-            let date = new Date();
-            date.setDate(date.getDate() + i);
-            dates[(i + this.day) % this.namesOfDays.length] = (
-                date.getFullYear() + '/' +
-                (date.getMonth() + 1) + '/' +
-                date.getDate()
-            );
-        });
-        return dates;
-    }
-
-    private calculateColor(tag: string) {
-        let hash = 0;
-        if (tag.length === 0) {
-            return hash;
-        }
-        for (let i = 0; i < tag.length; i++) {
-            let ch = tag.charCodeAt(i);
-            hash = ((hash << 5) - hash) + ch;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        hash = Math.abs(hash) % (1 << 24) // 256 x 256 x 256
-        let hex = ((hash) >>> 0).toString(16).slice(-6);
-        let b = ('00' + Math.floor(hash / 256 / 256).toString(16)).substr(-2),
-            g = ('00' + Math.floor((hash % (256 * 256)) / 256).toString(16)).substr(-2),
-            r = ('00' + Math.floor(hash % 256).toString(16)).substr(-2);
-        return chroma('#' + r + g + b).darken().hex();
-    }
-
-    private getColor(tag: string) {
-        if (!this.colors.has(tag)) {
-            let color = this.calculateColor(tag);
-            this.colors.set(tag, color);
-        }
-        return this.colors.get(tag);
-    }
-
-    private isToday(day: number): boolean {
-        return day === this.day;
-    }
-
-    private loadChannel(callback?: (res: Channel) => any) {
-        let channelId: string;
-        this.route.params.forEach((param: Params) => {
-            channelId = param.id;
-        });
-        this.channelService.find({id: channelId}, callback);
-    }
-
-    private buildProgramTable(programs: Array<Program>) {
-        if (!programs) return;
-
-        let columns = [[], [], [], [], [], [], []],
-            table = [],
-            maxSize = 0;
-
-        programs.forEach((program: Program) => {
-            columns[program.day].push(program);
-            maxSize = Math.max(maxSize, columns[program.day].length);
-        });
-
-        for (let i = 0; i < maxSize; i++) {
-            table.push(this.namesOfDays.map((v, j) => columns[j][i]));
-        }
-
-        return table;
+        return Mode.normal;
     }
 
     get isEditMode(): boolean {
-        return this.mode === Mode.edit;
+        return this.mode === Mode.edit && this.channel !== undefined && this.channel !== NullChannel;
     }
 
     get isNormalMode(): boolean {
@@ -149,107 +73,5 @@ export class ChannelComponent {
 
     private titleInputLength(owner): string {
         return `calc(100% - ${owner.length + 1}ch - 66px)`;
-    }
-
-    private newProgram(day: number) {
-        this.optionOpen = false;
-        this.program = new Program(day, '', '');
-        console.log(this.program);
-        this.programModal.show();
-    }
-
-    private createProgram(program: Program) {
-        let success = (success) => {
-            this.channel.programs.push(program);
-            this.programTable = this.buildProgramTable(this.channel.programs);
-            this.programModal.hide();
-        }
-        let error = (error) => {
-            console.error(error);
-            this.programModal.hide();
-        }
-
-        // TODO: Check program fields
-        this.programService.create(program, success, error);
-    }
-
-    private updateProgram(program: Program) {
-        let success = (success) => {
-            this.programModal.hide();
-        }
-        let error = (error) => {
-            console.error(error);
-            this.programModal.hide();
-        }
-        this.programService.update(program, success, error);
-    }
-
-    private saveProgram() {
-        let update = this.program.id !== undefined;
-        this.program.channelId = this.channel.id;
-        if (update) {
-            this.updateProgram(this.program);
-        } else {
-            this.createProgram(this.program);
-        }
-    }
-
-    private clickProgram(program: Program) {
-        if (program === undefined) {
-            return;
-        } else if (this.isEditMode) {
-            this.editProgram(program);
-        } else {
-            this.showProgram(program);
-        }
-    }
-
-    private showProgram(program: Program) {
-        this.program = program;
-        this.infoModal.show();
-    }
-
-    private tryAddTags(inputTags: string) {
-        this.inputTags = inputTags;
-        if (inputTags && inputTags.indexOf(',') !== -1) {
-            let tags = inputTags.split(',').map(v => {
-                console.log("v", v);
-                return new Tag(v);
-            });
-            this.inputTags = tags.pop().name;
-            this.program.tags = this.program.tags.concat(tags);
-        }
-    }
-
-    private editProgram(program: Program) {
-        this.optionOpen = false;
-        this.program = program;
-        this.programModal.show();
-    }
-
-    private removeProgram(event, program) {
-        event.stopPropagation();
-        let removeIt = confirm('Remove program: ' + program.title + ' ?');
-        if (removeIt !== true) {
-            return;
-        }
-
-        program.channelId = this.channel.id;
-        this.programService.remove(program,
-            (success) => {
-                let index = this.channel.programs.findIndex((p) => p.id === program.id);
-                this.channel.programs.splice(index, 1);
-                this.programTable = this.buildProgramTable(this.channel.programs);
-                this.programModal.hide();
-            },
-            (error) => {
-                console.error(error);
-                this.programModal.hide();
-            }
-        )
-    }
-
-    private removeTag(index: number) {
-        this.program.tags.splice(index, 1);
     }
 }
