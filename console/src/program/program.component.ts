@@ -6,6 +6,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Program, Tag } from '../shared/program';
 // Service
 import { ProgramService } from '../service/program.service';
+import { CookieService } from 'ngx-cookie';
 
 declare var require: any;
 

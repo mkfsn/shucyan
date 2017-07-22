@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ResourceModule } from 'ngx-resource';
+import { CookieModule } from 'ngx-cookie';
 
 import { AppComponent } from './app/app.component';
 import { OverviewComponent } from './overview/overview.component';
@@ -43,6 +44,7 @@ import { ProgramService } from './service/program.service';
         FormsModule,
         ModalModule.forRoot(),
         ResourceModule.forRoot(),
+        CookieModule.forRoot(),
         RouterModule.forRoot([
             {
                 path: 'home',
