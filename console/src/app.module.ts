@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LatestComponent } from './latest/latest.component';
 import { ChannelComponent } from './channel/channel.component';
+import { ProgramComponent } from './program/program.component';
 
 import { ChannelService } from './service/channel.service';
 import { ProgramService } from './service/program.service';
@@ -32,6 +33,7 @@ import { ProgramService } from './service/program.service';
         AboutComponent,
         LoginComponent,
         ChannelComponent,
+        ProgramComponent,
         RegisterComponent,
         LatestComponent
     ],

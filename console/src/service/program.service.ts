@@ -14,6 +14,8 @@ declare var require: any;
 })
 export class ProgramService extends Resource {
 
+    static readonly namesOfDays = ['日', '月', '火', '水', '木', '金', '土'];
+
     @ResourceAction({
         method: RequestMethod.Post,
         path: '/'
