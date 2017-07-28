@@ -1,10 +1,10 @@
-package main
+package manager
 
 import (
 	"fmt"
 
-	"github.com/mkfsn/shyuukan-program/channel/command/database"
 	"github.com/mkfsn/shyuukan-program/channel/config"
+	"github.com/mkfsn/shyuukan-program/channel/manager/command/database"
 
 	"github.com/urfave/cli"
 )

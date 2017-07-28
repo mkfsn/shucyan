@@ -1,13 +1,12 @@
-package main
+package manager
 
 import (
-	"os"
 	"time"
 
 	"github.com/urfave/cli"
 )
 
-func main() {
+func NewApp() *cli.App {
 	app := cli.NewApp()
 
 	app.Name = "channel"
@@ -37,5 +36,5 @@ func main() {
 		commandDatabaseClean,
 	}
 
-	app.Run(os.Args)
+	return app
 }

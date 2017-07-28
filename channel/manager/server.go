@@ -1,7 +1,7 @@
-package main
+package manager
 
 import (
-	"github.com/mkfsn/shyuukan-program/channel/command/server"
+	"github.com/mkfsn/shyuukan-program/channel/manager/command/server"
 
 	"github.com/urfave/cli"
 )
