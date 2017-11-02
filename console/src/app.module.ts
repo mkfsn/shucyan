@@ -4,6 +4,9 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+// environment
+import { environment } from './environments/environment';
+
 // routing
 import { Routings } from './app.routing';
 
@@ -13,7 +16,10 @@ import { ResourceModule } from 'ngx-resource';
 import { CookieModule } from 'ngx-cookie';
 
 // Third-party
-import { BootstrapModalModule  } from 'angular2-modal/plugins/bootstrap';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 // APP Component
 import { AppComponent } from './app/app.component';
@@ -48,6 +54,9 @@ import { ProgramService } from './service/program.service';
         LatestComponent
     ],
     imports: [
+        AngularFireModule.initializeApp(environment.firebase, 'shucyan'), // second parameter is just name
+        AngularFireDatabaseModule,
+        AngularFireAuthModule,
         BrowserModule,
         CommonModule,
         FormsModule,
