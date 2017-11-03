@@ -1,0 +1,59 @@
+.dashboard {
+    min-height: 4.5em;
+    padding: 1em;
+    box-shadow: 0px 6px 12px rgba(100, 100, 100, 0.5);
+    margin-bottom: 2em;
+
+    .btn.btn-primary {
+        background-color: #3275d6;
+    }
+
+    .btn-new-channel {
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .new-channel-menu {
+        padding: 1em;
+    }
+
+    .btn-setting {
+        height: 2.5em;
+        width: 2.5em;
+        text-align: center;
+        padding-left: 10px;
+        border-radius: 50%;
+
+        &:hover {
+            background-color: rgba(200, 200, 200, 0.5);
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .right {
+        text-align: right;
+    }
+}
+
+.channels {
+    min-height: 70vh;
+
+    aside {
+        padding-left: 0;
+
+        div.list-group > button {
+            border: none;
+            &:focus {
+                outline: none;
+            }
+
+            i.fa {
+                padding-right: .5em;
+            }
+        }
+    }
+}

@@ -1,0 +1,45 @@
+<div class="dashboard">
+    <div class="col-xs-6 left" dropdown [autoClose]="false">
+        <button class="btn btn-primary btn-new-channel" dropdownToggle>
+            <i class="glyphicon glyphicon-plus"></i> New Channel
+        </button>
+        <div *dropdownMenu class="dropdown-menu new-channel-menu col-md-6 col-xs-10 col-xs-12">
+            <form>
+                <div class="form-group">
+                    <label for="newChannelName">Name</label>
+                    <input type="text" [(ngModel)]="name" name="name" class="form-control" id="newChannelName" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="newChannelDescription">Description</label>
+                    <textarea class="form-control" [(ngModel)]="description" name="description" id="newChannelDescription" placeholder="description"></textarea>
+                </div>
+                <button (click)="newChannel(name, description)" class="btn btn-primary pull-right">Create</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-xs-6 right">
+        <button *ngIf="list" (click)="list = !list" class="btn btn-primany btn-setting"><i class="glyphicon glyphicon-th-list"></i></button>
+        <button *ngIf="!list" (click)="list = !list"  class="btn btn-primany btn-setting"><i class="glyphicon glyphicon-th-large"></i></button>
+        <button class="btn btn-primany btn-setting"><i class="glyphicon glyphicon-cog"></i></button>
+    </div>
+</div>
+
+<div class="channels clearfix">
+    <aside class="col-md-2 col-sm-3 col-xs-2">
+        <div class="list-group">
+            <button type="button" class="list-group-item">
+                <i class="fa fa-clock-o"></i>
+                <span class="hidden-xs">Recently used</span>
+            </button>
+            <button type="button" class="list-group-item">
+                <i class="fa fa-users"></i>
+                <span class="hidden-xs">Shared with me</span>
+            </button>
+            <button type="button" class="list-group-item">
+                <i class="fa fa-star"></i>
+                <span class="hidden-xs">Starred</span>
+            </button>
+        </div>
+    </aside>
+    <div class="col-md-10 col-sm-9 col-xs-10"></div>
+</div>

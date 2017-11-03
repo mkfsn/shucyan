@@ -19,23 +19,25 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 
+// Services
+import { AuthService } from './services/auth.service';
+import { ChannelsService } from './services/channels.service';
+import { ProgramsService } from './services/programs.service';
+
 // Components
 import { AppComponent } from './app.component';
 import { ChannelComponent } from './components/channel/channel.component';
 import { ProgramComponent } from './components/program/program.component';
 import { HomeComponent } from './components/home/home.component';
-
-// Services
-import { AuthService } from './services/auth.service';
-import { ChannelsService } from './services/channels.service';
-import { ProgramsService } from './services/programs.service';
+import { ChannelOverviewComponent } from './components/channel/channel-overview.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         ChannelComponent,
         ProgramComponent,
-        HomeComponent
+        HomeComponent,
+        ChannelOverviewComponent
     ],
     imports: [
         AngularFireModule.initializeApp(environment.firebase, 'shucyan'),
@@ -44,6 +46,8 @@ import { ProgramsService } from './services/programs.service';
         BsDropdownModule.forRoot(),
         BrowserModule,
 		CollapseModule.forRoot(),
+        CommonModule,
+        FormsModule,
         Routings
     ],
     providers: [

@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
 import { ChannelComponent } from './components/channel/channel.component';
+import { ChannelOverviewComponent } from './components/channel/channel-overview.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -17,6 +18,11 @@ const routes: Routes = [
     {
         path: 'latest',
         component: HomeComponent
+    },
+    {
+        path: 'channel',
+        component: ChannelOverviewComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'channel/:id',
