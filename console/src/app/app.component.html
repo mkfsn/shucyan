@@ -15,34 +15,36 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" [collapse]="!isCollapsed">
                 <ul class="nav navbar-nav navbar-right">
-					<ng-container *ngIf="!(userState | async)">
-						<li dropdown>
-                    	    <a href dropdownToggle (click)="false" id="login-btn">Login <span class="caret"></span></a>
-                    	    <div *dropdownMenu class="dropdown-menu login-menu">
-                    	        <div class="row">
-                    	            <div class="col-md-12">
-										<p>Login via</p>
-                    	                <div class="social-buttons">
-											<button class="btn btn-google btn-block" (click)="loginWithGoogle()">
-												<i class="fa fa-google"></i>
-												<span>Google</span>
-											</button>
-                    	                </div>
-                    	            </div>
-                    	        </div>
-                    	    </div>
-                    	</li>
-					</ng-container>
-					<ng-container *ngIf="(userState | async) as user">
-						<li dropdown>
-							<a href dropdownToggle (click)="false">{{ user.email }} <span class="caret"></span></a>
-							<ul *dropdownMenu class="dropdown-menu logout-menu">
-								<li>
-									<a role="button" class="btn-logout" (click)="logout()">Logout</a>
-								</li>
-							</ul>
-						</li>
-					</ng-container>
+                    <ng-container *ngIf="!(userState | async)">
+                        <li dropdown>
+                            <a href dropdownToggle (click)="false" id="login-btn">Login <span class="caret"></span></a>
+                            <div *dropdownMenu class="dropdown-menu login-menu">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>Login via</p>
+                                        <div class="social-buttons">
+                                            <button class="btn btn-google btn-block" (click)="loginWithGoogle()">
+                                                <i class="fa fa-google"></i>
+                                                <span>Google</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ng-container>
+                    <ng-container *ngIf="(userState | async) as user">
+                        <li dropdown>
+                            <a href dropdownToggle (click)="false">{{ user.email }} <span class="caret"></span></a>
+                            <ul *dropdownMenu class="dropdown-menu logout-menu">
+                                <li><a role="button" routerLink="/channel">Channel</a></li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a role="button" class="btn-logout" (click)="logout()">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ng-container>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
