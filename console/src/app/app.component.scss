@@ -1,0 +1,81 @@
+$blue: #3275d6;
+$darkblue: #2265c6;
+$white: #eee;
+$lightwhite: #fff;
+
+$googleRed: #dd4b39;
+
+header {
+    .navbar.navbar-default {
+        background-color: $blue;
+
+        .navbar-toggle {
+            .icon-bar {
+                background-color: $white;
+            }
+
+            &:focus,
+            &:hover {
+                background-color: $darkblue;
+            }
+        }
+
+        .navbar-brand {
+            color: $white;
+            font-weight: bold;
+
+            &:focus,
+            &:hover {
+                color: $lightwhite;
+            }
+        }
+
+        .navbar-nav {
+            margin-top: 0;
+            margin-bottom: 0;
+            border-radius: 0 0 4px 4px;
+
+            & > li > a {
+                color: $white;
+            }
+
+            & > li > .dropdown-menu {
+                background-color: white;
+
+                &.login-menu {
+                    padding: 1em;
+
+                    .social-buttons {
+                        margin: 1em 0;
+                    }
+
+                    .btn-google {
+                        background-color: $googleRed;
+                        color: $white;
+                    }
+                }
+
+                &.logout-button {
+                    color: black;
+                }
+            }
+
+            .open > a,
+            .open > a:focus,
+            .open > a:hover {
+                background-color: $darkblue;
+                color: $white;
+            }
+        }
+    }
+}
+
+footer {
+    background-color: $white;
+    min-height: 25vh;
+    padding: 1em;
+
+    div.container {
+        text-align: center;
+    }
+}

@@ -1,0 +1,67 @@
+<section id="introduction">
+    <div class="page-header">
+        <h1>
+            <span onClick="javascript:location.href='/'" style="cursor:pointer">Shucyan</span>
+            <small>Create your own week program</small>
+        </h1>
+    </div>
+</section>
+<section id="latest">
+    <h1>The latest 10 channels</h1>
+    <div class="top-10">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Channel</th>
+                    <th>#</th>
+                    <th>Channel</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="channels">
+                <tr *ngFor="let i of [0, 1, 2, 3, 4]">
+                    <td>{{ i + 1  }}</td>
+                    <td><a routerLink="{{ '/channel/' + channels[i].id }}">{{ channels[i].title }}</a></td>
+                    <td>{{ i + 6 }}</td>
+                    <td><a routerLink="{{ '/channel/' + channels[i + 5].id }}">{{ channels[i + 5].title }}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section id="about">
+    <h1>About</h1>
+    <h4>This project (Week Program, a.k.a. wp) is start at 2013-12-22, by mkfsn.</h4>
+    
+    <dl>
+        <dt>
+            <p>Version 3.0 [2017/11/03]</p>
+        <dd>
+            <p>
+                Rename: Shucyan. Re-construct.
+                <span class="label label-info">Angular v5.0.0</span>
+                <span class="label label-info">Typescript v.2.4.2</span>
+    			<span class="label label-info">Firebase</span>
+            </p>
+        <dt>
+        <dt>
+            <p>Version 2.0 [2017/05/15]</p>
+        <dd>
+            <p>
+                Rename: Shyuukan Program. Re-construct.
+                <span class="label label-info">Angular v4.1.1</span>
+                <span class="label label-info">Typescript v.2.2.1</span>
+                <span class="label label-info">Golang v1.7.3</span>
+            </p>
+        <dt>
+            <p>Version 1.0 [2013/12/22]</p>
+        <dd>
+            <p>
+                Week Program (a.k.a. wp) started.
+                <span class="label label-info">PHP v5.5</span>
+                <span class="label label-info">CodeIgniter</span>
+                <span class="label label-info">Twitter Bootstrap v3</span>
+                <span class="label label-info">jQuery v1.10.2</span>
+            </p>
+    </dl>
+</section>
