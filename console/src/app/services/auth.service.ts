@@ -10,18 +10,26 @@ import { User } from '../models/user';
 export class AuthService {
 
     private authState: Observable<firebase.User>;
+    private currentUser: User;
 
     constructor(public afAuth: AngularFireAuth) {
+        this.currentUser = null;
         this.authState = this.afAuth.authState;
     }
 
     getAuthState() {
         return this.authState.map(firebaseUser => {
             if (firebaseUser) {
-                return new User(firebaseUser.uid, firebaseUser.displayName, firebaseUser.email, firebaseUser.providerId, firebaseUser.photoURL);
+                this.currentUser = new User(firebaseUser.uid, firebaseUser.displayName, firebaseUser.email, firebaseUser.providerId, firebaseUser.photoURL);
+            } else {
+                this.currentUser = null;
             }
-            return null;
+            return this.currentUser;
         });
+    }
+
+    get user(): User {
+        return this.currentUser;
     }
 
     loginWithGoogle() {
