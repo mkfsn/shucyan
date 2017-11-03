@@ -1,43 +1,41 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFireDatabase, AngularFireList, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 
+import { AuthService } from '../services/auth.service';
+
 import { Channel } from '../models/channel';
+import { User } from '../models/user';
 
 @Injectable()
 export class ChannelsService {
 
-    private currentUser: firebase.User = null;
     private channels: AngularFireList<Channel>;
 
-    constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
-        this.afAuth.authState.subscribe(user => {
-            if (user) {
-                this.currentUser = user;
-                this.channels = this.db.list('channels');
-            } else {
-                this.currentUser = null;
-                this.channels = null;
-            }
-        });
+    constructor(private authService: AuthService, private db: AngularFireDatabase) {
+        this.channels = this.db.list('/channels', ref => ref.orderByChild('owner').equalTo(this.authService.user.uid));
     }
 
-    getBookshelves(): Observable<Channel[]> {
+    addChannel(channel: Channel) {
+        channel.owner = this.authService.user.uid;
+        this.channels.push(channel);
+    }
+
+    getChannels(): Observable<Channel[]> {
         if (!this.channels) {
             return Observable.of();
         }
         return this.channels.snapshotChanges().map(fireactions => {
             return fireactions.map(action => {
                 let val = action.payload.val();
-                return new Channel(val.name, val.description, action.key);
+                return Channel.fromFirebase(action.key, val.name, val.description, val.owner);
             });
         });
     }
 
-    removeBookshelf(id: string) {
+    removeChannel(id: string) {
         this.channels.remove(id);
     }
 }

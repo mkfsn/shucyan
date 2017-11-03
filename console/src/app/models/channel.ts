@@ -9,14 +9,21 @@ export class Channel {
     updatedAt: Date;
     programs: Array<Program>;
 
-    constructor(id: string, name: string, owner: string, description?: string, programs?: Array<Program>, createdAt?: Date) {
-        this.id = id;
+    constructor(name: string, description: string) {
         this.name = name;
-        this.owner = owner;
-        this.description = description || '';
-        this.programs = programs || [];
-        this.createdAt = createdAt || new Date();
+        this.description = description;
+		if (name === undefined && description === undefined) {
+			return;
+		}
+        this.createdAt = new Date();
     }
+
+	static fromFirebase(id: string, name: string, description: string, owner: string): Channel {
+		let channel = new Channel(name, description);
+		channel.id = id;
+		channel.owner = owner;
+		return channel;
+	}
 }
 
-export let NullChannel = new Channel(undefined, undefined, undefined);
+export let NullChannel = new Channel(undefined, undefined);
