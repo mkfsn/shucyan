@@ -9,7 +9,7 @@ import { environment } from 'environments/environment';
 import { Routings } from './app.routing';
 
 // Third-party
-import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AngularFireModule } from 'angularfire2';
@@ -45,10 +45,10 @@ import { ChannelOverviewComponent } from './components/channel/channel-overview.
         AngularFireAuthModule,
         BsDropdownModule.forRoot(),
         BrowserModule,
-        BootstrapModalModule,
         CollapseModule.forRoot(),
         CommonModule,
         FormsModule,
+        ModalModule.forRoot(),
         Routings
     ],
     providers: [
