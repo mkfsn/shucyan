@@ -115,36 +115,29 @@ export class ProgramComponent implements OnInit {
     private newProgram(day: number): void {
         this.optionOpen = false;
         this.program = new Program(day, '', '');
-        console.log(this.program);
-        // this.programModal.show();
+        this.programModal.show();
     }
 
     private createProgram(program: Program): void {
         const successFunc = (success) => {
-            this.programs.push(program);
             this.programTable = this.buildProgramTable(this.programs);
-            // this.programModal.hide();
         };
-
-        const errorFunc = (error) => {
-            console.error(error);
-            // this.programModal.hide();
+        const errorFunc = () => {};
+        const completeFunc = () => {
+            this.programModal.hide();
         };
 
         // TODO: Check program fields
-        // this.programService.create(program, success, error);
+        this.programsService.addProgram(this.channelId, program).subscribe(successFunc, errorFunc, completeFunc);
     }
 
     private updateProgram(program: Program): void {
-        const successFunc = (success) => {
-            // this.programModal.hide();
+        const successFunc = (success) => {};
+        const errorFunc = (error) => {};
+        const completeFunc = () => {
+            this.programModal.hide();
         };
-
-        const errorFunc = (error) => {
-            console.error(error);
-            // this.programModal.hide();
-        };
-        // this.programService.update(program, success, error);
+        this.programsService.updateProgram(this.channelId, program).subscribe(successFunc, errorFunc, completeFunc);
     }
 
     private saveProgram(): void {
@@ -169,7 +162,7 @@ export class ProgramComponent implements OnInit {
 
     private showProgram(program: Program): void {
         this.program = program;
-        // this.infoModal.show();
+        this.infoModal.show();
     }
 
     private tryAddTags(inputTags: string): void {
@@ -187,31 +180,25 @@ export class ProgramComponent implements OnInit {
     private editProgram(program: Program): void {
         this.optionOpen = false;
         this.program = program;
-        // this.programModal.show();
+        this.programModal.show();
     }
 
     private removeProgram(event, program): void {
         event.stopPropagation();
-        const removeIt = confirm('Remove program: ' + program.title + ' ?');
+        const removeIt = confirm('Remove program: ' + program.name + ' ?');
         if (removeIt !== true) {
             return;
         }
 
-        program.channelId = this.channelId;
-        /*
-        this.programService.remove(program,
-            (success) => {
-                let index = this.programs.findIndex((p) => p.id === program.id);
-                this.programs.splice(index, 1);
-                this.programTable = this.buildProgramTable(this.programs);
-                // this.programModal.hide();
-            },
-            (error) => {
-                console.error(error);
-                this.programModal.hide();
-            }
-        )
-         */
+        const successFunc = () => {
+            this.programTable = this.buildProgramTable(this.programs);
+        };
+        const errorFunc = () => {};
+        const completeFunc = () => {
+            this.programModal.hide();
+        };
+
+        this.programsService.removeProgram(this.channelId, program.id).subscribe(successFunc, errorFunc, completeFunc);
     }
 
     private removeTag(index: number): void {

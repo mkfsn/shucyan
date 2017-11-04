@@ -25,8 +25,8 @@
                 <span class="glyphicon glyphicon-remove-sign remove-program"
                       (click)="removeProgram($event, program)"></span>
             </ng-container>
-            <a *ngIf="program && program.link" href="{{ program.link }}">{{ program.title }}</a>
-            <p *ngIf="program && !program.link">{{ program.title }}</p>
+            <a *ngIf="program && program.link" href="{{ program.link }}">{{ program.name }}</a>
+            <p *ngIf="program && !program.link">{{ program.name }}</p>
             <div *ngIf="program && program.tags" class="tags">
                 <span *ngFor="let tag of program.tags" class="label"
                       [ngStyle]="{'background-color': getColor(tag.name)}">
@@ -36,7 +36,6 @@
         </div>
     </div>
 </div>
-<!--
 <div class="modal" bsModal #programModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -60,9 +59,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="program-title">Title(*)</label>
-                    <input type="text" class="form-control":w
-                    id="program-title" [(ngModel)]="program.title">
+                    <label for="program-name">Name(*)</label>
+                    <input type="text" class="form-control" id="program-name" [(ngModel)]="program.name">
                 </div>
                 <div class="form-group">
                     <label for="program-content">Content</label>
@@ -112,13 +110,11 @@
         </div>
     </div>
 </div>
--->
-<!--
 <div class="modal" bsModal #infoModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title pull-left">{{ program?.title }}</h4>
+                <h4 class="modal-title pull-left">{{ program?.name }}</h4>
                 <button type="button" class="close pull-right" aria-label="Close" (click)="infoModal.hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -129,4 +125,3 @@
         </div>
     </div>
 </div>
--->
