@@ -45,7 +45,8 @@ import { ChannelOverviewComponent } from './components/channel/channel-overview.
         AngularFireAuthModule,
         BsDropdownModule.forRoot(),
         BrowserModule,
-		CollapseModule.forRoot(),
+        BootstrapModalModule,
+        CollapseModule.forRoot(),
         CommonModule,
         FormsModule,
         Routings
