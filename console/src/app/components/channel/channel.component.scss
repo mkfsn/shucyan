@@ -1,56 +1,58 @@
 .channel {
 
-  $EditLabelColor: #5CB85C;
+    $EditLabelColor: #5CB85C;
 
-  .editing {
-    color: $EditLabelColor;
-  }
+    min-height: 77vh;
 
-  .channel-head {
-
-    .control-panel-save,
-    .control-panel-edit {
-      height: 24px;
-      line-height: 24px;
-      vertical-align: middle;
-      span.label {
-        padding: .3em .6em;
-      }
-
-      *:focus,
-      *:hover {
-        text-decoration: none;
-      }
+    .editing {
+        color: $EditLabelColor;
     }
 
-    .channel-owner {
-      &:before {
-        content: ' by ';
-      }
-      & > a:hover {
-        text-decoration: none;
-      }
-    }
+    .channel-head {
 
-    input[name=name] {
-      display: inline-block;
-      height: 39px;
-      vertical-align: bottom;
-    }
+        .control-panel-save,
+        .control-panel-edit {
+            height: 24px;
+            line-height: 24px;
+            vertical-align: middle;
+            span.label {
+                padding: .3em .6em;
+            }
 
-    textarea[name=description] {
-    }
+            *:focus,
+                *:hover {
+                    text-decoration: none;
+                }
+            }
 
-    .channel-description {
-      white-space: pre-wrap;
-    }
-  }
+            .channel-owner {
+                &:before {
+                    content: ' by ';
+                }
+                & > a:hover {
+                    text-decoration: none;
+                }
+            }
 
-  .channel-not-found {
-    span.label.label-danger {
-      font-size: 100%;     
-      padding: .2em .6em .2em;
-    }
-  }
+            input[name=name] {
+                display: inline-block;
+                height: 39px;
+                vertical-align: bottom;
+            }
 
-}
+            textarea[name=description] {
+            }
+
+            .channel-description {
+                white-space: pre-wrap;
+            }
+        }
+
+        .channel-not-found {
+            span.label.label-danger {
+                font-size: 100%;
+                padding: .2em .6em .2em;
+            }
+        }
+
+    }
