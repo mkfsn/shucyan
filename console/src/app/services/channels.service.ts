@@ -37,7 +37,6 @@ export class ChannelsService {
                 return Channel.fromFirebase(action.key, val.name, val.description, val.owner);
             })
             .combineLatest(this.programsService.getChannelPrograms(id), (channel, programs) => {
-                console.log(channel, programs);
                 channel.programs = programs;
                 return channel;
             });
