@@ -26,16 +26,16 @@
 		"programs": {
 			".read": "true",
 			"$channel_id": {
+				".write": "auth !== null && (root.child('channels/' + $channel_id + '/owner').val() === auth.uid || root.child('channels/' + $channel_id + '/collaborators/' + auth.token.email).exists())",
 				".validate": "root.child('channels/' + $channel_id).exists()",
 
 				"$program_id": {
-					".write": "auth !== null && root.child('channels/' + $channel_id + '/owner').val() === auth.uid || root.child('channels/' + $channel_id + '/collaborators/' + auth.token.email).exists()",
-					".validate": "newData.hasChildren(['day', 'title', 'content'])",
+					".validate": "newData.hasChildren(['day', 'name', 'content'])",
 
 					"day": {
 						".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 7"
 					},
-					"title": {
+					"name": {
 						".validate": "newData.isString() && newData.val().length > 0"
 					},
 					"content": {
