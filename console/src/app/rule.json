@@ -1,0 +1,66 @@
+{
+	"rules": {
+		"channels": {
+			".read": "true",
+			".indexOn": "owner",
+			"$channel_id": {
+				".write": "auth !== null && (!data.exists() || data.child('owner').val() === auth.uid)",
+				".validate": "newData.hasChildren(['name', 'description', 'owner'])",
+				"name": {
+					".validate": "newData.isString() && newData.val().length > 0"
+				},
+				"description": {
+					".validate": "newData.isString() && newData.val().length > 0"
+				},
+				"owner": {
+					".validate": "newData.isString() && newData.val().length > 0 && newData.val() === auth.uid"
+				},
+				"collaborators": {
+					"$user_email": {
+						".validate": "newData.isString() && newData.val().length > 0 && newData.val().length < 128"
+					}
+				}
+			}
+		},
+
+		"programs": {
+			".read": "true",
+			"$channel_id": {
+				".validate": "root.child('channels/' + $channel_id).exists()",
+
+				"$program_id": {
+					".write": "auth !== null && root.child('channels/' + $channel_id + '/owner').val() === auth.uid || root.child('channels/' + $channel_id + '/collaborators/' + auth.token.email).exists()",
+					".validate": "newData.hasChildren(['day', 'title', 'content'])",
+
+					"day": {
+						".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 7"
+					},
+					"title": {
+						".validate": "newData.isString() && newData.val().length > 0"
+					},
+					"content": {
+						".validate": "newData.isString() && newData.val().length > 0"
+					},
+					"link": {
+						".validate": "newData.isString() && newData.val().length > 0"
+					},
+					"tags": {
+						"$tag_id": {
+							".validate": "newData.hasChildren(['name'])",
+							"name": {
+								".validate": "newData.isString() && newData.val().length > 0"
+							}
+						}
+					},
+				}
+			}
+		},
+
+		"logs": {
+			"$channel_id": {
+				".read": "auth !== null && root.child('channels/' + $channel_id + '/owner').val() === auth.uid",
+				".validate": "root.child('channels/' + $channel_id).exists()",
+			}
+		}
+	}
+}
