@@ -14,6 +14,7 @@ export class Tag {
 
 export class Program {
     id: string;
+    // deprecated?
     channelId: string;
     day: number;
     name: string;
@@ -31,6 +32,7 @@ export class Program {
         this.day = day;
         this.name = name;
         this.content = content;
+        this.tags = [];
     }
 
     static fromFirebase(id: string, day: number, name: string, content: string): Program {
