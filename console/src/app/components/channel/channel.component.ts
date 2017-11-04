@@ -55,12 +55,13 @@ export class ChannelComponent implements OnInit {
     private setModeByURL(): void {
         if (this.route.snapshot.url.length > 2 && this.route.snapshot.url[2].path === 'edit') {
             this.mode.setEdit();
+        } else {
+            this.mode.setNormal();
         }
-        this.mode.setNormal();
     }
 
     get isEditMode(): boolean {
-        return this.mode.isEdit && this.channel !== undefined && this.channel !== NullChannel;
+        return this.mode.isEdit && this.channel !== undefined;
     }
 
     get isNormalMode(): boolean {
@@ -68,7 +69,7 @@ export class ChannelComponent implements OnInit {
     }
 
     private nameInputLength(owner): string {
-        return `calc(100% - ${owner.length + 1}ch - 66px)`;
+        return `calc(100% - ${owner.length + 1}ch - 200px)`;
     }
 
 }
