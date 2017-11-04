@@ -1,3 +1,5 @@
+import * as chroma from 'chroma-js';
+
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
@@ -64,23 +66,13 @@ export class ProgramComponent implements OnInit {
     }
 
     // This should be protected by calling getColor()
-    private calculateColor(tag: string) {
-        let hash = 0;
-        if (tag.length === 0) {
-            return '';
-        }
-        for (let i = 0; i < tag.length; i++) {
-            const ch = tag.charCodeAt(i);
-            hash = ((hash << 5) - hash) + ch;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        hash = Math.abs(hash) % (1 << 24); // 256 x 256 x 256
-        const hex = ((hash) >>> 0).toString(16).slice(-6);
-        const b = ('00' + Math.floor(hash / 256 / 256).toString(16)).substr(-2),
-              g = ('00' + Math.floor((hash % (256 * 256)) / 256).toString(16)).substr(-2),
-              r = ('00' + Math.floor(hash % 256).toString(16)).substr(-2);
-        // return chroma('#' + r + g + b).darken().hex();
-        return '';
+    private calculateColor(tag: string): string {
+        const sum = tag.split('').reduce((acc, val, arr) => acc * val.charCodeAt(0), 0x5F3759DF);
+        const itoa = (v: number): string => ('00' + Math.floor(v).toString(16)).substr(-2);
+        const b = itoa(sum % 256),
+            g = itoa((sum / 256) % 256),
+            r = itoa((sum / 256 / 256) % 256);
+        return chroma('#' + r + g + b).darken().hex();
     }
 
     private getColor(tag: string): string {
@@ -101,7 +93,7 @@ export class ProgramComponent implements OnInit {
         }
 
         const columns = [[], [], [], [], [], [], []],
-             table = [];
+              table = [];
         let maxSize = 0;
 
         programs.forEach((program: Program) => {
