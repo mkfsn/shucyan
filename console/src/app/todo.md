@@ -1,6 +1,6 @@
 # 1
 - [*] Show owner by email rather than uid
-- [ ] margin-bottom of program table
+- [*] margin-bottom of program table
 
 # 2
 - [ ] don't show no channel when loading
