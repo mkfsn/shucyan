@@ -15,13 +15,21 @@ export class ProgramsService {
     constructor(private db: AngularFireDatabase) {
     }
 
-    getChannelPrograms(id: string): Observable<Program[]> {
-        return this.db.list('/programs/' + id).snapshotChanges().map(fireactions => {
+    addProgram(channelId: string, program: Program): void {
+        this.db.list('/programs/' + channelId).push(program);
+    }
+
+    getChannelPrograms(channelId: string): Observable<Program[]> {
+        return this.db.list('/programs/' + channelId).snapshotChanges().map(fireactions => {
             return fireactions.map(action => {
                 const val = action.payload.val();
                 return Program.fromFirebase(action.key, val.day, val.name, val.content);
             });
         });
+    }
+
+    removeProgram(channelId: string, programId: string): void {
+        this.db.list('/programs/' + channelId).remove(programId);
     }
 
 }
