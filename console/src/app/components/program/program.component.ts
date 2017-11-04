@@ -50,9 +50,9 @@ export class ProgramComponent implements OnInit {
     }
 
     private getDatesOfWeek(): Array<string> {
-        let dates: Array<string> = Array(7).fill('');
+        const dates: Array<string> = Array(7).fill('');
         this.namesOfDays.map((_, i) => {
-            let date = new Date();
+            const date = new Date();
             date.setDate(date.getDate() + i);
             dates[(i + this.day) % this.namesOfDays.length] = (
                 date.getFullYear() + '/' +
@@ -70,22 +70,22 @@ export class ProgramComponent implements OnInit {
             return '';
         }
         for (let i = 0; i < tag.length; i++) {
-            let ch = tag.charCodeAt(i);
+            const ch = tag.charCodeAt(i);
             hash = ((hash << 5) - hash) + ch;
             hash = hash & hash; // Convert to 32bit integer
         }
-        hash = Math.abs(hash) % (1 << 24) // 256 x 256 x 256
-        let hex = ((hash) >>> 0).toString(16).slice(-6);
-        let b = ('00' + Math.floor(hash / 256 / 256).toString(16)).substr(-2),
-            g = ('00' + Math.floor((hash % (256 * 256)) / 256).toString(16)).substr(-2),
-            r = ('00' + Math.floor(hash % 256).toString(16)).substr(-2);
+        hash = Math.abs(hash) % (1 << 24); // 256 x 256 x 256
+        const hex = ((hash) >>> 0).toString(16).slice(-6);
+        const b = ('00' + Math.floor(hash / 256 / 256).toString(16)).substr(-2),
+              g = ('00' + Math.floor((hash % (256 * 256)) / 256).toString(16)).substr(-2),
+              r = ('00' + Math.floor(hash % 256).toString(16)).substr(-2);
         // return chroma('#' + r + g + b).darken().hex();
         return '';
     }
 
     private getColor(tag: string): string {
         if (!this.colors.has(tag)) {
-            let color = this.calculateColor(tag);
+            const color = this.calculateColor(tag);
             this.colors.set(tag, color);
         }
         return this.colors.get(tag);
@@ -96,11 +96,13 @@ export class ProgramComponent implements OnInit {
     }
 
     private buildProgramTable(programs: Array<Program>): Array<Array<Program>> {
-        if (!programs) return;
+        if (!programs) {
+            return;
+        }
 
-        let columns = [[], [], [], [], [], [], []],
-            table = [],
-            maxSize = 0;
+        const columns = [[], [], [], [], [], [], []],
+             table = [];
+        let maxSize = 0;
 
         programs.forEach((program: Program) => {
             columns[program.day].push(program);
@@ -126,33 +128,35 @@ export class ProgramComponent implements OnInit {
     }
 
     private createProgram(program: Program): void {
-        let success = (success) => {
+        const successFunc = (success) => {
             this.programs.push(program);
             this.programTable = this.buildProgramTable(this.programs);
             // this.programModal.hide();
-        }
-        let error = (error) => {
+        };
+
+        const errorFunc = (error) => {
             console.error(error);
             // this.programModal.hide();
-        }
+        };
 
         // TODO: Check program fields
         // this.programService.create(program, success, error);
     }
 
     private updateProgram(program: Program): void {
-        let success = (success) => {
+        const successFunc = (success) => {
             // this.programModal.hide();
-        }
-        let error = (error) => {
+        };
+
+        const errorFunc = (error) => {
             console.error(error);
             // this.programModal.hide();
-        }
+        };
         // this.programService.update(program, success, error);
     }
 
     private saveProgram(): void {
-        let update = this.program.id !== undefined;
+        const update = this.program.id !== undefined;
         this.program.channelId = this.channelId;
         if (update) {
             this.updateProgram(this.program);
@@ -179,8 +183,8 @@ export class ProgramComponent implements OnInit {
     private tryAddTags(inputTags: string): void {
         this.inputTags = inputTags;
         if (inputTags && inputTags.indexOf(',') !== -1) {
-            let tags = inputTags.split(',').map(v => {
-                console.log("v", v);
+            const tags = inputTags.split(',').map(v => {
+                console.log('v', v);
                 return new Tag(v);
             });
             this.inputTags = tags.pop().name;
@@ -196,7 +200,7 @@ export class ProgramComponent implements OnInit {
 
     private removeProgram(event, program): void {
         event.stopPropagation();
-        let removeIt = confirm('Remove program: ' + program.title + ' ?');
+        const removeIt = confirm('Remove program: ' + program.title + ' ?');
         if (removeIt !== true) {
             return;
         }

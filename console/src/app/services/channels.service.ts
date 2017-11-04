@@ -50,12 +50,12 @@ export class ChannelsService {
     getChannels(): Observable<Channel[]> {
         return this.authService.getAuthState().mergeMap(user => {
             if (user === null) {
-                return Observable.throw("Permission denied: user not authenticated");
+                return Observable.throw('Permission denied: user not authenticated');
             }
             const list = this.db.list('/channels', ref => ref.orderByChild('owner').equalTo(user.uid));
             return list.snapshotChanges().map(fireactions => {
                 return fireactions.map(action => {
-                    let val = action.payload.val();
+                    const val = action.payload.val();
                     return Channel.fromFirebase(action.key, val.name, val.description, val.owner);
                 });
             });
@@ -65,7 +65,7 @@ export class ChannelsService {
     getLatestChannels(): Observable<Channel[]> {
         return this.channels.snapshotChanges().map(fireactions => {
             return fireactions.map(action => {
-                let val = action.payload.val();
+                const val = action.payload.val();
                 return Channel.fromFirebase(action.key, val.name, val.description, val.owner);
             });
         });

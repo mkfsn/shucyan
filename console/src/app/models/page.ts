@@ -1,7 +1,7 @@
 enum Mode {
     normal,
     edit
-};
+}
 
 export class PageMode {
 
@@ -26,4 +26,4 @@ export class PageMode {
     public setNormal(): void {
         this.mode = Mode.normal;
     }
-};
+}

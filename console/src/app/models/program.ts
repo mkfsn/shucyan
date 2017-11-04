@@ -34,7 +34,7 @@ export class Program {
     }
 
     static fromFirebase(id: string, day: number, name: string, content: string): Program {
-        let program = new Program(day, name, content);
+        const program = new Program(day, name, content);
         program.id = id;
         return program;
     }

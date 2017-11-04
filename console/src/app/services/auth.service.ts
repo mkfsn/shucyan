@@ -20,7 +20,13 @@ export class AuthService {
     getAuthState() {
         return this.authState.map(firebaseUser => {
             if (firebaseUser) {
-                this.currentUser = new User(firebaseUser.uid, firebaseUser.displayName, firebaseUser.email, firebaseUser.providerId, firebaseUser.photoURL);
+                this.currentUser = new User(
+                    firebaseUser.uid,
+                    firebaseUser.displayName,
+                    firebaseUser.email,
+                    firebaseUser.providerId,
+                    firebaseUser.photoURL
+                );
             } else {
                 this.currentUser = null;
             }

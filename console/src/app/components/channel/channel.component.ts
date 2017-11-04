@@ -33,7 +33,7 @@ export class ChannelComponent implements OnInit {
     private setChannel(channel: Channel): void {
         this.channel = channel;
         if (channel === NullChannel) {
-            return
+            return;
         }
         // this.titleService.setTitle(this.channel.title);
     }
@@ -41,13 +41,13 @@ export class ChannelComponent implements OnInit {
     private loadChannel(): void {
         const channelId: string = this.getChannelId();
 
-        let successFunc = (channel) => {
+        const successFunc = (channel) => {
             this.setChannel(channel);
-        }
+        };
 
-        let errorFunc = () => {
+        const errorFunc = () => {
             this.setChannel(NullChannel);
-        }
+        };
 
         this.channelsService.getChannel(channelId).subscribe(successFunc, errorFunc);
     }

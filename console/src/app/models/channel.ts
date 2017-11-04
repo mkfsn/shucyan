@@ -12,18 +12,18 @@ export class Channel {
     constructor(name: string, description: string) {
         this.name = name;
         this.description = description;
-		if (name === undefined && description === undefined) {
-			return;
-		}
+        if (name === undefined && description === undefined) {
+            return;
+        }
         this.createdAt = new Date();
     }
 
-	static fromFirebase(id: string, name: string, description: string, owner: string): Channel {
-		let channel = new Channel(name, description);
-		channel.id = id;
-		channel.owner = owner;
-		return channel;
-	}
+    static fromFirebase(id: string, name: string, description: string, owner: string): Channel {
+        const channel = new Channel(name, description);
+        channel.id = id;
+        channel.owner = owner;
+        return channel;
+    }
 }
 
 export let NullChannel = new Channel(undefined, undefined);

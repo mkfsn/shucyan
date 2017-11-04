@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable';
 
 import { ChannelsService } from '../../services/channels.service';
 
@@ -13,18 +13,18 @@ import { Channel } from '../../models/channel';
 })
 export class ChannelOverviewComponent implements OnInit {
 
-	private channelsSub: Observable<Channel[]>;
+    private channelsSub: Observable<Channel[]>;
 
-	constructor(private channelsService: ChannelsService) {
-		this.channelsSub = this.channelsService.getChannels();
-	}
+    constructor(private channelsService: ChannelsService) {
+        this.channelsSub = this.channelsService.getChannels();
+    }
 
     ngOnInit() {
     }
 
     newChannel(name: string, description: string) {
-		const channel = new Channel(name, description);
-		this.channelsService.addChannel(channel);
+        const channel = new Channel(name, description);
+        this.channelsService.addChannel(channel);
     }
 
     removeChannel(id: string) {

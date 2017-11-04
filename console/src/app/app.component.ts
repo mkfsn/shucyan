@@ -18,7 +18,7 @@ export class AppComponent implements OnInit  {
     // undefined: user not loaded yet
     // null: user not login
     // else: user login
-	private userState: Observable<User>;
+    private userState: Observable<User>;
 
     constructor(private auth: AuthService) {
         this.year = (new Date()).getFullYear();
