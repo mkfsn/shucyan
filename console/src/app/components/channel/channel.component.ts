@@ -49,13 +49,7 @@ export class ChannelComponent implements OnInit {
             this.setChannel(NullChannel);
         }
 
-        this.channelsService.getChannels(channelId).subscribe(channels => {
-            if (channels.length > 0) {
-                successFunc(channels[0]);
-            } else {
-                errorFunc();
-            }
-        });
+        this.channelsService.getChannel(channelId).subscribe(successFunc, errorFunc);
     }
 
     private setModeByURL(): void {
