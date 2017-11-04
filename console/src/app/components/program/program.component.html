@@ -1,3 +1,132 @@
-<p>
-  program works!
-</p>
+<div class="programs-container">
+    <div class="table-row week-title">
+        <div class="day-title text-center"
+             *ngFor="let name of namesOfDays; let i = index"
+             title="{{ datesOfWeek[i] }}"
+             [ngClass]="{today: isToday(i)}">
+            {{ name }}
+        </div>
+    </div>
+    <div class="table-row week-title">
+        <ng-container *ngIf="isEditMode">
+            <div class="add-program text-center"
+                 *ngFor="let name of namesOfDays; let i = index"
+                 (click)="newProgram(i)"
+                 [ngClass]="{today: isToday(i)}">
+                <span class="glyphicon glyphicon-plus"></span>
+            </div>
+        </ng-container>
+    </div>
+    <div *ngFor="let row of programTable" class="table-row">
+        <div *ngFor="let program of row; let i = index" class="program text-center"
+             (click)="clickProgram(program)"
+             [ngClass]="{today: isToday(i), active: program !== undefined}">
+            <ng-container *ngIf="isEditMode && program">
+                <span class="glyphicon glyphicon-remove-sign remove-program"
+                      (click)="removeProgram($event, program)"></span>
+            </ng-container>
+            <a *ngIf="program && program.link" href="{{ program.link }}">{{ program.title }}</a>
+            <p *ngIf="program && !program.link">{{ program.title }}</p>
+            <div *ngIf="program && program.tags" class="tags">
+                <span *ngFor="let tag of program.tags" class="label"
+                      [ngStyle]="{'background-color': getColor(tag.name)}">
+                    {{ tag.name }}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="modal" bsModal #programModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Program Control Panel</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="programModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="program-day">Day of week</label>
+                    <select class="form-control" id="program-day" [(ngModel)]="program.day">
+                        <option value="0">日</option>
+                        <option value="1">月</option>
+                        <option value="2">火</option>
+                        <option value="3">水</option>
+                        <option value="4">木</option>
+                        <option value="5">金</option>
+                        <option value="6">土</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="program-title">Title(*)</label>
+                    <input type="text" class="form-control":w
+                    id="program-title" [(ngModel)]="program.title">
+                </div>
+                <div class="form-group">
+                    <label for="program-content">Content</label>
+                    <textarea class="form-control" id="program-content" [(ngModel)]="program.content"></textarea>
+                </div>
+                <p>
+                    <span class="btn-option" for="program-option">
+                        <button class="btn btn-info" (click)="optionOpen = !optionOpen">option</button>
+                    </span>
+                </p>
+                <div id="program-option" [hidden]="!optionOpen">
+                    <div class="form-group">
+                        <label for="program-tags">Tags</label>
+                        <input type="text" class="form-control" id="program-tags"
+                               placeholder="Add tag seperated with comma(,)"
+                               [ngModel]="inputTags"
+                               (ngModelChange)="tryAddTags($event)">
+                        <span *ngFor="let tag of program.tags; let i = index" class="label label-default tag">
+                            <span>{{ tag.name }}</span>
+                            <span class="glyphicon glyphicon-remove-sign" (click)="removeTag(i)"></span></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="program-link">Link</label>
+                        <input class="form-control" id="program-link" type="url" [(ngModel)]="program.link">
+                    </div>
+                    <div class="form-group">
+                        <label for="program-start">Start time</label>
+                        <input class="form-control" id="program-start" type="time" [(ngModel)]="program.startTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="program-end">End time</label>
+                        <input class="form-control" id="program-end" type="time" [(ngModel)]="program.endTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="program-start">Start date</label>
+                        <input class="form-control" id="program-startedAt" type="date" [(ngModel)]="program.startedAt">
+                    </div>
+                    <div class="form-group">
+                        <label for="program-end">End date</label>
+                        <input class="form-control" id="program-endedAt" type="date" [(ngModel)]="program.endedAt">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" (click)="saveProgram()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<!--
+<div class="modal" bsModal #infoModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{ program?.title }}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="infoModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ program?.content }}
+            </div>
+        </div>
+    </div>
+</div>
+-->
