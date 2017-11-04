@@ -14,7 +14,7 @@ import { PageMode } from '../../models/page';
 })
 export class ChannelComponent implements OnInit {
 
-    private channel: Channel = NullChannel;
+    private channel: Channel;
     private mode: PageMode = new PageMode();
 
     constructor(private route: ActivatedRoute, private channelsService: ChannelsService) {

@@ -4,7 +4,7 @@
 
 # 2
 - [*] add confirm before deleting channel
-- [ ] don't show no channel when loading in channel/:id page
+- [*] don't show no channel when loading in channel/:id page
 - [*] no channel disappear in /channel if the user doesn't have any channel
     - also don't show no channel when loading
 
@@ -19,6 +19,7 @@
 - [ ] design no channel style
 - [ ] design loading style
 - [ ] use sweetalert
+- [ ] list/grid no hover effect
 
 # ?
 

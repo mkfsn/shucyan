@@ -1,5 +1,11 @@
-<div class="channel" *ngIf="channel">
-    <ng-container *ngIf="channel.id !== undefined; then ChannelExists; else ChannelNotFound"></ng-container>
+<div class="channel">
+    <ng-container *ngIf="channel === undefined; then ChannelLoading; else ChannelLoaded"></ng-container>
+    <ng-template #ChannelLoading>
+        <h3>Loading ...</h3>
+    </ng-template>
+    <ng-template #ChannelLoaded>
+        <ng-container #ChannelLoaded *ngIf="channel.id !== undefined; then ChannelExists; else ChannelNotFound"></ng-container>
+    </ng-template>
     <ng-template #ChannelExists>
         <div class="channel-head">
             <ng-container *ngIf="isEditMode; then EditChannel; else DisplayChannel"></ng-container>
