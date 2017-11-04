@@ -13,10 +13,10 @@ export class Tag {
 }
 
 export class Program {
-    id: number;
+    id: string;
     channelId: string;
     day: number;
-    title: string;
+    name: string;
     content: string;
 
     tags?: Array<Tag>;
@@ -27,9 +27,15 @@ export class Program {
     startTime?: string;
     endTime?: string;
 
-    constructor(day: number, title: string, content: string) {
+    constructor(day: number, name: string, content: string) {
         this.day = day;
-        this.title = title;
+        this.name = name;
         this.content = content;
+    }
+
+    static fromFirebase(id: string, day: number, name: string, content: string): Program {
+        let program = new Program(day, name, content);
+        program.id = id;
+        return program;
     }
 }
