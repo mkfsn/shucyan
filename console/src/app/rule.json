@@ -4,7 +4,7 @@
 			".read": "true",
 			".indexOn": "owner",
 			"$channel_id": {
-				".write": "auth !== null && (!data.exists() || data.child('owner').val() === auth.uid)",
+				".write": "auth !== null && (!data.exists() || data.child('owner').val() === auth.token.email)",
 				".validate": "newData.hasChildren(['name', 'description', 'owner'])",
 				"name": {
 					".validate": "newData.isString() && newData.val().length > 0"
@@ -13,7 +13,7 @@
 					".validate": "newData.isString() && newData.val().length > 0"
 				},
 				"owner": {
-					".validate": "newData.isString() && newData.val().length > 0 && newData.val() === auth.uid"
+					".validate": "newData.isString() && newData.val().length > 0 && newData.val() === auth.token.email"
 				},
 				"collaborators": {
 					"$user_email": {
@@ -26,7 +26,7 @@
 		"programs": {
 			".read": "true",
 			"$channel_id": {
-				".write": "auth !== null && (root.child('channels/' + $channel_id + '/owner').val() === auth.uid || root.child('channels/' + $channel_id + '/collaborators/' + auth.token.email).exists())",
+				".write": "auth !== null && (root.child('channels/' + $channel_id + '/owner').val() === auth.token.email || root.child('channels/' + $channel_id + '/collaborators/' + auth.token.email).exists())",
 				".validate": "root.child('channels/' + $channel_id).exists()",
 
 				"$program_id": {
@@ -58,7 +58,7 @@
 
 		"logs": {
 			"$channel_id": {
-				".read": "auth !== null && root.child('channels/' + $channel_id + '/owner').val() === auth.uid",
+				".read": "auth !== null && root.child('channels/' + $channel_id + '/owner').val() === auth.token.email",
 				".validate": "root.child('channels/' + $channel_id).exists()",
 			}
 		}
