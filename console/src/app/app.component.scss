@@ -61,6 +61,17 @@ header {
                 }
             }
 
+            a.user {
+                padding: 10px 15px;
+
+                img.avatar {
+                    border-radius: 50%;
+                    height: 30px;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    padding: 2px;
+                }
+            }
+
             .open > a,
             .open > a:focus,
             .open > a:hover {

@@ -35,7 +35,11 @@
                     </ng-container>
                     <ng-container *ngIf="(userState | async) as user">
                         <li dropdown>
-                            <a href dropdownToggle (click)="false">{{ user.email }} <span class="caret"></span></a>
+                            <a href dropdownToggle (click)="false" class="user">
+                                <img class="avatar" src="{{ user.avatar }}">
+                                {{ user.email }}
+                                <span class="caret"></span>
+                            </a>
                             <ul *dropdownMenu class="dropdown-menu logout-menu">
                                 <li><a role="button" routerLink="/channel">Channel</a></li>
                                 <li class="divider"></li>
