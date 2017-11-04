@@ -46,49 +46,53 @@
         </div>
     </aside>
     <div class="col-md-10 col-sm-9 col-xs-10">
-
-        <ng-container *ngIf="(channelsSub | async); then displayChannels; else noChannel"></ng-container>
+        <ng-container *ngIf="(channelsSub | async); let channels; else loadingChannels">
+            <ng-container *ngIf="channels.length > 0; then displayChannels; else noChannel"></ng-container>
+        </ng-container>
         <ng-template #displayChannels>
             <ng-container *ngIf="listing; then channelsList else channelsGrid"></ng-container>
-            <ng-template #channelsList>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let channel of (channelsSub | async)">
-                            <td>{{ channel.name }}</td>
-                            <td>{{ channel.description }}</td>
-                            <td>
-                                <a [routerLink]="['/channel/' + channel.id]" class="btn btn-primary" role="button">Go</a>
-                                <button class="btn btn-danger" (click)="removeChannel(channel)" role="button">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </ng-template>
-            <ng-template #channelsGrid>
-                <div class="col-md-3" *ngFor="let channel of channelsSub | async">
-                    <div class="thumbnail">
-                        <div class="caption">
-                            <h3>{{ channel.name }}</h3>
-                            <p>{{ channel.description }}</p>
-                            <p>
-                                <a [routerLink]="['/channel/' + channel.id]" class="btn btn-primary" role="button">Go</a>
-                                <a href="#" class="btn btn-default" role="button">Button</a>
-                                <button class="btn btn-danger" (click)="removeChannel(channel)" role="button">Delete</button>
-                            </p>
-                        </div>
+        </ng-template>
+        <ng-template #channelsList>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let channel of (channelsSub | async)">
+                        <td>{{ channel.name }}</td>
+                        <td>{{ channel.description }}</td>
+                        <td>
+                            <a [routerLink]="['/channel/' + channel.id]" class="btn btn-primary" role="button">Go</a>
+                            <button class="btn btn-danger" (click)="removeChannel(channel)" role="button">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-template>
+        <ng-template #channelsGrid>
+            <div class="col-md-3" *ngFor="let channel of channelsSub | async">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>{{ channel.name }}</h3>
+                        <p>{{ channel.description }}</p>
+                        <p>
+                            <a [routerLink]="['/channel/' + channel.id]" class="btn btn-primary" role="button">Go</a>
+                            <a href="#" class="btn btn-default" role="button">Button</a>
+                            <button class="btn btn-danger" (click)="removeChannel(channel)" role="button">Delete</button>
+                        </p>
                     </div>
                 </div>
-            </ng-template>
+            </div>
         </ng-template>
         <ng-template #noChannel>
             <h1>No Channel.</h1>
+        </ng-template>
+        <ng-template #loadingChannels>
+            <h3>Loading ...</h3>
         </ng-template>
     </div>
 </div>

@@ -4,8 +4,8 @@
 
 # 2
 - [*] add confirm before deleting channel
-- [ ] don't show no channel when loading
-- [ ] no channel disappear in /channel if the user doesn't have any channel
+- [ ] don't show no channel when loading in channel/:id page
+- [*] no channel disappear in /channel if the user doesn't have any channel
     - also don't show no channel when loading
 
 # 3
@@ -16,6 +16,9 @@
 - [ ] add updatedAt/createdAt to channel
 - [ ] channel page header re-design
 - [ ] contributor of channel setting
+- [ ] design no channel style
+- [ ] design loading style
+- [ ] use sweetalert
 
 # ?
 
