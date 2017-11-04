@@ -14,4 +14,15 @@ section {
     &#latest {
         background-color: #f3f3f3;
     }
+
+    &#about {
+        .icons {
+            margin-top: 5em;
+            img {
+                width: 7em;
+                margin-right: 2em;
+                box-shadow: 0 0 12px rgb(100, 100, 100);
+            }
+        }
+    }
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+
 import { ChannelsService } from '../../services/channels.service';
 
 import { Channel } from '../../models/channel';
@@ -12,23 +14,11 @@ import { Channel } from '../../models/channel';
 export class HomeComponent implements OnInit {
 
     // state
-    private channels: Array<Channel>;
-    static readonly N: number = 10;
+    private channels: Observable<Channel[]>;
+    readonly N: number = 10;
 
     constructor(private channelsService: ChannelsService) {
-        /*
-        channelsService.list((channels: Channel[]) => {
-            this.channels = channels;
-
-            // At least N
-            for (let i = this.channels.length; i < LatestComponent.N; i++) {
-                this.channels.push(new Channel('', '', ''));
-            }
-
-            // At most N
-            this.channels = this.channels.slice(0, LatestComponent.N);
-        });
-        */
+        this.channels = this.channelsService.getLatestChannels();
     }
 
     ngOnInit() {
