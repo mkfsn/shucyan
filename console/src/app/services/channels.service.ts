@@ -5,8 +5,10 @@ import * as firebase from 'firebase/app';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/combineLatest';
 
 import { AuthService } from '../services/auth.service';
+import { ProgramsService } from '../services/programs.service';
 
 import { Channel } from '../models/channel';
 import { User } from '../models/user';
@@ -16,7 +18,7 @@ export class ChannelsService {
 
     private channels: AngularFireList<Channel>;
 
-    constructor(private authService: AuthService, private db: AngularFireDatabase) {
+    constructor(private authService: AuthService, private db: AngularFireDatabase, private programsService: ProgramsService) {
         this.channels = this.db.list('/channels');
     }
 
@@ -29,12 +31,16 @@ export class ChannelsService {
      * getChannel returns channel by given id
      */
     getChannel(id: string): Observable<Channel> {
-        return this.channels.snapshotChanges().map(fireactions => {
-            return fireactions.filter(action => action.key === id).map(action => {
+        return this.db.object('/channels/' + id).snapshotChanges()
+            .map(action => {
                 const val = action.payload.val();
                 return Channel.fromFirebase(action.key, val.name, val.description, val.owner);
-            })[0];
-        });
+            })
+            .combineLatest(this.programsService.getChannelPrograms(id), (channel, programs) => {
+                console.log(channel, programs);
+                channel.programs = programs;
+                return channel;
+            });
     }
 
     /*
