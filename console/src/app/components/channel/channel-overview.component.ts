@@ -27,9 +27,12 @@ export class ChannelOverviewComponent implements OnInit {
         this.channelsService.addChannel(channel);
     }
 
-    removeChannel(id: string) {
-        // TODO: Add warning
-        this.channelsService.removeChannel(id);
+    removeChannel(channel: Channel): void {
+        const removeIt = confirm('Remove channel: ' + channel.name + ' ?');
+        if (removeIt !== true) {
+            return;
+        }
+        this.channelsService.removeChannel(channel.id);
     }
 
 }

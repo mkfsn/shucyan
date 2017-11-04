@@ -3,10 +3,10 @@
 - [*] margin-bottom of program table
 
 # 2
+- [*] add confirm before deleting channel
 - [ ] don't show no channel when loading
 - [ ] no channel disappear in /channel if the user doesn't have any channel
     - also don't show no channel when loading
-- [ ] add warning when deleting channel
 
 # 3
 - [ ] In channel component, add filter, edit, setting buttons

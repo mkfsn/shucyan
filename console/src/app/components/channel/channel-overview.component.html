@@ -65,7 +65,7 @@
                             <td>{{ channel.description }}</td>
                             <td>
                                 <a [routerLink]="['/channel/' + channel.id]" class="btn btn-primary" role="button">Go</a>
-                                <button class="btn btn-danger" (click)="removeChannel(channel.id)" role="button">Delete</button>
+                                <button class="btn btn-danger" (click)="removeChannel(channel)" role="button">Delete</button>
                             </td>
                         </tr>
                     </tbody>
@@ -80,7 +80,7 @@
                             <p>
                                 <a [routerLink]="['/channel/' + channel.id]" class="btn btn-primary" role="button">Go</a>
                                 <a href="#" class="btn btn-default" role="button">Button</a>
-                                <button class="btn btn-danger" (click)="removeChannel(channel.id)" role="button">Delete</button>
+                                <button class="btn btn-danger" (click)="removeChannel(channel)" role="button">Delete</button>
                             </p>
                         </div>
                     </div>
