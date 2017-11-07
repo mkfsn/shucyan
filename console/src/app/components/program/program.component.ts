@@ -74,7 +74,7 @@ export class ProgramComponent implements OnInit {
         const b = itoa(sum % 256),
             g = itoa((sum / 256) % 256),
             r = itoa((sum / 256 / 256) % 256);
-        return chroma('#' + r + g + b).saturate(2).hex();
+        return chroma('#' + r + g + b).darker(2).hex();
     }
 
     private getColor(tag: string): string {
