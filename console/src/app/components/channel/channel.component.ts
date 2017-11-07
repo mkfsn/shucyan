@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
@@ -129,6 +128,7 @@ export class ChannelComponent implements OnInit {
     private saveCollaborators() {
         this.channel.collaborators = this.channel.collaborators.concat(this.inputCollaborators);
         this.shareModal.hide();
+        this.saveChannel();
     }
 
     private saveChannel() {
