@@ -1,7 +1,7 @@
 # 1
 - [*] Show owner by email rather than uid
 - [*] margin-bottom of program table
-- [ ] Check user has permission to edit
+- [*] Check user has permission to edit
 - [ ] Save channel update
 
 # 2

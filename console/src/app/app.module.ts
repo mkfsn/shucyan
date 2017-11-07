@@ -18,6 +18,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
+import { ChannelGuard } from './guards/channel.guard';
 
 // Services
 import { AuthService } from './services/auth.service';
@@ -54,6 +55,7 @@ import { ChannelOverviewComponent } from './components/channel/channel-overview.
     providers: [
         AuthService,
         AuthGuard,
+        ChannelGuard,
         Title,
         ChannelsService,
         ProgramsService

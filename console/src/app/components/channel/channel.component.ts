@@ -4,6 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { ChannelsService } from '../../services/channels.service';
+import { AuthService } from '../../services/auth.service';
 
 import { Channel, NullChannel } from '../../models/channel';
 import { PageMode } from '../../models/page';
@@ -19,11 +20,12 @@ export class ChannelComponent implements OnInit {
     private mode: PageMode = new PageMode();
     private inputEmail: string;
     private inputCollaborators: string[];
+    private editable: boolean = false;
 
     @ViewChild('inputEmailElement') private inputEmailElement: ElementRef;
     @ViewChild('shareModal') private shareModal: ModalDirective;
 
-    constructor(private route: ActivatedRoute, private channelsService: ChannelsService) {
+    constructor(private route: ActivatedRoute, private channelsService: ChannelsService, private authService: AuthService) {
         this.setModeByURL();
         this.loadChannel();
         this.inputCollaborators = [];
@@ -50,6 +52,9 @@ export class ChannelComponent implements OnInit {
 
         const successFunc = (channel) => {
             this.setChannel(channel);
+
+            const email = this.authService.user.email;
+            this.editable = email === channel.owner || channel.collaborators.find(v => v === email) !== undefined;
         };
 
         const errorFunc = () => {

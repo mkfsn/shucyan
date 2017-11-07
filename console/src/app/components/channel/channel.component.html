@@ -52,9 +52,9 @@
                     <div class="control-icons">
                         <div>
                             <button class="icon"><i class="fa fa-star"></i></button>
-                            <button class="icon" routerLink="edit"><i class="fa fa-pencil"></i></button>
+                            <button class="icon" *ngIf="editable" routerLink="edit"><i class="fa fa-pencil"></i></button>
                             <button class="icon"><i class="fa fa-filter"></i></button>
-                            <button class="icon" (click)="openShareModal()"><i class="fa fa-share"></i></button>
+                            <button class="icon"  *ngIf="editable" (click)="openShareModal()"><i class="fa fa-share"></i></button>
                         </div>
                     </div>
                 </div>

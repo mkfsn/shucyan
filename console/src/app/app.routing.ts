@@ -5,6 +5,7 @@ import { ChannelComponent } from './components/channel/channel.component';
 import { ChannelOverviewComponent } from './components/channel/channel-overview.component';
 
 import { AuthGuard } from './guards/auth.guard';
+import { ChannelGuard } from './guards/channel.guard';
 
 const routes: Routes = [
     {
@@ -31,7 +32,7 @@ const routes: Routes = [
     {
         path: 'channel/:id/edit',
         component: ChannelComponent,
-        canActivate: [AuthGuard]
+        canActivate: [ChannelGuard]
     },
     {
         path: '**',
