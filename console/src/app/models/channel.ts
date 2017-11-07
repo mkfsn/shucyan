@@ -24,10 +24,15 @@ export class Channel {
         this.collaborators = [];
     }
 
-    static fromFirebase(id: string, name: string, description: string, owner: string): Channel {
-        const channel = new Channel(name, description);
+    static fromFirebase(id: string, values: any): Channel {
+        const channel = new Channel(values.name, values.description);
         channel.id = id;
-        channel.owner = owner;
+        channel.owner = values.owner;
+        channel.collaborators = values.collaborators || [];
+        channel.starred = values.starred || [];
+        channel.createdAt = values.createdAt || null;
+        channel.updatedAt = values.updatedAt || null;
+        console.log('fromFirebase:', channel);
         return channel;
     }
 

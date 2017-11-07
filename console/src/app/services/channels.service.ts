@@ -33,8 +33,8 @@ export class ChannelsService {
     getChannel(id: string): Observable<Channel> {
         return this.db.object('/channels/' + id).snapshotChanges()
             .map(action => {
-                const val = action.payload.val();
-                return Channel.fromFirebase(action.key, val.name, val.description, val.owner);
+                const values = action.payload.val();
+                return Channel.fromFirebase(action.key, values);
             })
             .combineLatest(this.programsService.getChannelPrograms(id), (channel, programs) => {
                 channel.programs = programs;
@@ -54,8 +54,8 @@ export class ChannelsService {
             const list = this.db.list('/channels', ref => ref.orderByChild('owner').equalTo(user.email));
             return list.snapshotChanges().map(fireactions => {
                 return fireactions.map(action => {
-                    const val = action.payload.val();
-                    return Channel.fromFirebase(action.key, val.name, val.description, val.owner);
+                    const values = action.payload.val();
+                    return Channel.fromFirebase(action.key, values);
                 });
             });
         });
@@ -64,13 +64,14 @@ export class ChannelsService {
     getLatestChannels(): Observable<Channel[]> {
         return this.channels.snapshotChanges().map(fireactions => {
             return fireactions.map(action => {
-                const val = action.payload.val();
-                return Channel.fromFirebase(action.key, val.name, val.description, val.owner);
+                const values = action.payload.val();
+                return Channel.fromFirebase(action.key, values);
             });
         });
     }
 
     updateChannel(id: string, channel: Channel): Observable<void> {
+        channel.programs = null;
         const thenable = this.db.object('/channels/' + id).update(channel);
         return Observable.fromPromise(thenable);
     }
