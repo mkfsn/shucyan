@@ -1,5 +1,7 @@
 import { Program } from './program';
 
+type Email = string;
+
 export class Channel {
     id: string;
     name: string;
@@ -7,7 +9,9 @@ export class Channel {
     description: string;
     createdAt: Date;
     updatedAt: Date;
-    programs: Array<Program>;
+    programs: Program[];
+    collaborators: Email[];
+    starred: Email[];
 
     constructor(name: string, description: string) {
         this.name = name;
@@ -16,6 +20,8 @@ export class Channel {
             return;
         }
         this.createdAt = new Date();
+        this.starred = [];
+        this.collaborators = [];
     }
 
     static fromFirebase(id: string, name: string, description: string, owner: string): Channel {
@@ -24,6 +30,13 @@ export class Channel {
         channel.owner = owner;
         return channel;
     }
+
+    addCollaborator(email: string): void {
+    }
+
+    removeCollaborator(email: string): void {
+    }
+
 }
 
 export let NullChannel = new Channel(undefined, undefined);

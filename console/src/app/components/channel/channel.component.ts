@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { ActivatedRoute, Params } from '@angular/router';
+
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { ChannelsService } from '../../services/channels.service';
 
@@ -16,10 +18,16 @@ export class ChannelComponent implements OnInit {
 
     private channel: Channel;
     private mode: PageMode = new PageMode();
+    private inputEmail: string;
+    private inputCollaborators: string[];
+
+    @ViewChild('inputEmailElement') private inputEmailElement: ElementRef;
+    @ViewChild('shareModal') private shareModal: ModalDirective;
 
     constructor(private route: ActivatedRoute, private channelsService: ChannelsService) {
         this.setModeByURL();
         this.loadChannel();
+        this.inputCollaborators = [];
     }
 
     ngOnInit() {
@@ -53,6 +61,7 @@ export class ChannelComponent implements OnInit {
     }
 
     private setModeByURL(): void {
+        // TODO: Also check user has permission to edit
         if (this.route.snapshot.url.length > 2 && this.route.snapshot.url[2].path === 'edit') {
             this.mode.setEdit();
         } else {
@@ -70,6 +79,63 @@ export class ChannelComponent implements OnInit {
 
     private nameInputLength(owner): string {
         return `calc(100% - ${owner.length + 1}ch - 200px)`;
+    }
+
+    private openShareModal() {
+        this.inputCollaborators = [];
+        this.shareModal.show();
+    }
+
+    private removeCollaborator(email: string) {
+        email = email.trim();
+        if (email === '') {
+            return;
+        }
+        this.channel.collaborators = this.channel.collaborators.filter(v => v !== email);
+    }
+
+    private inputEmailExists(email: string): Boolean {
+        email = email.trim();
+        return this.channel.collaborators.find(v => v === email) !== undefined || this.channel.owner === email;
+    }
+
+    private inputEmailChanged(event) {
+        if (event.keyCode !== 32 && event.keyCode !== 9 && event.keyCode !== 13) {
+            return;
+        }
+
+        const email: string = this.inputEmail.trim();
+        this.inputEmail = undefined;
+
+        if (this.inputEmailExists(email) || email === '') {
+            return;
+        }
+
+        if (undefined !== this.inputCollaborators.find(v => v === email)) {
+            return;
+        }
+        this.inputCollaborators.push(email);
+    }
+
+    private inputEmailRemove(email) {
+        email = email.trim();
+        if (email === '') {
+            return;
+        }
+        this.inputCollaborators = this.inputCollaborators.filter(v => v !== email);
+        this.inputEmailElement.nativeElement.focus();
+    }
+
+    private saveCollaborators() {
+        this.channel.collaborators = this.channel.collaborators.concat(this.inputCollaborators);
+        this.shareModal.hide();
+    }
+
+    private saveChannel() {
+        const successFunc = () => {};
+        const errorFunc = () => {};
+        const completeFunc = () => {};
+        this.channelsService.updateChannel(this.channel.id, this.channel).subscribe(successFunc, errorFunc, completeFunc);
     }
 
 }

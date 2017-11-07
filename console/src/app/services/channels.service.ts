@@ -70,6 +70,11 @@ export class ChannelsService {
         });
     }
 
+    updateChannel(id: string, channel: Channel): Observable<void> {
+        const thenable = this.db.object('/channels/' + id).update(channel);
+        return Observable.fromPromise(thenable);
+    }
+
     removeChannel(id: string) {
         this.channels.remove(id);
     }

@@ -4,6 +4,10 @@
 
     min-height: 77vh;
 
+    .icon:focus {
+        outline: none;
+    }
+
     .editing {
         color: $EditLabelColor;
     }
@@ -46,12 +50,48 @@
             .channel-description {
                 white-space: pre-wrap;
             }
+
+            .control-icons {
+                display: flex;
+                height: 105px;
+                align-items: center;
+                justify-content: flex-end;
+
+                .icon {
+                    margin-right: .5em;
+                    border-radius: 50%;
+                    height: 2.5em;
+                    width: 2.5em;
+
+                    &:hover {
+                        background-color: rgba(200, 200, 200, 0.5);
+                    }
+
+                    &:focus {
+                        outline: none;
+                    }
+
+                    &.success {
+                        background-color: #aaffaa;
+                    }
+
+                    &.fail {
+                        background-color: #ffaaaa;
+                    }
+                }
+            }
         }
 
         .channel-not-found {
             span.label.label-danger {
                 font-size: 100%;
                 padding: .2em .6em .2em;
+            }
+        }
+
+        .share-modal {
+            .label-email {
+                margin: 1px 2px;
             }
         }
 

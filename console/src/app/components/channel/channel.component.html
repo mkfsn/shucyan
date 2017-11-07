@@ -1,26 +1,19 @@
 <div class="channel">
     <ng-container *ngIf="channel === undefined; then ChannelLoading; else ChannelLoaded"></ng-container>
+
     <ng-template #ChannelLoading>
         <h3>Loading ...</h3>
     </ng-template>
+
     <ng-template #ChannelLoaded>
         <ng-container #ChannelLoaded *ngIf="channel.id !== undefined; then ChannelExists; else ChannelNotFound"></ng-container>
     </ng-template>
+
     <ng-template #ChannelExists>
         <div class="channel-head">
             <ng-container *ngIf="isEditMode; then EditChannel; else DisplayChannel"></ng-container>
             <ng-template #EditChannel>
-                <div class="col-xs-1 control-panel text-center">
-                    <h1><a routerLink="../" class="editing"><span class="glyphicon glyphicon-chevron-left"></span></a></h1>
-                    <p class="control-panel-save">
-                        <button class="btn btn-link" style="padding: 0">
-                            <span class="label label-success">
-                                <span class="glyphicon glyphicon-floppy-disk"></span> Save
-                            </span>
-                        </button>
-                    </p>
-                </div>
-                <div class="col-xs-11">
+                <div class="col-xs-10">
                     <h1>
                         <input class="form-control input-lg"
                                [ngStyle]="{width: nameInputLength(channel.owner)}"
@@ -37,19 +30,17 @@
                         </textarea>
                     </p>
                 </div>
+                <div class="col-xs-2">
+                    <div class="control-icons">
+                        <div>
+                            <button class="icon success"><i class="glyphicon glyphicon-floppy-saved"></i></button>
+                            <button class="icon fail" routerLink="../"><i class="glyphicon glyphicon-floppy-remove"></i></button>
+                        </div>
+                    </div>
+                </div>
             </ng-template>
             <ng-template #DisplayChannel>
-                <div class="col-xs-1 control-panel text-center">
-                    <h1><a routerLink="/home"><span class="glyphicon glyphicon-home"></span></a></h1>
-                    <p class="control-panel-edit" *ngIf="channel !== null">
-                        <a routerLink="edit">
-                            <span class="label label-primary">
-                                <span class="glyphicon glyphicon-cog"></span> Edit
-                            </span>
-                        </a>
-                    </p>
-                </div>
-                <div class="col-xs-11">
+                <div class="col-xs-10">
                     <h1>
                         <span>{{ channel.name }}</span><small><span class="channel-owner"><a role="button">{{ channel.owner }}</a></span></small>
                     </h1>
@@ -57,8 +48,18 @@
                         <span class="channel-description">{{ channel.description }}</span>
                     </p>
                 </div>
+                <div class="col-xs-2">
+                    <div class="control-icons">
+                        <div>
+                            <button class="icon"><i class="fa fa-star"></i></button>
+                            <button class="icon" routerLink="edit"><i class="fa fa-pencil"></i></button>
+                            <button class="icon"><i class="fa fa-filter"></i></button>
+                            <button class="icon" (click)="openShareModal()"><i class="fa fa-share"></i></button>
+                        </div>
+                    </div>
+                </div>
             </ng-template>
-        </div>
+        </div> <!-- .channel-head -->
 
         <div class="clearfix"></div>
 
@@ -83,4 +84,55 @@
             </div>
         </div>
     </ng-template>
+
+    <div class="modal share-modal" bsModal #shareModal="bs-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left">Share</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="shareModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Share with Collaborators&#58;</p>
+                    <ul class="list-group" *ngIf="channel">
+                        <ng-container  *ngIf="channel.collaborators.length > 0; then listCollaborators else noCollaborator"></ng-container>
+                        <ng-template #listCollaborators>
+                            <li class="list-group-item" *ngFor="let email of channel.collaborators">
+                                <button class="btn btn-danger btn-xs pull-right btn-remove-collaborator"
+                                        (click)="removeCollaborator(email)">
+                                    <i>&times;</i>
+                                </button>
+                                {{ email }}
+                            </li>
+                        </ng-template>
+                        <ng-template #noCollaborator>
+                            <li class="list-group-item">
+                                <i>No Collaborators</i>
+                            </li>
+                        </ng-template>
+                    </ul>
+                    <div class="well well-sm">
+                        <p>Invite&#58;</p>
+                        <input type="email" class="form-control" placeholder="Email"
+                               #inputEmailElement
+                               (keydown.Tab)="inputEmailChanged($event)"
+                               [(ngModel)]="inputEmail"
+                               (keyup)="inputEmailChanged($event)">
+                        <span class="label label-default label-email" *ngFor="let email of inputCollaborators">
+                            {{ email }}
+                            <i role="button" (click)="inputEmailRemove(email)">&times;</i>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull-left"
+                            (click)="saveCollaborators()">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
