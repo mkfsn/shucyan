@@ -27,6 +27,7 @@
 		"core-js": "2.4.1",
 		"firebase": "4.5.0",
 		"font-awesome": "4.7.0",
+		"jquery-slim": "^3.0.0",
 		"ngx-bootstrap": "1.9.3",
 		"rxjs": "5.4.2",
 		"zone.js": "0.8.14"
