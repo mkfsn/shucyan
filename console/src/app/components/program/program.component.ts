@@ -1,6 +1,6 @@
 import * as chroma from 'chroma-js';
 
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnChanges, Input, ViewChild } from '@angular/core';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -13,7 +13,7 @@ import { Program, Tag } from '../../models/program';
     templateUrl: './program.component.html',
     styleUrls: ['./program.component.scss']
 })
-export class ProgramComponent implements OnInit {
+export class ProgramComponent implements OnChanges {
 
     @Input() isEditMode: boolean;
     @Input() programs: Array<Program>;
@@ -47,8 +47,10 @@ export class ProgramComponent implements OnInit {
         this.program = new Program(-1, '', '');
     }
 
-    ngOnInit() {
-        this.programTable = this.buildProgramTable(this.programs);
+    ngOnChanges(changes: any) {
+        if (changes.programs) {
+            this.programTable = this.buildProgramTable(this.programs);
+        }
     }
 
     private getDatesOfWeek(): Array<string> {

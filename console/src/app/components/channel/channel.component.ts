@@ -7,7 +7,17 @@ import { ChannelsService } from '../../services/channels.service';
 import { AuthService } from '../../services/auth.service';
 
 import { Channel, NullChannel } from '../../models/channel';
+import { Program, Tag } from '../../models/program';
 import { PageMode } from '../../models/page';
+
+class TagStatus extends Tag {
+    selected: boolean;
+
+    constructor(name: string) {
+        super(name);
+        this.selected = true;
+    }
+}
 
 @Component({
     selector: 'app-channel',
@@ -22,6 +32,9 @@ export class ChannelComponent implements OnInit {
     private inputCollaborators: string[];
     private editable: boolean = false;
 
+    private tags: TagStatus[];
+    private filteredPrograms: Program[];
+
     @ViewChild('inputEmailElement') private inputEmailElement: ElementRef;
     @ViewChild('shareModal') private shareModal: ModalDirective;
 
@@ -29,6 +42,9 @@ export class ChannelComponent implements OnInit {
         this.setModeByURL();
         this.loadChannel();
         this.inputCollaborators = [];
+
+        this.tags = [];
+        this.filteredPrograms = [];
     }
 
     ngOnInit() {
@@ -50,11 +66,16 @@ export class ChannelComponent implements OnInit {
     private loadChannel(): void {
         const channelId: string = this.getChannelId();
 
-        const successFunc = (channel) => {
+        const successFunc = (channel: Channel) => {
             this.setChannel(channel);
 
             const email = this.authService.user.email;
             this.editable = email === channel.owner || channel.collaborators.find(v => v === email) !== undefined;
+
+            const uniqueFunc = (tag, i, arr) => arr.findIndex(v => v.name === tag.name) === i;
+            const reduceProgramFunc = (all, program: Program) => all.concat(program.tags.map(v => new TagStatus(v.name)));
+            this.tags = channel.programs.reduce(reduceProgramFunc, []).filter(uniqueFunc);
+            this.updateFilteredPrograms();
         };
 
         const errorFunc = () => {
@@ -62,6 +83,26 @@ export class ChannelComponent implements OnInit {
         };
 
         this.channelsService.getChannel(channelId).subscribe(successFunc, errorFunc);
+    }
+
+    private updateSelectedTags(tagName: string) {
+        const tag = this.tags.find(v => v.name === tagName);
+        if (tag === undefined) {
+            return;
+        }
+        tag.selected = !tag.selected;
+        this.updateFilteredPrograms();
+    }
+
+    private updateFilteredPrograms() {
+        const selectedTagNames: string[] = this.tags.filter(v => v.selected).map(v => v.name);
+        this.filteredPrograms = this.channel.programs.filter((p: Program) => {
+            if (p.tags.length === 0) {
+                return true;
+            }
+
+            return p.tags.map(tag => selectedTagNames.indexOf(tag.name) !== -1).reduce((sum, cur) => sum || cur, false)
+        });
     }
 
     private setModeByURL(): void {
