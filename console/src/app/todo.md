@@ -3,13 +3,14 @@
 - [*] margin-bottom of program table
 - [*] Check user has permission to edit
 - [ ] Save channel update
+- [ ] Change collaborators to map[string]bool
 
 # 2
 - [*] add confirm before deleting channel
 - [*] don't show no channel when loading in channel/:id page
 - [*] no channel disappear in /channel if the user doesn't have any channel
     - also don't show no channel when loading
-- [ ] In channel component, add filter, edit, setting buttons
+- [*] In channel component, add filter, edit, setting buttons
     * filter: filter by tags
     * edit: to edit mode
     * setting: share, download, upload, star, more info
