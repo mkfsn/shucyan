@@ -13,13 +13,18 @@ import { Channel } from '../../models/channel';
 })
 export class ChannelOverviewComponent implements OnInit {
 
+    private myChannelsSub: Observable<Channel[]>;
+    private sharedChannelsSub: Observable<Channel[]>;
+
     private channelsSub: Observable<Channel[]>;
 
     constructor(private channelsService: ChannelsService) {
-        this.channelsSub = this.channelsService.getChannels();
+        this.myChannelsSub = this.channelsService.getMyChannels();
+        this.sharedChannelsSub = this.channelsService.getSharedChannels();
     }
 
     ngOnInit() {
+        this.channelsSub = this.myChannelsSub;
     }
 
     newChannel(name: string, description: string) {
@@ -33,6 +38,18 @@ export class ChannelOverviewComponent implements OnInit {
             return;
         }
         this.channelsService.removeChannel(channel.id);
+    }
+
+    private switchTo(to: string) {
+        switch (to) {
+            case 'mine':
+                this.channelsSub = this.myChannelsSub;
+                return;
+            case 'shared':
+                this.channelsSub = this.sharedChannelsSub;
+                return;
+        }
+        this.channelsSub = this.myChannelsSub;
     }
 
 }

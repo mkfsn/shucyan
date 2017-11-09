@@ -46,7 +46,7 @@ export class ChannelsService {
      * getChannels returns all channel belongs to user if user is authenticated,
      * otherwise throw an Observable error.
      */
-    getChannels(): Observable<Channel[]> {
+    getMyChannels(): Observable<Channel[]> {
         return this.authService.getAuthState().mergeMap(user => {
             if (user === null) {
                 return Observable.throw('Permission denied: user not authenticated');
@@ -60,6 +60,24 @@ export class ChannelsService {
             });
         });
     }
+
+    getSharedChannels(): Observable<Channel[]> {
+        return this.authService.getAuthState().mergeMap(user => {
+            if (user === null) {
+                return Observable.throw('Permission denied: user not authenticated');
+            }
+
+            const email = user.email.replace('.', '%2E');
+            const list = this.db.list('/channels', ref => ref.orderByChild('collaborators/' + email + '/editable').equalTo(true));
+            return list.snapshotChanges().map(fireactions => {
+                return fireactions.map(action => {
+                    const values = action.payload.val();
+                    return Channel.fromFirebase(action.key, values);
+                });
+            });
+        });
+    }
+
 
     getLatestChannels(): Observable<Channel[]> {
         return this.channels.snapshotChanges().map(fireactions => {
