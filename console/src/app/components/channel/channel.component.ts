@@ -40,7 +40,10 @@ export class ChannelComponent implements OnInit {
     @ViewChild('inputEmailElement') private inputEmailElement: ElementRef;
     @ViewChild('shareModal') private shareModal: ModalDirective;
 
-    constructor(private route: ActivatedRoute, private channelsService: ChannelsService, private authService: AuthService, private router: Router) {
+    constructor(private route: ActivatedRoute,
+                private channelsService: ChannelsService,
+                private authService: AuthService,
+                private router: Router) {
         this.setModeByURL();
         this.loadChannel();
         this.inputCollaborators = [];
