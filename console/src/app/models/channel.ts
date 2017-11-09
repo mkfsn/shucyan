@@ -72,12 +72,10 @@ export class Channel {
     }
 
     canShare(plainEmail: string): boolean {
-        // TODO
-        return true;
+        return this.emailEncode(plainEmail) === this.owner;
     }
 
     canEdit(plainEmail: string): boolean {
-        // TODO
         return this.isEditable(plainEmail);
     }
 

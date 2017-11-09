@@ -31,6 +31,7 @@ export class ChannelComponent implements OnInit {
     private inputEmail: string;
     private inputCollaborators: string[];
     private editable: boolean;
+    private shareable: boolean;
 
     private tags: TagStatus[];
     private filteredPrograms: Program[];
@@ -45,6 +46,7 @@ export class ChannelComponent implements OnInit {
         this.inputCollaborators = [];
 
         this.editable = false;
+        this.shareable = false;
 
         this.tags = [];
         this.filteredPrograms = [];
@@ -75,6 +77,7 @@ export class ChannelComponent implements OnInit {
 
             const email = this.authService.user.email;
             this.editable = channel.canEdit(email);
+            this.shareable = channel.canShare(email);
 
             const uniqueFunc = (tag, i, arr) => arr.findIndex(v => v.name === tag.name) === i;
             const reduceProgramFunc = (all, program: Program) => all.concat(program.tags.map(v => new TagStatus(v.name)));
