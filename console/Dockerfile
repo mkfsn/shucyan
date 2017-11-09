@@ -19,7 +19,7 @@ RUN mkdir -p /home/node/app && cp -a /tmp/node_modules /home/node/app/
 WORKDIR /home/node/app
 COPY . .
 
-RUN npm run build
+RUN npm run lint && npm run build
 
 EXPOSE 7070
 
