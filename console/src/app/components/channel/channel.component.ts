@@ -30,10 +30,11 @@ export class ChannelComponent implements OnInit {
     private mode: PageMode = new PageMode();
     private inputEmail: string;
     private inputCollaborators: string[];
-    private editable: boolean = false;
+    private editable: boolean;
 
     private tags: TagStatus[];
     private filteredPrograms: Program[];
+    private collaborators: string[];
 
     @ViewChild('inputEmailElement') private inputEmailElement: ElementRef;
     @ViewChild('shareModal') private shareModal: ModalDirective;
@@ -43,8 +44,11 @@ export class ChannelComponent implements OnInit {
         this.loadChannel();
         this.inputCollaborators = [];
 
+        this.editable = false;
+
         this.tags = [];
         this.filteredPrograms = [];
+        this.collaborators = [];
     }
 
     ngOnInit() {
@@ -70,12 +74,14 @@ export class ChannelComponent implements OnInit {
             this.setChannel(channel);
 
             const email = this.authService.user.email;
-            this.editable = email === channel.owner || channel.collaborators.find(v => v === email) !== undefined;
+            this.editable = channel.canEdit(email);
 
             const uniqueFunc = (tag, i, arr) => arr.findIndex(v => v.name === tag.name) === i;
             const reduceProgramFunc = (all, program: Program) => all.concat(program.tags.map(v => new TagStatus(v.name)));
             this.tags = channel.programs.reduce(reduceProgramFunc, []).filter(uniqueFunc);
             this.updateFilteredPrograms();
+
+            this.collaborators = Object.keys(channel.collaborators);
         };
 
         const errorFunc = () => {
@@ -101,7 +107,7 @@ export class ChannelComponent implements OnInit {
                 return true;
             }
 
-            return p.tags.map(tag => selectedTagNames.indexOf(tag.name) !== -1).reduce((sum, cur) => sum || cur, false)
+            return p.tags.map(tag => selectedTagNames.indexOf(tag.name) !== -1).reduce((sum, cur) => sum || cur, false);
         });
     }
 
@@ -136,12 +142,13 @@ export class ChannelComponent implements OnInit {
         if (email === '') {
             return;
         }
-        this.channel.collaborators = this.channel.collaborators.filter(v => v !== email);
+        this.channel.removeCollaborators(email);
     }
 
     private inputEmailExists(email: string): Boolean {
         email = email.trim();
-        return this.channel.collaborators.find(v => v === email) !== undefined || this.channel.owner === email;
+        const collaborator = this.channel.findCollaborator(email);
+        return this.channel.owner === email || (collaborator !== undefined && collaborator.editable);
     }
 
     private inputEmailChanged(event) {
@@ -172,7 +179,7 @@ export class ChannelComponent implements OnInit {
     }
 
     private saveCollaborators() {
-        this.channel.collaborators = this.channel.collaborators.concat(this.inputCollaborators);
+        this.channel.addCollaborators(...this.inputCollaborators);
         this.shareModal.hide();
         this.saveChannel();
     }

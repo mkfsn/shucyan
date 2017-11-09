@@ -3,7 +3,8 @@
 - [*] margin-bottom of program table
 - [*] Check user has permission to edit
 - [ ] Save channel update
-- [ ] Change collaborators to map[string]bool
+- [*] Change collaborators to map[string]bool
+    * https://stackoverflow.com/questions/38202055/accessing-email-address-in-firebase-rules
 
 # 2
 - [*] add confirm before deleting channel

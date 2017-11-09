@@ -4,7 +4,7 @@
 			".read": "true",
 			".indexOn": "owner",
 			"$channel_id": {
-				".write": "auth !== null && (!data.exists() || data.child('owner').val() === auth.token.email)",
+				".write": "auth !== null && (!data.exists() || data.child('owner').val() === auth.token.email.replace('.', '%2E'))",
 				".validate": "newData.hasChildren(['name', 'description', 'owner'])",
 				"name": {
 					".validate": "newData.isString() && newData.val().length > 0"
@@ -13,11 +13,13 @@
 					".validate": "newData.isString() && newData.val().length > 0"
 				},
 				"owner": {
-					".validate": "newData.isString() && newData.val().length > 0 && newData.val() === auth.token.email"
+					".validate": "newData.isString() && newData.val().length > 0 && newData.val() === auth.token.email.replace('.', '%2E')"
 				},
 				"collaborators": {
 					"$user_email": {
-						".validate": "newData.isString() && newData.val().length > 0 && newData.val().length < 128"
+						"editable": {
+							".validate": "newData.isBoolean()"
+						}
 					}
 				}
 			}
@@ -26,7 +28,7 @@
 		"programs": {
 			".read": "true",
 			"$channel_id": {
-				".write": "auth !== null && (root.child('channels/' + $channel_id + '/owner').val() === auth.token.email || root.child('channels/' + $channel_id + '/collaborators/' + auth.token.email).exists())",
+				".write": "auth !== null && (root.child('channels/' + $channel_id + '/owner').val() === auth.token.email.replace('.', '%2E') || root.child('channels/' + $channel_id + '/collaborators').child(auth.token.email.replace('.', '%2E')).exists())",
 				".validate": "root.child('channels/' + $channel_id).exists()",
 
 				"$program_id": {
@@ -58,7 +60,7 @@
 
 		"logs": {
 			"$channel_id": {
-				".read": "auth !== null && root.child('channels/' + $channel_id + '/owner').val() === auth.token.email",
+				".read": "auth !== null && root.child('channels/' + $channel_id + '/owner').val() === auth.token.email.replace('.', '%2E')",
 				".validate": "root.child('channels/' + $channel_id).exists()",
 			}
 		}
