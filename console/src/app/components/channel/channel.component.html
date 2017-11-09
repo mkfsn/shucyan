@@ -18,6 +18,7 @@
                         <input class="form-control input-lg"
                                [ngStyle]="{width: nameInputLength(channel.owner)}"
                                [ngModel]="channel?.name"
+                               #inputChannelName
                                name="name" type="text"/>
                         <small>
                             <span class="channel-owner">
@@ -28,7 +29,9 @@
                         </small>
                     </h1>
                     <p class="lead">
-                        <textarea class="form-control" rows="{{ channel ? 0 : channel.description.split('\n').length }}"
+                        <textarea class="form-control"
+                                  rows="{{ channel ? 0 : channel.description.split('\n').length }}"
+                                  #inputChannelDescription
                                   [ngModel]="channel?.description"
                                   name="description">
                         </textarea>
@@ -37,7 +40,10 @@
                 <div class="col-xs-2">
                     <div class="control-icons">
                         <div>
-                            <button class="icon success"><i class="glyphicon glyphicon-floppy-saved"></i></button>
+                            <button class="icon success"
+                                    (click)="updateChannel(inputChannelName.value, inputChannelDescription.value)">
+                                <i class="glyphicon glyphicon-floppy-saved"></i>
+                            </button>
                             <button class="icon fail" routerLink="../"><i class="glyphicon glyphicon-floppy-remove"></i></button>
                         </div>
                     </div>

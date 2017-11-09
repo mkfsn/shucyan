@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -40,7 +40,7 @@ export class ChannelComponent implements OnInit {
     @ViewChild('inputEmailElement') private inputEmailElement: ElementRef;
     @ViewChild('shareModal') private shareModal: ModalDirective;
 
-    constructor(private route: ActivatedRoute, private channelsService: ChannelsService, private authService: AuthService) {
+    constructor(private route: ActivatedRoute, private channelsService: ChannelsService, private authService: AuthService, private router: Router) {
         this.setModeByURL();
         this.loadChannel();
         this.inputCollaborators = [];
@@ -142,16 +142,18 @@ export class ChannelComponent implements OnInit {
 
     private removeCollaborator(email: string) {
         email = email.trim();
+        console.log('remove collaborator:', email, this.collaborators);
         if (email === '') {
             return;
         }
+        this.collaborators = this.collaborators.filter(v => v !== email);
         this.channel.removeCollaborators(email);
     }
 
     private inputEmailExists(email: string): Boolean {
         email = email.trim();
-        const collaborator = this.channel.findCollaborator(email);
-        return this.channel.owner === email || (collaborator !== undefined && collaborator.editable);
+        // FIXME: bad naming
+        return this.channel.canEdit(email);
     }
 
     private inputEmailChanged(event) {
@@ -187,10 +189,20 @@ export class ChannelComponent implements OnInit {
         this.saveChannel();
     }
 
-    private saveChannel() {
+    private updateChannel(name, description) {
+        this.channel.name = name;
+        this.channel.description = description;
+        this.saveChannel(true);
+    }
+
+    private saveChannel(redirect: boolean = false) {
         const successFunc = () => {};
         const errorFunc = () => {};
-        const completeFunc = () => {};
+        const completeFunc = () => {
+            if (redirect) {
+                this.router.navigate(['/channel', this.channel.id]);
+            }
+        };
         this.channelsService.updateChannel(this.channel.id, this.channel).subscribe(successFunc, errorFunc, completeFunc);
     }
 
