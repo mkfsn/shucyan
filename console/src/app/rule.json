@@ -53,7 +53,7 @@
 								".validate": "newData.isString() && newData.val().length > 0"
 							}
 						}
-					},
+					}
 				}
 			}
 		},
