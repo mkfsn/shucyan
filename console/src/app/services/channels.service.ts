@@ -71,7 +71,11 @@ export class ChannelsService {
     }
 
     updateChannel(id: string, channel: Channel): Observable<void> {
+
+        // TODO: Better make a function called toFirebase?
+        channel.id = null;
         channel.programs = null;
+
         const thenable = this.db.object('/channels/' + id).update(channel);
         return Observable.fromPromise(thenable);
     }
