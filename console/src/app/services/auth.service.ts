@@ -4,23 +4,23 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 
-import { User } from '../models/user';
+import { AuthUser } from '../models/user';
 
 @Injectable()
 export class AuthService {
 
     private authState: Observable<firebase.User>;
-    private currentUser: User;
+    private currentUser: AuthUser;
 
     constructor(public afAuth: AngularFireAuth) {
         this.currentUser = null;
         this.authState = this.afAuth.authState;
     }
 
-    getAuthState() {
+    getAuthState(): Observable<AuthUser> {
         return this.authState.map(firebaseUser => {
             if (firebaseUser) {
-                this.currentUser = new User(
+                this.currentUser = new AuthUser(
                     firebaseUser.uid,
                     firebaseUser.displayName,
                     firebaseUser.email,
@@ -34,7 +34,7 @@ export class AuthService {
         });
     }
 
-    get user(): User {
+    get user(): AuthUser {
         return this.currentUser;
     }
 
