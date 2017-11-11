@@ -25,7 +25,7 @@ export class ChannelsService {
     addChannel(channel: Channel): void {
         this.authService.getAuthState().subscribe(user => {
             if (user === null) {
-                console.error('Permission denied: user not authenticated')
+                console.error('Permission denied: user not authenticated');
             }
 
             channel.owner = user.encodedEmail;
@@ -75,7 +75,8 @@ export class ChannelsService {
                 return Observable.throw('Permission denied: user not authenticated');
             }
 
-            const list = this.db.list('/channels', ref => ref.orderByChild('collaborators/' + user.encodedEmail + '/editable').equalTo(true));
+            const refFunc = ref => ref.orderByChild('collaborators/' + user.encodedEmail + '/editable').equalTo(true);
+            const list = this.db.list('/channels', refFunc);
             return list.snapshotChanges().map(fireactions => {
                 return fireactions.map(action => {
                     const values = action.payload.val();

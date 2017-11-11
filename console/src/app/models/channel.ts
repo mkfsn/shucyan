@@ -52,7 +52,7 @@ export class Channel {
         channel.starred = values.starred || [];
         channel.createdAt = values.createdAt || null;
         channel.updatedAt = values.updatedAt || null;
-        console.debug('[fromFirebase]', channel);
+        console.log('[fromFirebase]', channel);
         return channel;
     }
 
@@ -65,7 +65,7 @@ export class Channel {
         channel.programs = null;
         channel.collaborators = this.collaborators;
         channel.starred = this.starred;
-        console.debug('[toFirebase]', channel);
+        console.log('[toFirebase]', channel);
         return channel;
     }
 

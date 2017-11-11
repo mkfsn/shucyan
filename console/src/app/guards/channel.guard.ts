@@ -18,12 +18,15 @@ export class ChannelGuard implements CanActivate {
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         const path = state.url.split('/');
-        return this.authService.getAuthState().combineLatest(this.channelsService.getChannel(path[2]), (user: AuthUser, channel: Channel) => {
-            const res = user.canEdit(channel);
-            if (!res) {
-                this.router.navigate(['/channel/', path[2]]);
+        return this.authService.getAuthState().combineLatest(
+            this.channelsService.getChannel(path[2]),
+            (user: AuthUser, channel: Channel) => {
+                const res = user.canEdit(channel);
+                if (!res) {
+                    this.router.navigate(['/channel/', path[2]]);
+                }
+                return res;
             }
-            return res;
-        });
+        );
     }
 }
