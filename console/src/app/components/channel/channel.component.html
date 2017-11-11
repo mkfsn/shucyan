@@ -68,12 +68,12 @@
                 <div class="col-xs-2">
                     <div class="control-icons">
                         <div class="dropdown">
-                            <button class="icon"><i class="fa fa-star"></i></button>
-                            <button class="icon" *ngIf="editable" routerLink="edit"><i class="fa fa-pencil"></i></button>
+                            <button class="icon" *ngIf="channel.allowToStar"><i class="fa fa-star"></i></button>
+                            <button class="icon" *ngIf="channel.allowToEdit" routerLink="edit"><i class="fa fa-pencil"></i></button>
                             <button class="icon dropdown-toggle" id="tags-filter-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <i class="fa fa-filter"></i>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="tags-filter-dropdown">
+                            <ul class="dropdown-menu" id="tags-filter-menu" aria-labelledby="tags-filter-dropdown">
                                 <li *ngFor="let tag of tags">
                                     <a role="button">
                                         <input type="checkbox"
@@ -83,7 +83,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <button class="icon"  *ngIf="shareable" (click)="openShareModal()"><i class="fa fa-share"></i></button>
+                            <button class="icon"  *ngIf="channel.allowToShare" (click)="openShareModal()"><i class="fa fa-share"></i></button>
                         </div>
                     </div>
                 </div>

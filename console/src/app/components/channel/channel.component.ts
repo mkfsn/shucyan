@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { Channel, NullChannel } from '../../models/channel';
 import { Program, Tag } from '../../models/program';
 import { PageMode } from '../../models/page';
+import { User } from '../../models/user';
 
 class TagStatus extends Tag {
     selected: boolean;
@@ -30,8 +31,6 @@ export class ChannelComponent implements OnInit {
     private mode: PageMode = new PageMode();
     private inputEmail: string;
     private inputCollaborators: string[];
-    private editable: boolean;
-    private shareable: boolean;
 
     private tags: TagStatus[];
     private filteredPrograms: Program[];
@@ -47,9 +46,6 @@ export class ChannelComponent implements OnInit {
         this.setModeByURL();
         this.loadChannel();
         this.inputCollaborators = [];
-
-        this.editable = false;
-        this.shareable = false;
 
         this.tags = [];
         this.filteredPrograms = [];
@@ -78,10 +74,6 @@ export class ChannelComponent implements OnInit {
         const successFunc = (channel: Channel) => {
             this.setChannel(channel);
 
-            const email = this.authService.user.email;
-            this.editable = channel.canEdit(email);
-            this.shareable = channel.canShare(email);
-
             const uniqueFunc = (tag, i, arr) => arr.findIndex(v => v.name === tag.name) === i;
             const reduceProgramFunc = (all, program: Program) => all.concat(program.tags.map(v => new TagStatus(v.name)));
             this.tags = channel.programs.reduce(reduceProgramFunc, []).filter(uniqueFunc);
@@ -91,6 +83,7 @@ export class ChannelComponent implements OnInit {
         };
 
         const errorFunc = () => {
+            console.error('Failed to load channel');
             this.setChannel(NullChannel);
         };
 
@@ -150,13 +143,11 @@ export class ChannelComponent implements OnInit {
             return;
         }
         this.collaborators = this.collaborators.filter(v => v !== email);
-        this.channel.removeCollaborators(email);
+        this.channel.removeCollaborators(new User(email));
     }
 
-    private inputEmailExists(email: string): Boolean {
-        email = email.trim();
-        // FIXME: bad naming
-        return this.channel.canEdit(email);
+    private inputEmailExists(email: string): boolean {
+        return (new User(email)).canEdit(this.channel);
     }
 
     private inputEmailChanged(event) {
@@ -187,7 +178,7 @@ export class ChannelComponent implements OnInit {
     }
 
     private saveCollaborators() {
-        this.channel.addCollaborators(...this.inputCollaborators);
+        this.channel.addCollaborators(...this.inputCollaborators.map(email => new User(email)));
         this.shareModal.hide();
         this.saveChannel();
     }
