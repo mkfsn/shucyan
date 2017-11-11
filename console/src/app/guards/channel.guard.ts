@@ -8,9 +8,8 @@ import 'rxjs/add/operator/combineLatest';
 import { AuthService } from '../services/auth.service';
 import { ChannelsService } from '../services/channels.service';
 
-import { User } from '../models/user';
+import { AuthUser } from '../models/user';
 import { Channel } from '../models/channel';
-
 
 @Injectable()
 export class ChannelGuard implements CanActivate {
@@ -19,8 +18,8 @@ export class ChannelGuard implements CanActivate {
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         const path = state.url.split('/');
-        return this.authService.getAuthState().combineLatest(this.channelsService.getChannel(path[2]), (user: User, channel: Channel) => {
-            const res = channel.canEdit(user.email);
+        return this.authService.getAuthState().combineLatest(this.channelsService.getChannel(path[2]), (user: AuthUser, channel: Channel) => {
+            const res = user.canEdit(channel);
             if (!res) {
                 this.router.navigate(['/channel/', path[2]]);
             }
