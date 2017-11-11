@@ -49,7 +49,7 @@ export class ChannelOverviewComponent implements OnInit {
         };
         const completeFunc = () => {
             // TODO: close dropdown
-        }
+        };
         this.channelsService.addChannel(channel).subscribe(successFunc, errorFunc, completeFunc);
     }
 
