@@ -22,14 +22,15 @@ export class ChannelsService {
         this.channels = this.db.list('/channels');
     }
 
-    addChannel(channel: Channel): void {
-        this.authService.getAuthState().subscribe(user => {
+    addChannel(channel: Channel): Observable<Channel> {
+        return this.authService.getAuthState().mergeMap(user => {
             if (user === null) {
                 console.error('Permission denied: user not authenticated');
             }
 
             channel.owner = user.encodedEmail;
-            this.channels.push(channel.toFirebase());
+            const thenable = this.channels.push(channel.toFirebase());
+            return Observable.fromPromise(thenable);
         });
     }
 
