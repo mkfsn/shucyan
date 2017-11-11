@@ -106,7 +106,16 @@
             </div>
         </ng-template>
         <ng-template #noChannel>
-            <h1>No Channel.</h1>
+            <div class="no-channel">
+                <h2 *ngIf="channelsSub == myChannelsSub">
+                    <i class="fa fa-user-circle-o fa-2x"></i>
+                    <span>No Channel Created yet</span>
+                </h2>
+                <h2 *ngIf="channelsSub == sharedChannelsSub">
+                    <i class="fa fa-users fa-2x"></i>
+                    <span>No shared Channel</span>
+                </h2>
+            </div>
         </ng-template>
         <ng-template #loadingChannels>
             <h3>Loading ...</h3>
