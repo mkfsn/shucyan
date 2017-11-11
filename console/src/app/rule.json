@@ -10,7 +10,7 @@
 					".validate": "newData.isString() && newData.val().length > 0"
 				},
 				"description": {
-					".validate": "newData.isString() && newData.val().length > 0"
+					".validate": "newData.isString() && newData.val().length >= 0"
 				},
 				"owner": {
 					".validate": "newData.isString() && newData.val().length > 0 && newData.val() === auth.token.email.replace('.', '%2E')"
