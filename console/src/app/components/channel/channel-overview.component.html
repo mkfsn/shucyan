@@ -1,13 +1,13 @@
 <div class="dashboard">
-    <div class="col-xs-6 left" dropdown [autoClose]="false">
-        <button class="btn btn-primary btn-new-channel" dropdownToggle>
+    <div class="col-xs-6 left" dropdown [isOpen]="dropdownOpen" [autoClose]="false" (onShown)="newChannelNamefocus()">
+        <button class="btn btn-primary btn-new-channel" #newChannelButton>
             <i class="glyphicon glyphicon-plus"></i> New Channel
         </button>
-        <div *dropdownMenu class="dropdown-menu new-channel-menu col-md-6 col-xs-10 col-xs-12">
+        <div *dropdownMenu #newChannelMenu class="dropdown-menu new-channel-menu col-md-6 col-xs-10 col-xs-12">
             <form>
                 <div class="form-group">
                     <label for="newChannelName">Name</label>
-                    <input type="text" [(ngModel)]="name" name="name" class="form-control" id="newChannelName" placeholder="Name">
+                    <input type="text" [(ngModel)]="name" name="name" class="form-control" #newChannelName id="newChannelName" placeholder="Name">
                 </div>
                 <div class="form-group">
                     <label for="newChannelDescription">Description</label>

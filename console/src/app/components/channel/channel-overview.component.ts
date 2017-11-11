@@ -1,6 +1,6 @@
 import swal from 'sweetalert2';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -15,21 +15,53 @@ import { Channel } from '../../models/channel';
 })
 export class ChannelOverviewComponent implements OnInit {
 
+    // Channels Observable: master
+    private channelsSub: Observable<Channel[]>;
+    // Channels Observable: slaves
     private myChannelsSub: Observable<Channel[]>;
     private sharedChannelsSub: Observable<Channel[]>;
 
-    private channelsSub: Observable<Channel[]>;
+    // Dropdown control
+    private dropdownOpen: boolean;
+    @ViewChild('newChannelMenu') private newChannelMenu: ElementRef;
+    @ViewChild('newChannelButton') private newChannelButton: ElementRef;
+    @ViewChild('newChannelName') private newChannelName: ElementRef;
 
-    constructor(private channelsService: ChannelsService) {
+    constructor(private channelsService: ChannelsService, private elementRef: ElementRef) {
         this.myChannelsSub = this.channelsService.getMyChannels();
         this.sharedChannelsSub = this.channelsService.getSharedChannels();
+
+        this.dropdownOpen = false;
     }
 
     ngOnInit() {
         this.channelsSub = this.myChannelsSub;
     }
 
+    @HostListener('click', ['$event'])
+    public onClick(event: any): void {
+        if (this.newChannelMenu && this.newChannelMenu.nativeElement.contains(event.target)) {
+            // click inside dropdown menu
+            this.dropdownOpen = true;
+        } else if (event.target === this.newChannelButton.nativeElement) {
+            // click on dropdown button
+            this.dropdownOpen = !this.dropdownOpen;
+        } else if (this.dropdownOpen) {
+            // click outside dropdown menu
+            this.dropdownOpen = false;
+        }
+    }
+
+    newChannelNamefocus() {
+        setTimeout(() => {
+            if (this.newChannelName) {
+                this.newChannelName.nativeElement.focus();
+            }
+        }, 0);
+    }
+
     newChannel(name: string, description: string) {
+        this.dropdownOpen = false;
         const channel = new Channel(name, description);
         const successFunc = () => {
             swal({
@@ -47,9 +79,7 @@ export class ChannelOverviewComponent implements OnInit {
                 timer: 1500
             }).catch(_ => {});
         };
-        const completeFunc = () => {
-            // TODO: close dropdown
-        };
+        const completeFunc = () => {};
         this.channelsService.addChannel(channel).subscribe(successFunc, errorFunc, completeFunc);
     }
 
