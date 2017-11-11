@@ -28,6 +28,7 @@ export class ChannelsService {
                 console.error('Permission denied: user not authenticated');
             }
 
+            channel.createdAt = Date.now();
             channel.owner = user.encodedEmail;
             const thenable = this.channels.push(channel.toFirebase());
             return Observable.fromPromise(thenable);
@@ -97,6 +98,7 @@ export class ChannelsService {
     }
 
     updateChannel(id: string, channel: Channel): Observable<void> {
+        channel.updatedAt = Date.now();
         const thenable = this.db.object('/channels/' + id).update(channel.toFirebase());
         return Observable.fromPromise(thenable);
     }

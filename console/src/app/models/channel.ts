@@ -17,8 +17,8 @@ export class Channel {
     name: string;
     owner: string;
     description: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: number;
+    updatedAt: number;
     programs: Program[];
     collaborators: ICollaborators;
     starred: Email[];
@@ -38,7 +38,7 @@ export class Channel {
             return;
         }
 
-        this.createdAt = new Date();
+        this.createdAt = Date.now();
         this.updatedAt = null;
 
         this.user = user || null;
@@ -50,8 +50,8 @@ export class Channel {
         channel.owner = values.owner;
         channel.collaborators = values.collaborators || {};
         channel.starred = values.starred || [];
-        channel.createdAt = values.createdAt || null;
-        channel.updatedAt = values.updatedAt || null;
+        channel.createdAt = values.createdAt || 0;
+        channel.updatedAt = values.updatedAt || 0;
         console.log('[fromFirebase]', channel);
         return channel;
     }
@@ -60,11 +60,11 @@ export class Channel {
         const channel = new Channel(this.name, this.description);
         channel.id = null;
         channel.owner = this.owner;
-        channel.createdAt = this.createdAt;
-        channel.updatedAt = this.updatedAt;
+        channel.createdAt = this.createdAt || 0;
+        channel.updatedAt = this.updatedAt || 0;
         channel.programs = null;
-        channel.collaborators = this.collaborators;
-        channel.starred = this.starred;
+        channel.collaborators = this.collaborators || null;
+        channel.starred = this.starred || [];
         console.log('[toFirebase]', channel);
         return channel;
     }
