@@ -22,23 +22,31 @@ export class ChannelsService {
         this.channels = this.db.list('/channels');
     }
 
-    addChannel(channel: Channel) {
-        channel.owner = this.authService.user.email.replace('.', '%2E');
-        this.channels.push(channel);
+    addChannel(channel: Channel): void {
+        this.authService.getAuthState().subscribe(user => {
+            if (user === null) {
+                console.error('Permission denied: user not authenticated')
+            }
+
+            channel.owner = user.encodedEmail;
+            this.channels.push(channel.toFirebase());
+        });
     }
 
     /*
      * getChannel returns channel by given id
      */
     getChannel(id: string): Observable<Channel> {
-        return this.db.object('/channels/' + id).snapshotChanges()
-            .map(action => {
-                const values = action.payload.val();
-                return Channel.fromFirebase(action.key, values);
-            })
-            .combineLatest(this.programsService.getChannelPrograms(id), (channel, programs) => {
-                channel.programs = programs;
-                return channel;
+        return this.authService.getAuthState().mergeMap(user => {
+            return this.db.object('/channels/' + id).snapshotChanges()
+                .map(action => {
+                    const values = action.payload.val();
+                    return Channel.fromFirebase(action.key, values, user);
+                })
+                .combineLatest(this.programsService.getChannelPrograms(id), (channel, programs) => {
+                    channel.programs = programs;
+                    return channel;
+                });
             });
     }
 
@@ -51,11 +59,11 @@ export class ChannelsService {
             if (user === null) {
                 return Observable.throw('Permission denied: user not authenticated');
             }
-            const list = this.db.list('/channels', ref => ref.orderByChild('owner').equalTo(user.email.replace('.', '%2E')));
+            const list = this.db.list('/channels', ref => ref.orderByChild('owner').equalTo(user.encodedEmail));
             return list.snapshotChanges().map(fireactions => {
                 return fireactions.map(action => {
                     const values = action.payload.val();
-                    return Channel.fromFirebase(action.key, values);
+                    return Channel.fromFirebase(action.key, values, user);
                 });
             });
         });
@@ -67,17 +75,15 @@ export class ChannelsService {
                 return Observable.throw('Permission denied: user not authenticated');
             }
 
-            const email = user.email.replace('.', '%2E');
-            const list = this.db.list('/channels', ref => ref.orderByChild('collaborators/' + email + '/editable').equalTo(true));
+            const list = this.db.list('/channels', ref => ref.orderByChild('collaborators/' + user.encodedEmail + '/editable').equalTo(true));
             return list.snapshotChanges().map(fireactions => {
                 return fireactions.map(action => {
                     const values = action.payload.val();
-                    return Channel.fromFirebase(action.key, values);
+                    return Channel.fromFirebase(action.key, values, user);
                 });
             });
         });
     }
-
 
     getLatestChannels(): Observable<Channel[]> {
         return this.channels.snapshotChanges().map(fireactions => {
@@ -89,16 +95,12 @@ export class ChannelsService {
     }
 
     updateChannel(id: string, channel: Channel): Observable<void> {
-
-        // TODO: Better make a function called toFirebase?
-        channel.id = null;
-        channel.programs = null;
-
-        const thenable = this.db.object('/channels/' + id).update(channel);
+        const thenable = this.db.object('/channels/' + id).update(channel.toFirebase());
         return Observable.fromPromise(thenable);
     }
 
-    removeChannel(id: string) {
-        this.channels.remove(id);
+    removeChannel(id: string): Observable<void> {
+        const thenable = this.channels.remove(id);
+        return Observable.fromPromise(thenable);
     }
 }
