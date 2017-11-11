@@ -30,6 +30,7 @@
 		"jquery-slim": "^3.0.0",
 		"ngx-bootstrap": "1.9.3",
 		"rxjs": "5.4.2",
+		"sweetalert2": "^6.11.5",
 		"zone.js": "0.8.14"
 	},
 	"devDependencies": {

@@ -1,4 +1,5 @@
 import * as chroma from 'chroma-js';
+import swal from 'sweetalert2';
 
 import { Component, OnChanges, Input, ViewChild } from '@angular/core';
 
@@ -124,9 +125,22 @@ export class ProgramComponent implements OnChanges {
 
     private createProgram(program: Program): void {
         const successFunc = (success) => {
+            swal({
+                title: 'Added!',
+                text: 'The program has been added successfully.',
+                type: 'success',
+                timer: 1500
+            }).catch(_ => {});
             this.programTable = this.buildProgramTable(this.programs);
         };
-        const errorFunc = () => {};
+        const errorFunc = () => {
+            swal({
+                title: 'Oops!',
+                text: 'Something got wrong :(',
+                type: 'error',
+                timer: 1500
+            }).catch(_ => {});
+        };
         const completeFunc = () => {
             this.programModal.hide();
         };
@@ -173,7 +187,6 @@ export class ProgramComponent implements OnChanges {
         this.inputTags = inputTags;
         if (inputTags && inputTags.indexOf(',') !== -1) {
             const tags = inputTags.split(',').map(v => {
-                console.log('v', v);
                 return new Tag(v);
             });
             this.inputTags = tags.pop().name;
@@ -189,20 +202,41 @@ export class ProgramComponent implements OnChanges {
 
     private removeProgram(event, program): void {
         event.stopPropagation();
-        const removeIt = confirm('Remove program: ' + program.name + ' ?');
-        if (removeIt !== true) {
-            return;
-        }
+        swal({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(() => {
+            const successFunc = () => {
+                swal({
+                    title: 'Deleted',
+                    text: 'The program has been deleted.',
+                    type: 'success',
+                    timer: 1500
+                }).catch(_ => {});
+                this.programTable = this.buildProgramTable(this.programs);
+            };
+            const errorFunc = () => {};
+            const completeFunc = () => {
+                this.programModal.hide();
+            };
 
-        const successFunc = () => {
-            this.programTable = this.buildProgramTable(this.programs);
-        };
-        const errorFunc = () => {};
-        const completeFunc = () => {
-            this.programModal.hide();
-        };
-
-        this.programsService.removeProgram(this.channelId, program.id).subscribe(successFunc, errorFunc, completeFunc);
+            this.programsService.removeProgram(this.channelId, program.id).subscribe(successFunc, errorFunc, completeFunc);
+        }).catch(dismiss => {
+            // dismiss can be 'cancel', 'overlay', 'close', and 'timer'
+            if (dismiss === 'cancel') {
+                swal({
+                    title: 'Canceled',
+                    text: 'Nothing has been deleted.',
+                    type: 'info',
+                    timer: 1500
+                }).catch(_ => {});
+            }
+        });
     }
 
     private removeTag(index: number): void {
