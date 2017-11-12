@@ -63,10 +63,11 @@ export class ChannelsService {
             }
             const list = this.db.list('/channels', ref => ref.orderByChild('owner').equalTo(user.encodedEmail));
             return list.snapshotChanges().map(fireactions => {
-                return fireactions.map(action => {
+                const channels = fireactions.map(action => {
                     const values = action.payload.val();
                     return Channel.fromFirebase(action.key, values, user);
                 });
+                return Channel.sort(channels, ['createdAt', 'updatedAt']);
             });
         });
     }
@@ -80,20 +81,22 @@ export class ChannelsService {
             const refFunc = ref => ref.orderByChild('collaborators/' + user.encodedEmail + '/editable').equalTo(true);
             const list = this.db.list('/channels', refFunc);
             return list.snapshotChanges().map(fireactions => {
-                return fireactions.map(action => {
+                const channels = fireactions.map(action => {
                     const values = action.payload.val();
                     return Channel.fromFirebase(action.key, values, user);
                 });
+                return Channel.sort(channels, ['createdAt', 'updatedAt']);
             });
         });
     }
 
     getLatestChannels(): Observable<Channel[]> {
         return this.channels.snapshotChanges().map(fireactions => {
-            return fireactions.map(action => {
+            const channels = fireactions.map(action => {
                 const values = action.payload.val();
                 return Channel.fromFirebase(action.key, values);
             });
+            return Channel.sort(channels, ['createdAt', 'updatedAt']);
         });
     }
 

@@ -56,6 +56,30 @@ export class Channel {
         return channel;
     }
 
+    static sort(channels: Channel[], keys: string[] = ['createdAt', 'updatedAt']): Channel[] {
+        channels.sort((x: Channel, y: Channel) => {
+            let result = 0;
+
+            for (let key of keys) {
+                let order = 1;
+                if (key[0] === '-') {
+                    order = -1;
+                    key = key.slice(1, key.length);
+                }
+
+                if (x[key] === y[key]) {
+                    continue;
+                }
+
+                result = order * (x[key] > y[key] ? -1 : 1);
+                break;
+            }
+
+            return result;
+        });
+        return channels;
+    }
+
     toFirebase(): Channel {
         const channel = new Channel(this.name, this.description);
         channel.id = null;
