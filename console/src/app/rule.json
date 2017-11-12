@@ -19,6 +19,9 @@
 					"$user_email": {
 						"editable": {
 							".validate": "newData.isBoolean()"
+						},
+						"since": {
+							".validate": "newData.val() <= now"
 						}
 					}
 				}

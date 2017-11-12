@@ -6,6 +6,7 @@ type Email = string;
 
 interface ICollaborator {
     editable: boolean;
+	since: number;
 }
 
 interface ICollaborators {
@@ -112,7 +113,8 @@ export class Channel {
     addCollaborators(...users: User[]): void {
         users.forEach(user => {
             this.collaborators[user.encodedEmail] = {
-                editable: true
+                editable: true,
+                since: Date.now()
             };
         });
     }
