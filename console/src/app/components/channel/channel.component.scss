@@ -12,6 +12,64 @@
         color: $EditLabelColor;
     }
 
+    .loading-circles {
+        margin: 1em auto;
+        width: 80px;
+        height: 80px;
+        position: relative;
+
+        .sk-circle {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .sk-circle:before {
+            content: '';
+            display: block;
+            margin: 0 auto;
+            width: 15%;
+            height: 15%;
+            background-color: #333;
+            border-radius: 100%;
+            -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
+                    animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
+        }
+
+        @mixin rotate($degree) {
+            -webkit-transform: rotate($degree);
+                -ms-transform: rotate($degree);
+                    transform: rotate($degree);
+        }
+
+        @mixin delay($time) {
+            -webkit-animation-delay: $time;
+                    animation-delay: $time;
+        }
+
+
+        @for $i from 2 through 12 {
+            .sk-circle#{$i} {
+                @include rotate(#{($i - 1) * 30deg});
+            }
+            .sk-circle#{$i}:before {
+                @include delay(#{$i * 0.1s - 1.3s});
+            }
+        }
+
+        @-webkit-keyframes sk-circleFadeDelay {
+            0%, 39%, 100% { opacity: 0; }
+            40% { opacity: 1; }
+        }
+
+        @keyframes sk-circleFadeDelay {
+            0%, 39%, 100% { opacity: 0; }
+            40% { opacity: 1; }
+        }
+    }
+
     .channel-head {
 
         .control-panel-save,
