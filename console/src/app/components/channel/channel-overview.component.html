@@ -17,10 +17,10 @@
             </form>
         </div>
     </div>
-    <div class="col-xs-6 right">
-        <button *ngIf="!listing" (click)="listing = !listing" class="btn btn-primany"><i class="glyphicon glyphicon-th-list"></i></button>
-        <button *ngIf="listing" (click)="listing = !listing"  class="btn btn-primany"><i class="glyphicon glyphicon-th-large"></i></button>
-        <button class="btn btn-primany btn-setting"><i class="glyphicon glyphicon-cog"></i></button>
+    <div class="col-xs-6 right btn-control">
+        <button *ngIf="!listing" (click)="listing = !listing" class="btn"><i class="glyphicon glyphicon-th-list"></i></button>
+        <button *ngIf="listing" (click)="listing = !listing"  class="btn"><i class="glyphicon glyphicon-th-large"></i></button>
+        <button class="btn btn-setting"><i class="glyphicon glyphicon-cog"></i></button>
     </div>
 </div>
 
