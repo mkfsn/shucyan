@@ -6,7 +6,7 @@ type Email = string;
 
 interface ICollaborator {
     editable: boolean;
-	since: number;
+    since: number;
 }
 
 interface ICollaborators {
