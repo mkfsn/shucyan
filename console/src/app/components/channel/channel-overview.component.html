@@ -18,8 +18,8 @@
         </div>
     </div>
     <div class="col-xs-6 right btn-control">
-        <button *ngIf="!listing" (click)="listing = !listing" class="btn"><i class="glyphicon glyphicon-th-list"></i></button>
-        <button *ngIf="listing" (click)="listing = !listing"  class="btn"><i class="glyphicon glyphicon-th-large"></i></button>
+        <button *ngIf="layout === 'grid'" (click)="layout = 'list'" class="btn"><i class="glyphicon glyphicon-th-list"></i></button>
+        <button *ngIf="layout === 'list'" (click)="layout = 'grid'"  class="btn"><i class="glyphicon glyphicon-th-large"></i></button>
         <button class="btn btn-setting"><i class="glyphicon glyphicon-cog"></i></button>
     </div>
 </div>
@@ -52,52 +52,17 @@
             <ng-container *ngIf="channels.length > 0; then displayChannels; else noChannel"></ng-container>
         </ng-container>
         <ng-template #displayChannels>
-            <ng-container *ngIf="listing; then channelsList else channelsGrid"></ng-container>
-        </ng-template>
-        <ng-template #channelsList>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let channel of (channelsSub | async)">
-                        <td>{{ channel.name }}</td>
-                        <td>{{ channel.description }}</td>
-                        <td>
-                            <a [routerLink]="['/channel/' + channel.id]" class="btn btn-primary" role="button">Go</a>
-                            <button class="btn btn-danger"
-                                    *ngIf="channel.allowToDelete"
-                                    (click)="removeChannel(channel)"
-                                    role="button">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </ng-template>
-        <ng-template #channelsGrid>
-            <div class="col-md-3" *ngFor="let channel of channelsSub | async">
-                <div class="thumbnail">
-                    <div class="caption">
-                        <h3>{{ channel.name }}</h3>
-                        <p>{{ channel.description }}</p>
-                        <p>
-                            <a [routerLink]="['/channel/' + channel.id]" class="btn btn-primary" role="button">Go</a>
-                            <button class="btn btn-danger"
-                                    *ngIf="channel.allowToDelete"
-                                    (click)="removeChannel(channel)"
-                                    role="button">
-                                Delete
-                            </button>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <ng-container [ngSwitch]="layout">
+                <app-channel-list *ngSwitchCase="'list'"
+                                  [reference]="reference"
+                                  [channels]="channelsSub | async"
+                                  (onRemoveChannel)="removeChannel($event)">
+                </app-channel-list>
+                <app-channel-grid *ngSwitchCase="'grid'"
+                                  [channels]="channelsSub | async"
+                                  (onRemoveChannel)="removeChannel($event)">
+                </app-channel-grid>
+            </ng-container>
         </ng-template>
         <ng-template #noChannel>
             <div class="no-channel">

@@ -3,6 +3,9 @@ import { User } from './user';
 
 type Email = string;
 
+export type Layout = 'grid' | 'list';
+
+export type Reference = 'mine' | 'shared';
 
 interface ICollaborator {
     editable: boolean;
@@ -133,6 +136,28 @@ export class Channel {
         const collaborator = this.collaborators[user.encodedEmail];
         return collaborator && collaborator.editable;
     }
+
+    get sharedDate(): Date {
+        if (this.user && this.collaborators) {
+            return new Date(this.collaborators[this.user.encodedEmail].since);
+        }
+        return undefined;
+    }
+
+    get createdDate(): Date {
+        if (this.createdAt) {
+            return new Date(this.createdAt);
+        }
+        return undefined;
+    }
+
+    get updatedDate(): Date {
+        if (this.updatedAt) {
+            return new Date(this.updatedAt);
+        }
+        return undefined;
+    }
+
 
 }
 

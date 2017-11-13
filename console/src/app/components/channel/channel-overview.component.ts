@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { ChannelsService } from '../../services/channels.service';
 
-import { Channel } from '../../models/channel';
+import { Channel, Layout, Reference } from '../../models/channel';
 
 @Component({
     selector: 'app-channel-overview',
@@ -27,6 +27,12 @@ export class ChannelOverviewComponent implements OnInit {
     @ViewChild('newChannelButton') private newChannelButton: ElementRef;
     @ViewChild('newChannelName') private newChannelName: ElementRef;
 
+    // grid, list
+    private layout: Layout;
+
+    // mine, shared, ... etc
+    private reference: Reference;
+
     constructor(private channelsService: ChannelsService, private elementRef: ElementRef) {
         this.myChannelsSub = this.channelsService.getMyChannels();
         this.sharedChannelsSub = this.channelsService.getSharedChannels();
@@ -36,6 +42,8 @@ export class ChannelOverviewComponent implements OnInit {
 
     ngOnInit() {
         this.channelsSub = this.myChannelsSub;
+        this.layout = 'grid';
+        this.reference = 'mine';
     }
 
     @HostListener('click', ['$event'])
@@ -121,9 +129,11 @@ export class ChannelOverviewComponent implements OnInit {
         switch (to) {
             case 'mine':
                 this.channelsSub = this.myChannelsSub;
+                this.reference = 'mine';
                 return;
             case 'shared':
                 this.channelsSub = this.sharedChannelsSub;
+                this.reference = 'shared';
                 return;
         }
         this.channelsSub = this.myChannelsSub;

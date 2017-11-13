@@ -1,0 +1,17 @@
+<div class="col-md-3" *ngFor="let channel of channels">
+    <div class="thumbnail">
+        <div class="caption">
+            <h3>{{ channel.name }}</h3>
+            <p>{{ channel.description }}</p>
+            <p>
+                <a [routerLink]="['/channel/' + channel.id]" class="btn btn-primary" role="button">Go</a>
+                <button class="btn btn-danger"
+                        *ngIf="channel.allowToDelete"
+                        (click)="removeChannel(channel)"
+                        role="button">
+                    Delete
+                </button>
+            </p>
+        </div>
+    </div>
+</div>

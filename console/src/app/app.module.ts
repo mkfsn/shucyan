@@ -31,6 +31,8 @@ import { ChannelComponent } from './components/channel/channel.component';
 import { ProgramComponent } from './components/program/program.component';
 import { HomeComponent } from './components/home/home.component';
 import { ChannelOverviewComponent } from './components/channel/channel-overview.component';
+import { ChannelListComponent } from './components/channel/channel-list.component';
+import { ChannelGridComponent } from './components/channel/channel-grid.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +40,9 @@ import { ChannelOverviewComponent } from './components/channel/channel-overview.
         ChannelComponent,
         ProgramComponent,
         HomeComponent,
-        ChannelOverviewComponent
+        ChannelOverviewComponent,
+        ChannelListComponent,
+        ChannelGridComponent
     ],
     imports: [
         AngularFireModule.initializeApp(environment.firebase, 'shucyan'),
