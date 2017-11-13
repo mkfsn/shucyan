@@ -44,10 +44,10 @@
 						".validate": "newData.isString() && newData.val().length > 0"
 					},
 					"content": {
-						".validate": "newData.isString() && newData.val().length > 0"
+						".validate": "newData.isString() && newData.val().length >= 0"
 					},
 					"link": {
-						".validate": "newData.isString() && newData.val().length > 0"
+						".validate": "newData.isString() && newData.val().length >= 0"
 					},
 					"tags": {
 						"$tag_id": {
