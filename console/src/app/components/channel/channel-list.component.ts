@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Channel, Reference } from '../../models/channel';
+import { Channel } from '../../models/channel';
+
+// FIXME: Duplicate code from models/channel^
+type Reference = 'mine' | 'shared';
 
 @Component({
     selector: 'app-channel-list',
@@ -16,9 +19,7 @@ export class ChannelListComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit() {
-        console.log('reference:', this.reference);
-    }
+    ngOnInit() {}
 
     private removeChannel(channel: Channel): void {
         this.onRemoveChannel.emit(channel);
