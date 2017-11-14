@@ -1,0 +1,19 @@
+.channels {
+    .thumbnail img {
+        $size: 2em;
+        $radio: 2;
+        text-align: center;
+        border: 1px #333 solid;
+        border-radius: 50%;
+        width: $size;
+        line-height: $size;
+        height: $size;
+        font-size: #{$size * $radio};
+        margin-top: 10px;
+        background-color: white !important;
+    }
+    .thumbnail.list-group-item.active {
+        color: #333;
+        background-color: #EEE;
+    }
+}
