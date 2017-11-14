@@ -68,7 +68,8 @@ export class ChannelOverviewComponent implements OnInit {
         }, 0);
     }
 
-    newChannel(name: string, description: string) {
+    newChannel(event, name: string, description: string) {
+        event.stopPropagation();
         this.dropdownOpen = false;
         const channel = new Channel(name, description);
         const successFunc = () => {

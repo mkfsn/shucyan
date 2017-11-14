@@ -10,7 +10,24 @@
         height: $size;
         font-size: #{$size * $radio};
         margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 8px;
         background-color: white !important;
+    }
+    .thumbnail h4 {
+        overflow: hidden;
+        word-break: keep-all;
+        text-overflow: ellipsis;
+    }
+    .thumbnail .btn-remove {
+        border-radius: 50%;
+        width: 1.8em;
+        height: 1.8em;
+        margin-top: -5px;
+        margin-right: -9px;
+        &:focus {
+            outline: none;
+        }
     }
     .thumbnail.list-group-item.active {
         color: #333;

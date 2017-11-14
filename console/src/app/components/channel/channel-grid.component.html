@@ -1,14 +1,13 @@
 <div class="col-md-2 list-group channels" *ngFor="let channel of channels">
-    <div role="button" class="thumbnail list-group-item" [ngClass]="{'active': channel.selected}" (click)="select($event, channel.id)" (dblclick)="navigateTo(channel.id)">
+    <div role="button" class="thumbnail list-group-item"
+         [ngClass]="{'active': channel.selected}"
+         (click)="select($event, channel.id)"
+         (dblclick)="navigateTo($event, channel.id)">
+        <button class="pull-right btn btn-danger btn-xs btn-remove"
+                *ngIf="channel.allowToDelete"
+                (click)="removeChannel(channel)"
+                role="button">&times;</button>
         <img alt="{{ channel.name[0] }}">
-        <h3 class="text-center">{{ channel.name }}</h3>
-        <p>
-            <button class="btn btn-danger btn-sm btn-block"
-                    *ngIf="channel.allowToDelete"
-                    (click)="removeChannel(channel)"
-                    role="button">
-                Delete
-            </button>
-        </p>
+        <h4 class="text-center">{{ channel.name }}</h4>
     </div>
 </div>

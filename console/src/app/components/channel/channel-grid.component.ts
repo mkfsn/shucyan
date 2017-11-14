@@ -25,7 +25,7 @@ export class ChannelGridComponent implements OnInit, DoCheck {
     ngOnInit() {}
 
     ngDoCheck() {
-        if (this.channels) {
+        if (this.selectableChannels) {
             this.selectableChannels = this.channels.map((ch: Channel) => {
                 const channel = ch as IChannel;
                 const previousChannel = this.selectableChannels.find(c => c.id === ch.id);
@@ -70,7 +70,9 @@ export class ChannelGridComponent implements OnInit, DoCheck {
         this.onRemoveChannel.emit(channel);
     }
 
-    private navigateTo(channelId: string): void {
+    private navigateTo(event, channelId: string): void {
+        event.preventDefault();
+        event.stopPropagation();
         this.router.navigate(['/channel/' + channelId]);
     }
 }

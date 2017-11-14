@@ -13,7 +13,7 @@
                     <label for="newChannelDescription">Description</label>
                     <textarea class="form-control" [(ngModel)]="description" name="description" id="newChannelDescription" placeholder="Description"></textarea>
                 </div>
-                <button (click)="newChannel(name, description)" class="btn btn-primary pull-right">Create</button>
+                <button (click)="newChannel($event, name, description)" class="btn btn-primary pull-right">Create</button>
             </form>
         </div>
     </div>

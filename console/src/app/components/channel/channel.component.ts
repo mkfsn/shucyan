@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { DOCUMENT } from '@angular/platform-browser';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -42,6 +43,7 @@ export class ChannelComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private channelsService: ChannelsService,
                 private authService: AuthService,
+                @Inject(DOCUMENT) private document,
                 private router: Router) {
         this.setModeByURL();
         this.loadChannel();
@@ -53,6 +55,11 @@ export class ChannelComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.document.selection && this.document.selection.empty) {
+            this.document.selection.empty();
+        } else if (window.getSelection) {
+            window.getSelection().removeAllRanges();
+        }
     }
 
     // Get channelId from URL
