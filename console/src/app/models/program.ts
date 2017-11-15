@@ -59,6 +59,21 @@ export class ProgramTable extends Array<Programs> {
             maxSize = Math.max(maxSize, columns[program.day].length);
         });
 
+        // Sort programs by start time
+        columns.forEach((_, index) => {
+            // sort by start time
+            columns[index].sort((x: Program, y: Program) => {
+                if (x.startTime && y.startTime) {
+                    return x.startTime < y.startTime ? -1 : 1;
+                } else if (x.startTime && !y.startTime) {
+                    return -1;
+                } else if (!x.startTime && y.startTime) {
+                    return 1;
+                }
+                return 0;
+            });
+        });
+
         const rows = Array.from(Array(maxSize)).map((_, i) => {
             return columns.map((__, j) => columns[j][i]);
         });
