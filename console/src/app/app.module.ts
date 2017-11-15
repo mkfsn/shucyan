@@ -24,6 +24,7 @@ import { ChannelGuard } from './guards/channel.guard';
 import { AuthService } from './services/auth.service';
 import { ChannelsService } from './services/channels.service';
 import { ProgramsService } from './services/programs.service';
+import { ColorService } from './services/color.service';
 
 // Components
 import { AppComponent } from './app.component';
@@ -61,6 +62,7 @@ import { ChannelGridComponent } from './components/channel/channel-grid.componen
         AuthGuard,
         ChannelGuard,
         Title,
+        ColorService,
         ChannelsService,
         ProgramsService
     ],

@@ -10,9 +10,25 @@ import { Program, Tag } from '../models/program';
 @Injectable()
 export class ProgramsService {
 
-    static readonly namesOfDays = ['日', '月', '火', '水', '木', '金', '土'];
+    static days = ['日', '月', '火', '水', '木', '金', '土'];
+
+    // today's day of week
+    private day: number;
 
     constructor(private db: AngularFireDatabase) {
+        this.day = (new Date()).getDay();
+    }
+
+    get dates(): string[] {
+        return ProgramsService.days.map((_, i) => {
+            const date = new Date();
+            date.setDate(date.getDate() + i);
+            return (
+                date.getFullYear() + '/' +
+                (date.getMonth() + 1) + '/' +
+                date.getDate()
+            );
+        });
     }
 
     addProgram(channelId: string, program: Program): Observable<Program> {
@@ -25,7 +41,7 @@ export class ProgramsService {
         return this.db.list('/programs/' + channelId).snapshotChanges().map(fireactions => {
             return fireactions.map(action => {
                 const val = action.payload.val();
-                const program = Program.fromFirebase(action.key, val.day, val.name, val.content);
+                const program = Program.fromFirebase(action.key, val);
                 if (val.tags !== undefined) {
                     program.tags = val.tags.map(v => {
                         return new Tag(v.name);
@@ -38,6 +54,7 @@ export class ProgramsService {
 
     updateProgram(channelId: string, program: Program): Observable<void> {
         const thenable = this.db.object('/programs/' + channelId + '/' + program.id).update(program);
+        console.log('updateProgram:', program);
         return Observable.fromPromise(thenable);
     }
 

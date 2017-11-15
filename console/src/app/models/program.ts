@@ -23,8 +23,8 @@ export class Program {
     tags?: Array<Tag>;
     link?: string;
     time?: Array<Time>;
-    startedAt?: Date;
-    endedAt?: Date;
+    startDate?: string;
+    endDate?: string;
     startTime?: string;
     endTime?: string;
 
@@ -35,9 +35,36 @@ export class Program {
         this.tags = [];
     }
 
-    static fromFirebase(id: string, day: number, name: string, content: string): Program {
-        const program = new Program(day, name, content);
+    static fromFirebase(id: string, values: any): Program {
+        const program = new Program(values.day, values.name, values.content);
         program.id = id;
+        program.startTime = values.startTime;
+        program.endTime = values.endTime;
+        program.startDate = values.startDate;
+        program.endDate = values.endDate;
         return program;
     }
+}
+
+type Programs = Array<Program>;
+
+export class ProgramTable extends Array<Programs> {
+
+    constructor(programs?: Programs) {
+        const columns = [[], [], [], [], [], [], []];
+
+        let maxSize = 0;
+        programs.forEach((program: Program) => {
+            columns[program.day].push(program);
+            maxSize = Math.max(maxSize, columns[program.day].length);
+        });
+
+        const rows = Array.from(Array(maxSize)).map((_, i) => {
+            return columns.map((__, j) => columns[j][i]);
+        });
+
+        super(...rows);
+        Object.setPrototypeOf(this, Object.create(ProgramTable.prototype));
+    }
+
 }

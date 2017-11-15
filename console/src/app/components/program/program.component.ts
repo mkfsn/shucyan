@@ -6,8 +6,9 @@ import { Component, OnChanges, Input, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { ProgramsService } from '../../services/programs.service';
+import { ColorService } from '../../services/color.service';
 
-import { Program, Tag } from '../../models/program';
+import { Tag, Program, ProgramTable } from '../../models/program';
 
 @Component({
     selector: 'app-program',
@@ -24,11 +25,7 @@ export class ProgramComponent implements OnChanges {
 
     // today's day of week
     private day: number;
-    private namesOfDays: Array<string>;
     private datesOfWeek: Array<string>;
-
-    // color cache
-    private colors: Map<string, string>;
 
     // For adding/editing program
     private program: Program;
@@ -39,78 +36,25 @@ export class ProgramComponent implements OnChanges {
     private optionOpen: boolean;
     private inputTags: string;
 
-    constructor(private programsService: ProgramsService) {
-        this.colors = new Map<string, string>();
-        this.namesOfDays = ProgramsService.namesOfDays;
+    constructor(private programsService: ProgramsService, private colorService: ColorService) {
         this.day = (new Date()).getDay();
-        this.datesOfWeek = this.getDatesOfWeek();
+        this.datesOfWeek = this.programsService.dates;
         this.optionOpen = false;
         this.program = new Program(-1, '', '');
     }
 
     ngOnChanges(changes: any) {
         if (changes.programs) {
-            this.programTable = this.buildProgramTable(this.programs);
+            this.programTable = new ProgramTable(this.programs);
         }
-    }
-
-    private getDatesOfWeek(): Array<string> {
-        const dates: Array<string> = Array(7).fill('');
-        this.namesOfDays.map((_, i) => {
-            const date = new Date();
-            date.setDate(date.getDate() + i);
-            dates[(i + this.day) % this.namesOfDays.length] = (
-                date.getFullYear() + '/' +
-                (date.getMonth() + 1) + '/' +
-                date.getDate()
-            );
-        });
-        return dates;
-    }
-
-    // This should be protected by calling getColor()
-    private calculateColor(tag: string): string {
-        const sum = tag.split('').reduce((acc, val, arr) => acc * val.charCodeAt(0), 0x5F3759DF);
-        // NOTE: v / 2 + 128 for displaying brighter color
-        // e.g. 4 / 2 + 128 => 130, where 4 is too dark but 130 is not.
-        const itoa = (v: number): string => ('00' + Math.floor(v / 2 + 128).toString(16)).substr(-2);
-        const b = itoa(sum % 256),
-            g = itoa((sum / 256) % 256),
-            r = itoa((sum / 256 / 256) % 256);
-        return chroma('#' + r + g + b).darker(2).hex();
     }
 
     private getColor(tag: string): string {
-        if (!this.colors.has(tag)) {
-            const color = this.calculateColor(tag);
-            this.colors.set(tag, color);
-        }
-        return this.colors.get(tag);
+        return this.colorService.getColor(tag);
     }
 
     private isToday(day: number): boolean {
         return day === this.day;
-    }
-
-    private buildProgramTable(programs: Array<Program>): Array<Array<Program>> {
-        if (!programs) {
-            return;
-        }
-
-        const columns = [[], [], [], [], [], [], []],
-              table = [];
-        let maxSize = 0;
-
-        programs.forEach((program: Program) => {
-            columns[program.day].push(program);
-            maxSize = Math.max(maxSize, columns[program.day].length);
-        });
-
-        for (let i = 0; i < maxSize; i++) {
-            table.push(this.namesOfDays.map((v, j) => columns[j][i]));
-        }
-
-        return table;
     }
 
     private titleInputLength(owner): string {
@@ -131,7 +75,7 @@ export class ProgramComponent implements OnChanges {
                 type: 'success',
                 timer: 1500
             }).catch(_ => {});
-            this.programTable = this.buildProgramTable(this.programs);
+            this.programTable = new ProgramTable(this.programs);
         };
         const errorFunc = () => {
             swal({
@@ -218,7 +162,7 @@ export class ProgramComponent implements OnChanges {
                     type: 'success',
                     timer: 1500
                 }).catch(_ => {});
-                this.programTable = this.buildProgramTable(this.programs);
+                this.programTable = new ProgramTable(this.programs);
             };
             const errorFunc = () => {};
             const completeFunc = () => {
