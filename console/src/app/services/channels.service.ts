@@ -91,13 +91,14 @@ export class ChannelsService {
         }).shareReplay(1);
     }
 
-    getLatestChannels(): Observable<Channel[]> {
+    getLatestChannels(n: number = 10): Observable<Channel[]> {
+        n = n < 0 ? 10 : n;
         return this.channels.snapshotChanges().map(fireactions => {
             const channels = fireactions.map(action => {
                 const values = action.payload.val();
                 return Channel.fromFirebase(action.key, values);
             });
-            return Channel.sort(channels, ['createdAt', 'updatedAt']);
+            return Channel.sort(channels, ['createdAt', 'updatedAt']).slice(0, n);
         }).shareReplay(1);
     }
 
