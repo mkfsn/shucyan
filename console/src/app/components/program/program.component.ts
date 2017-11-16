@@ -22,6 +22,7 @@ export class ProgramComponent implements OnChanges {
     @Input() channelId: string;
 
     private programTable: Array<Array<Program>>;
+    private namesOfDays: string[];
 
     // today's day of week
     private day: number;
@@ -39,6 +40,7 @@ export class ProgramComponent implements OnChanges {
     constructor(private programsService: ProgramsService, private colorService: ColorService) {
         this.day = (new Date()).getDay();
         this.datesOfWeek = this.programsService.dates;
+        this.namesOfDays = ProgramsService.days;
         this.optionOpen = false;
         this.program = new Program(-1, '', '');
     }
