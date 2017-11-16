@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/shareReplay';
 
 import { AuthUser } from '../models/user';
 
@@ -31,18 +33,18 @@ export class AuthService {
                 this.currentUser = null;
             }
             return this.currentUser;
-        });
+        }).shareReplay(1);
     }
 
     get user(): AuthUser {
         return this.currentUser;
     }
 
-    loginWithGoogle() {
+    loginWithGoogle(): Promise<any> {
         return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     }
 
-    logout() {
+    logout(): Promise<any> {
         return this.afAuth.auth.signOut();
     }
 }

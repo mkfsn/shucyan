@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { AngularFireDatabase, AngularFireList, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/shareReplay';
 
 import { AuthService } from '../services/auth.service';
 import { ProgramsService } from '../services/programs.service';
@@ -48,8 +49,8 @@ export class ChannelsService {
                 .combineLatest(this.programsService.getChannelPrograms(id), (channel, programs) => {
                     channel.programs = programs;
                     return channel;
-                });
-            });
+                }).shareReplay(1);
+        });
     }
 
     /*
@@ -69,7 +70,7 @@ export class ChannelsService {
                 });
                 return Channel.sort(channels, ['createdAt', 'updatedAt']);
             });
-        });
+        }).shareReplay(1);
     }
 
     getSharedChannels(): Observable<Channel[]> {
@@ -87,7 +88,7 @@ export class ChannelsService {
                 });
                 return Channel.sort(channels, ['createdAt', 'updatedAt']);
             });
-        });
+        }).shareReplay(1);
     }
 
     getLatestChannels(): Observable<Channel[]> {
@@ -97,7 +98,7 @@ export class ChannelsService {
                 return Channel.fromFirebase(action.key, values);
             });
             return Channel.sort(channels, ['createdAt', 'updatedAt']);
-        });
+        }).shareReplay(1);
     }
 
     updateChannel(id: string, channel: Channel): Observable<void> {

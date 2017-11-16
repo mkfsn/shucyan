@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 
-import { AngularFireDatabase, AngularFireList, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/shareReplay';
 
 import { Program, Tag } from '../models/program';
 
 @Injectable()
 export class ProgramsService {
 
-    static days = ['日', '月', '火', '水', '木', '金', '土'];
+    static days: string[] = ['日', '月', '火', '水', '木', '金', '土'];
 
     // today's day of week
     private day: number;
@@ -32,7 +33,6 @@ export class ProgramsService {
     }
 
     addProgram(channelId: string, program: Program): Observable<Program> {
-        console.log(channelId, program);
         const thenable = this.db.list('/programs/' + channelId).push(program);
         return Observable.fromPromise(thenable);
     }
@@ -49,7 +49,7 @@ export class ProgramsService {
                 }
                 return program;
             });
-        });
+        }).shareReplay(1);
     }
 
     updateProgram(channelId: string, program: Program): Observable<void> {
