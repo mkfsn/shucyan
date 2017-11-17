@@ -158,7 +158,4 @@ export class Channel {
         return undefined;
     }
 
-
 }
-
-export let NullChannel = new Channel(undefined, undefined);

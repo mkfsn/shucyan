@@ -7,7 +7,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ChannelsService } from '../../services/channels.service';
 import { AuthService } from '../../services/auth.service';
 
-import { Channel, NullChannel } from '../../models/channel';
+import { Channel } from '../../models/channel';
 import { Program, Tag } from '../../models/program';
 import { PageMode } from '../../models/page';
 import { User } from '../../models/user';
@@ -69,7 +69,7 @@ export class ChannelComponent implements OnInit {
 
     private setChannel(channel: Channel): void {
         this.channel = channel;
-        if (channel === NullChannel) {
+        if (channel === null) {
             return;
         }
         // this.titleService.setTitle(this.channel.title);
@@ -91,7 +91,7 @@ export class ChannelComponent implements OnInit {
 
         const errorFunc = () => {
             console.error('Failed to load channel');
-            this.setChannel(NullChannel);
+            this.setChannel(null);
         };
 
         this.channelsService.getChannel(channelId).subscribe(successFunc, errorFunc);

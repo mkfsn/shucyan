@@ -19,7 +19,7 @@
     </ng-template>
 
     <ng-template #ChannelLoaded>
-        <ng-container #ChannelLoaded *ngIf="channel.id !== undefined; then ChannelExists; else ChannelNotFound"></ng-container>
+        <ng-container #ChannelLoaded *ngIf="channel !== null; then ChannelExists; else ChannelNotFound"></ng-container>
     </ng-template>
 
     <ng-template #ChannelExists>
@@ -114,15 +114,11 @@
 
     <ng-template #ChannelNotFound>
         <div class="channel-not-found">
-            <div class="col-xs-1 control-panel text-center">
-                <h1><a routerLink="/home"><span class="glyphicon glyphicon-home"></span></a></h1>
-            </div>
-            <div class="col-xs-11">
+            <div class="row text-center">
                 <h1>
-                    <span class="label label-danger">OOPS!</span>
                     <span>Channel Not Found</span>
-                    <i class="fa fa-frown-o" aria-hidden="true"></i>
                 </h1>
+                <img alt="channel not found" src="https://firebasestorage.googleapis.com/v0/b/shucyan-dev.appspot.com/o/132711tszb51rs5qq1w15t.jpg?alt=media&token=00b1dc24-22c1-45d6-8b82-6899ea31bd64"/>
             </div>
         </div>
     </ng-template>
