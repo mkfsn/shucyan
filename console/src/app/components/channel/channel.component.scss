@@ -100,9 +100,33 @@
                 display: inline-block;
                 height: 39px;
                 vertical-align: bottom;
+                width: 20vw;
+                min-width: 13em;
+            }
+
+            .preview-name {
+                &:hover {
+                    border-radius: 5px;
+                    border: 1px solid #AAA;
+                }
             }
 
             textarea[name=description] {
+                max-width: 80vw;
+                min-width: 13em;
+            }
+
+            .preview-description {
+                height: 30px;
+                &:hover {
+                    cursor: text;
+                    border-radius: 5px;
+                    border: 1px solid #AAA;
+                }
+
+                .empty {
+                    color: #999;
+                }
             }
 
             .channel-description {
@@ -129,12 +153,8 @@
                         outline: none;
                     }
 
-                    &.success {
-                        background-color: #aaffaa;
-                    }
-
-                    &.fail {
-                        background-color: #ffaaaa;
+                    &.back {
+                        margin-right: 7em;
                     }
                 }
 

@@ -159,3 +159,15 @@ export class Channel {
     }
 
 }
+
+export const DemoChannel = Channel.fromFirebase(
+    'demo',
+    {
+        id: 'demo',
+        name: 'Demo',
+        description: 'demo',
+        owner: 'demo@localhost',
+        createdAt: Date.now(),
+    },
+    new User('demo@localhost')
+);

@@ -1,3 +1,5 @@
+import swal from 'sweetalert2';
+
 import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
@@ -7,7 +9,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ChannelsService } from '../../services/channels.service';
 import { AuthService } from '../../services/auth.service';
 
-import { Channel } from '../../models/channel';
+import { Channel, DemoChannel } from '../../models/channel';
 import { Program, Tag } from '../../models/program';
 import { PageMode } from '../../models/page';
 import { User } from '../../models/user';
@@ -40,6 +42,11 @@ export class ChannelComponent implements OnInit {
     @ViewChild('inputEmailElement') private inputEmailElement: ElementRef;
     @ViewChild('shareModal') private shareModal: ModalDirective;
 
+    private editingChannelName: boolean;
+    private editingChannelDescription: boolean;
+    @ViewChild('inputChannelName') private inputChannelName: ElementRef;
+    @ViewChild('inputChannelDescription') private inputChannelDescription: ElementRef;
+
     constructor(private route: ActivatedRoute,
                 private channelsService: ChannelsService,
                 private authService: AuthService,
@@ -52,6 +59,9 @@ export class ChannelComponent implements OnInit {
         this.tags = [];
         this.filteredPrograms = [];
         this.collaborators = [];
+
+        this.editingChannelName = false;
+        this.editingChannelDescription = false;
     }
 
     ngOnInit() {
@@ -64,7 +74,11 @@ export class ChannelComponent implements OnInit {
 
     // Get channelId from URL
     private getChannelId(): string {
-        return this.route.snapshot.params['id'];
+        const channelId = this.route.snapshot.params['id'];
+        if (channelId === undefined && this.route.snapshot.url[1] !== undefined) {
+            return this.route.snapshot.url[1].path;
+        }
+        return channelId;
     }
 
     private setChannel(channel: Channel): void {
@@ -75,9 +89,7 @@ export class ChannelComponent implements OnInit {
         // this.titleService.setTitle(this.channel.title);
     }
 
-    private loadChannel(): void {
-        const channelId: string = this.getChannelId();
-
+    private loadRealChannel(channelId: string): void {
         const successFunc = (channel: Channel) => {
             this.setChannel(channel);
 
@@ -95,6 +107,21 @@ export class ChannelComponent implements OnInit {
         };
 
         this.channelsService.getChannel(channelId).subscribe(successFunc, errorFunc);
+    }
+
+    private loadDemoChannel(): void {
+        this.setChannel(DemoChannel);
+    }
+
+    private loadChannel(): void {
+        const channelId: string = this.getChannelId();
+        console.log('loadChannel:', channelId);
+
+        if (channelId === 'demo') {
+            this.loadDemoChannel();
+        } else {
+            this.loadRealChannel(channelId);
+        }
     }
 
     private updateSelectedTags(tagName: string) {
@@ -132,10 +159,6 @@ export class ChannelComponent implements OnInit {
 
     get isNormalMode(): boolean {
         return this.mode.isNormal;
-    }
-
-    private nameInputLength(owner): string {
-        return `calc(100% - ${owner.length + 1}ch - 200px)`;
     }
 
     private openShareModal() {
@@ -190,9 +213,11 @@ export class ChannelComponent implements OnInit {
         this.saveChannel();
     }
 
-    private updateChannel(name, description) {
-        this.channel.name = name;
-        this.channel.description = description;
+    private updateChannel(name: string, description: string) {
+        // channel name cannot be empty
+        this.channel.name = name ? name : this.channel.name;
+        // channel description can be empty
+        this.channel.description = description !== undefined ? description : this.channel.description;
         this.saveChannel(true);
     }
 
@@ -205,6 +230,40 @@ export class ChannelComponent implements OnInit {
             }
         };
         this.channelsService.updateChannel(this.channel.id, this.channel).subscribe(successFunc, errorFunc, completeFunc);
+    }
+
+    private changeChannelName(): void {
+        this.editingChannelName = true;
+        setTimeout(() => {
+            this.inputChannelName.nativeElement.focus();
+        }, 0);
+    }
+
+    private saveChannelName(name: string): void {
+        this.editingChannelName = false;
+        if (name && name.length > 0) {
+            this.updateChannel(name, undefined);
+        } else {
+            swal({
+                title: 'Error!',
+                text: 'Channel Name cannot be empty',
+                type: 'error',
+                timer: 5000
+            }).catch(_ => {});
+
+        }
+    }
+
+    private changeChannelDescription(): void {
+        this.editingChannelDescription = true;
+        setTimeout(() => {
+            this.inputChannelDescription.nativeElement.focus();
+        }, 0);
+    }
+
+    private saveChannelDescription(description: string): void {
+        this.editingChannelDescription = false;
+        this.updateChannel(undefined, description);
     }
 
 }

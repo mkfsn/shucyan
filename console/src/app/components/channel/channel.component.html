@@ -29,10 +29,14 @@
                 <div class="col-xs-10">
                     <h1>
                         <input class="form-control input-lg"
-                               [ngStyle]="{width: nameInputLength(channel.owner)}"
                                [ngModel]="channel?.name"
+                               (blur)="saveChannelName(inputChannelName.value)"
+                               *ngIf="editingChannelName"
                                #inputChannelName
                                name="name" type="text"/>
+                        <span class="preview-name" *ngIf="!editingChannelName" (click)="changeChannelName()">
+                            {{ channel?.name }}
+                        </span>
                         <small>
                             <span class="channel-owner">
                                 <a role="button">
@@ -41,23 +45,29 @@
                             </span>
                         </small>
                     </h1>
-                    <p class="lead">
+                    <h5 class="lead">
+                        <p class="preview-description" *ngIf="!editingChannelDescription" (click)="changeChannelDescription()">
+                            <ng-container *ngIf="channel?.description.length > 0 ; else noDescription">
+                                {{ channel?.description }}
+                            </ng-container>
+                            <ng-template #noDescription>
+                                <i class="empty" #noDescription>No Description</i>
+                            </ng-template>
+                        </p>
                         <textarea class="form-control"
-                                  rows="{{ channel ? 0 : channel.description.split('\n').length }}"
+                                  rows="1"
+                                  *ngIf="editingChannelDescription"
+                                  (blur)="saveChannelDescription(inputChannelDescription.value)"
                                   #inputChannelDescription
                                   [ngModel]="channel?.description"
                                   name="description">
                         </textarea>
-                    </p>
+                    </h5>
                 </div>
                 <div class="col-xs-2">
                     <div class="control-icons">
                         <div>
-                            <button class="icon success"
-                                    (click)="updateChannel(inputChannelName.value, inputChannelDescription.value)">
-                                <i class="glyphicon glyphicon-floppy-saved"></i>
-                            </button>
-                            <button class="icon fail" routerLink="../"><i class="glyphicon glyphicon-floppy-remove"></i></button>
+                            <button class="icon back" routerLink="../"><i class="glyphicon glyphicon-arrow-left"></i></button>
                         </div>
                     </div>
                 </div>

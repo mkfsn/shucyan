@@ -30,6 +30,10 @@ const routes: Routes = [
         component: ChannelComponent
     },
     {
+        path: 'channel/demo/edit',
+        component: ChannelComponent
+    },
+    {
         path: 'channel/:id/edit',
         component: ChannelComponent,
         canActivate: [ChannelGuard]
