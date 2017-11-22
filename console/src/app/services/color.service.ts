@@ -14,7 +14,7 @@ export class ColorService {
 
     // This should be protected by calling getColor()
     private calculateColor(tag: string): string {
-        const sum = tag.split('').reduce((acc, val, arr) => acc * val.charCodeAt(0), 0x5F3759DF);
+        const sum = tag.split('').reduce((acc, val, arr) => acc * val.charCodeAt(0), 0x5F3759DF / 0xDEEDBEEF);
         // NOTE: v / 2 + 128 for displaying brighter color
         // e.g. 4 / 2 + 128 => 130, where 4 is too dark but 130 is not.
         const itoa = (v: number): string => ('00' + Math.floor(v / 2 + 128).toString(16)).substr(-2);
