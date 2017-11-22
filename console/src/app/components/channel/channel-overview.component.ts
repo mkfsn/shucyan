@@ -26,6 +26,7 @@ export class ChannelOverviewComponent implements OnInit {
     @ViewChild('newChannelMenu') private newChannelMenu: ElementRef;
     @ViewChild('newChannelButton') private newChannelButton: ElementRef;
     @ViewChild('newChannelName') private newChannelName: ElementRef;
+    @ViewChild('newChannelDescription') private newChannelDescription: ElementRef;
 
     // grid, list
     layout: Layout;
@@ -90,6 +91,8 @@ export class ChannelOverviewComponent implements OnInit {
         };
         const completeFunc = () => {};
         this.channelsService.addChannel(channel).subscribe(successFunc, errorFunc, completeFunc);
+        this.newChannelName.nativeElement.value = '';
+        this.newChannelDescription.nativeElement.value = '';
     }
 
     removeChannel(channel: Channel): void {
