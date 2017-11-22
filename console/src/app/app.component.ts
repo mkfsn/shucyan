@@ -13,14 +13,16 @@ import { User } from './models/user';
 })
 export class AppComponent implements OnInit  {
 
-    private year: number;
+    year: number;
+    isCollapsed: boolean;
 
     // undefined: user not loaded yet
     // null: user not login
     // else: user login
-    private userState: Observable<User>;
+    userState: Observable<User>;
 
     constructor(private auth: AuthService) {
+        this.isCollapsed = false;
         this.year = (new Date()).getFullYear();
     }
 

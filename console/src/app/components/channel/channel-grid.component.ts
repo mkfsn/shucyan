@@ -14,7 +14,7 @@ interface IChannel extends Channel {
 })
 export class ChannelGridComponent implements OnInit, DoCheck {
 
-    @Input('channels') private channels: Channel[];
+    @Input('channels') channels: Channel[];
 
     @Output('onRemoveChannel') onRemoveChannel = new EventEmitter();
 

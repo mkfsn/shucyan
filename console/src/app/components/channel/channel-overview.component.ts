@@ -16,19 +16,19 @@ import { Channel, Layout, Reference } from '../../models/channel';
 export class ChannelOverviewComponent implements OnInit {
 
     // Channels Observable: master
-    private channelsSub: Observable<Channel[]>;
+    channelsSub: Observable<Channel[]>;
     // Channels Observable: slaves
     private myChannelsSub: Observable<Channel[]>;
     private sharedChannelsSub: Observable<Channel[]>;
 
     // Dropdown control
-    private dropdownOpen: boolean;
+    dropdownOpen: boolean;
     @ViewChild('newChannelMenu') private newChannelMenu: ElementRef;
     @ViewChild('newChannelButton') private newChannelButton: ElementRef;
     @ViewChild('newChannelName') private newChannelName: ElementRef;
 
     // grid, list
-    private layout: Layout;
+    layout: Layout;
 
     // mine, shared, ... etc
     private reference: Reference;
@@ -126,7 +126,7 @@ export class ChannelOverviewComponent implements OnInit {
         });
     }
 
-    private switchTo(to: string) {
+    switchTo(to: string) {
         switch (to) {
             case 'mine':
                 this.channelsSub = this.myChannelsSub;

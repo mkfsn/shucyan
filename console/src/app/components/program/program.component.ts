@@ -21,21 +21,21 @@ export class ProgramComponent implements OnChanges {
     @Input() programs: Array<Program>;
     @Input() channelId: string;
 
-    private programTable: Array<Array<Program>>;
-    private namesOfDays: string[];
+    programTable: Array<Array<Program>>;
+    namesOfDays: string[];
 
     // today's day of week
     private day: number;
     private datesOfWeek: Array<string>;
 
     // For adding/editing program
-    private program: Program;
+    program: Program;
 
     @ViewChild('programModal') public programModal: ModalDirective;
     @ViewChild('infoModal') public infoModal: ModalDirective;
 
-    private optionOpen: boolean;
-    private inputTags: string;
+    optionOpen: boolean;
+    inputTags: string;
 
     constructor(private programsService: ProgramsService, private colorService: ColorService) {
         this.day = (new Date()).getDay();
@@ -104,7 +104,7 @@ export class ProgramComponent implements OnChanges {
         this.programsService.updateProgram(this.channelId, program).subscribe(successFunc, errorFunc, completeFunc);
     }
 
-    private saveProgram(): void {
+    saveProgram(): void {
         const update = this.program.id !== undefined;
         this.program.channelId = this.channelId;
         if (update) {
@@ -129,7 +129,7 @@ export class ProgramComponent implements OnChanges {
         this.infoModal.show();
     }
 
-    private tryAddTags(inputTags: string): void {
+    tryAddTags(inputTags: string): void {
         this.inputTags = inputTags;
         if (inputTags && inputTags.indexOf(',') !== -1) {
             const tags = inputTags.split(',').map(v => {

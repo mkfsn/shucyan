@@ -30,22 +30,22 @@ class TagStatus extends Tag {
 })
 export class ChannelComponent implements OnInit {
 
-    private channel: Channel;
-    private mode: PageMode = new PageMode();
-    private inputEmail: string;
-    private inputCollaborators: string[];
+    channel: Channel;
+    mode: PageMode = new PageMode();
+    inputEmail: string;
+    inputCollaborators: string[];
 
-    private tags: TagStatus[];
-    private filteredPrograms: Program[];
-    private collaborators: string[];
+    tags: TagStatus[];
+    filteredPrograms: Program[];
+    collaborators: string[];
 
-    @ViewChild('inputEmailElement') private inputEmailElement: ElementRef;
-    @ViewChild('shareModal') private shareModal: ModalDirective;
+    @ViewChild('inputEmailElement') inputEmailElement: ElementRef;
+    @ViewChild('shareModal') shareModal: ModalDirective;
 
-    private editingChannelName: boolean;
-    private editingChannelDescription: boolean;
-    @ViewChild('inputChannelName') private inputChannelName: ElementRef;
-    @ViewChild('inputChannelDescription') private inputChannelDescription: ElementRef;
+    editingChannelName: boolean;
+    editingChannelDescription: boolean;
+    @ViewChild('inputChannelName') inputChannelName: ElementRef;
+    @ViewChild('inputChannelDescription') inputChannelDescription: ElementRef;
 
     constructor(private route: ActivatedRoute,
                 private channelsService: ChannelsService,
@@ -180,7 +180,7 @@ export class ChannelComponent implements OnInit {
         return (new User(email)).canEdit(this.channel);
     }
 
-    private inputEmailChanged(event) {
+    inputEmailChanged(event) {
         if (event.keyCode !== 32 && event.keyCode !== 9 && event.keyCode !== 13) {
             return;
         }
@@ -207,7 +207,7 @@ export class ChannelComponent implements OnInit {
         this.inputEmailElement.nativeElement.focus();
     }
 
-    private saveCollaborators() {
+    saveCollaborators() {
         this.channel.addCollaborators(...this.inputCollaborators.map(email => new User(email)));
         this.shareModal.hide();
         this.saveChannel();

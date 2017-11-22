@@ -12,8 +12,8 @@ type Reference = 'mine' | 'shared';
 })
 export class ChannelListComponent implements OnInit {
 
-    @Input('channels') private channels: Channel[];
-    @Input('reference') private reference: Reference;
+    @Input('channels') channels: Channel[];
+    @Input('reference') reference: Reference;
 
     @Output('onRemoveChannel') onRemoveChannel = new EventEmitter();
 
