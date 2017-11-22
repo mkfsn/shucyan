@@ -37,6 +37,7 @@ export class Program {
         const program = new Program(values.day, values.name, values.content);
         program.id = id;
         program.tags = values.tags !== undefined ? values.tags.map(v => new Tag(v.name)) : [];
+        program.link = values.link || undefined;
         program.startTime = values.startTime || undefined;
         program.endTime = values.endTime || undefined;
         program.startDate = values.startDate || undefined;
