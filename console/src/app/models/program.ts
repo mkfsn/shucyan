@@ -14,7 +14,6 @@ export class Tag {
 
 export class Program {
     id: string;
-    // deprecated?
     channelId: string;
     day: number;
     name: string;
@@ -22,7 +21,6 @@ export class Program {
 
     tags?: Array<Tag>;
     link?: string;
-    time?: Array<Time>;
     startDate?: string;
     endDate?: string;
     startTime?: string;
@@ -38,12 +36,29 @@ export class Program {
     static fromFirebase(id: string, values: any): Program {
         const program = new Program(values.day, values.name, values.content);
         program.id = id;
-        program.startTime = values.startTime;
-        program.endTime = values.endTime;
-        program.startDate = values.startDate;
-        program.endDate = values.endDate;
+        program.tags = values.tags !== undefined ? values.tags.map(v => new Tag(v.name)) : [];
+        program.startTime = values.startTime || undefined;
+        program.endTime = values.endTime || undefined;
+        program.startDate = values.startDate || undefined;
+        program.endDate = values.endDate || undefined;
+        console.log('fromFirebase:', program);
         return program;
     }
+
+    toFirebase(): Program {
+        const program = new Program(this.day, this.name, this.content);
+        program.id = null;
+        program.channelId = null;
+        program.startTime = this.startTime || null;
+        program.endTime = this.endTime || null;
+        program.tags = this.tags || [];
+        program.link = this.link || null;
+        program.startDate = this.startDate || null;
+        program.endDate = this.endDate || null;
+        return program;
+    }
+
+
 }
 
 type Programs = Array<Program>;

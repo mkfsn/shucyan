@@ -33,7 +33,7 @@ export class ProgramsService {
     }
 
     addProgram(channelId: string, program: Program): Observable<Program> {
-        const thenable = this.db.list('/programs/' + channelId).push(program);
+        const thenable = this.db.list('/programs/' + channelId).push(program.toFirebase());
         return Observable.fromPromise(thenable);
     }
 
@@ -41,19 +41,13 @@ export class ProgramsService {
         return this.db.list('/programs/' + channelId).snapshotChanges().map(fireactions => {
             return fireactions.map(action => {
                 const val = action.payload.val();
-                const program = Program.fromFirebase(action.key, val);
-                if (val.tags !== undefined) {
-                    program.tags = val.tags.map(v => {
-                        return new Tag(v.name);
-                    });
-                }
-                return program;
+                return Program.fromFirebase(action.key, val);
             });
         }).shareReplay(1);
     }
 
     updateProgram(channelId: string, program: Program): Observable<void> {
-        const thenable = this.db.object('/programs/' + channelId + '/' + program.id).update(program);
+        const thenable = this.db.object('/programs/' + channelId + '/' + program.id).update(program.toFirebase());
         console.log('updateProgram:', program);
         return Observable.fromPromise(thenable);
     }
