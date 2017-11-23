@@ -1,7 +1,7 @@
 import * as chroma from 'chroma-js';
 import swal from 'sweetalert2';
 
-import { Component, OnChanges, Input, ViewChild } from '@angular/core';
+import { Component, OnChanges, Input, ViewChild, ElementRef } from '@angular/core';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -34,6 +34,8 @@ export class ProgramComponent implements OnChanges {
     @ViewChild('programModal') public programModal: ModalDirective;
     @ViewChild('infoModal') public infoModal: ModalDirective;
 
+    @ViewChild('programsContainer') programsContainer: ElementRef;
+
     optionOpen: boolean;
     inputTags: string;
 
@@ -48,6 +50,13 @@ export class ProgramComponent implements OnChanges {
     ngOnChanges(changes: any) {
         if (changes.programs) {
             this.programTable = new ProgramTable(this.programs);
+            if (changes.programs.firstChange) {
+                setTimeout(() => {
+                    const element = this.programsContainer.nativeElement;
+                    const offset = element.querySelector('.today').offsetLeft;
+                    element.scrollLeft = offset - 14; // 14 = 1em
+                });
+            }
         }
     }
 

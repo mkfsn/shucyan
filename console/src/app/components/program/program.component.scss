@@ -6,10 +6,15 @@ $UnitedNationsBlue: #4B92DB;
     min-height: 10em;
     margin: 0 1em;
     padding-bottom: 5em;
+    max-width: 100vw;
+    overflow-x: scroll;
 }
 
 .table-row {
     display: flex;
+    @media screen and (max-width: 414px) {
+        width: calc(700vw - 14em);
+    }
 }
 
 .week-title > .day-title {
@@ -27,6 +32,9 @@ $UnitedNationsBlue: #4B92DB;
     margin-bottom: .5rem;
     position: relative;
     opacity: .7;
+    @media screen and (max-width: 414px) {
+        width: calc(100% / 7);
+    }
 
     &:first-child {
         margin-left: 0;
@@ -35,6 +43,9 @@ $UnitedNationsBlue: #4B92DB;
     &.today {
         opacity: 1;
         width: calc(100% / 4);
+        @media screen and (max-width: 414px) {
+            width: calc(100% / 7);
+        }
     }
 
     & > a,
