@@ -115,6 +115,12 @@ export class ProgramComponent implements OnChanges {
     }
 
     private clickProgram(program: Program): void {
+        const selection = window.getSelection();
+        if (selection.toString().length !== 0) {
+            // selection text, return
+            return;
+        }
+
         if (program === undefined) {
             return;
         } else if (this.isEditMode) {

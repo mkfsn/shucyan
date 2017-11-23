@@ -25,8 +25,12 @@
                 <span class="glyphicon glyphicon-remove-sign remove-program"
                       (click)="removeProgram($event, program)"></span>
             </ng-container>
-            <a *ngIf="program && program.link" href="{{ program.link }}">{{ program.name }}</a>
-            <p *ngIf="program && !program.link">{{ program.name }}</p>
+            <p *ngIf="program">
+                <span class="program-name">{{ program.name }}</span>
+                <a class="program-link" *ngIf="program && program.link" (click)="$event.stopPropagation()" target="_blank" href="{{ program.link }}">
+                    <i class="fa fa-link"></i>
+                </a>
+            </p>
             <div *ngIf="program && program.tags" class="tags">
                 <span *ngFor="let tag of program.tags" class="label"
                       [ngStyle]="{'background-color': getColor(tag.name)}">

@@ -51,6 +51,26 @@ $UnitedNationsBlue: #4B92DB;
         display: inline-block;
     }
 
+    .program-name {
+        line-height: 14px;
+        &::selection {
+            background-color: yellow;
+            color: $UnitedNationsBlue;
+        }
+    }
+
+    .program-link {
+        border-radius: 50%;
+        padding: 4px;
+        font-size: 12px;
+        line-height: 14px;
+        background-color: #EEE;
+        &:hover {
+            background-color: white;
+            box-shadow: 0 0 4px 1px;
+        }
+    }
+
     background-color: $lightGray;
     justify-content: center;
     flex-direction: column;
